@@ -41,14 +41,19 @@ export default {
 
 	updated() {
 		this.changeTransformOrigin()
-
 	},
 	computed: {
 		...mapState(['items', 'categories', 'settings', 'years']),
 		...mapGetters(['itemsForCategory']),
 
 		itemsForCurrentYear: function () {
-			return this.itemsForCategory.filter((item) => item.watchedYear == this.year)
+			const array = this.itemsForCategory.filter((item) => item.watchedYear == this.year)
+			if (this.settings.currentCategory.code === 'all') {
+				return array.sort((a, b) => Date.parse(b.watchedDate) - Date.parse(a.watchedDate))
+			}
+			else {
+				return array
+			}
 		},
 
 	},
