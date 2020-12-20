@@ -156,6 +156,3 @@ export default {
 
 //@import 'vue-accessible-modal/src/styles/core.scss';
 </style>
-
-
-//#3c90ab

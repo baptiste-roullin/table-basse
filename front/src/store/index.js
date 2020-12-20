@@ -90,6 +90,7 @@ export default new Vuex.Store({
 				const newItemsToPush = newItems.filter(removeDuplicates(storedItems))
 				storedItems.push(...newItemsToPush)
 			}
+
 		},
 		UPDATE_COUNTS (state, payload) {
 			state.countsByYear = payload.countsByYear

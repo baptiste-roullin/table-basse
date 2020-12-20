@@ -120,19 +120,19 @@ export default {
 		async selectCategory(val) {
 			this.$router.push({ path: `/items/${val.code}/` });
 			this.$store.dispatch("setCategory", val);
+
 			const { start, end } = this.years.period;
 			this.years.yearsWithItems.slice(start, end).forEach((year) => {
 				this.$store.dispatch("getItems", year);
 			});
 		},
 		async selectYear(year, event) {
-			console.log(event)
-			//bricolage car le select renvoie la valeur sélectionnée,
-			// alors qu'on voudrait l'index de cette valeur dans le tableau des années chargées dans le select
-			const index = this.years.yearsWithItems.findIndex((el) => el === year);
 			this.$router.push({
 				path: `/items/${this.settings.currentCategory.code}/${year}`,
 			});
+			//bricolage car le select renvoie la valeur sélectionnée,
+			// alors qu'on voudrait l'index de cette valeur dans le tableau des années chargées dans le select
+			const index = this.years.yearsWithItems.findIndex((el) => el === year);
 
 			await this.$store.dispatch("setPeriod", {
 				start: index,
