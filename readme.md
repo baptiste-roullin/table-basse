@@ -1,3 +1,7 @@
+ ![](https://raw.githubusercontent.com/Saint-loup/table-basse/published/front/src/assets/lol.png)
+ 
+## Description
+
 Afficher les livres, films, jeux... que vous avez lu/vu/poncé dans une app dédiée, en utilisant votre compte Sens Critique. Pas les listes, les tops, les scores, les envies… juste les oeuvres déclarées comme ✅.
 
 [Démo ici.](http://table-basse.toutcequibouge.net/)
