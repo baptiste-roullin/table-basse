@@ -99,21 +99,25 @@ h2 {
 
 .items {
 	display: grid;
-	grid-template-columns: repeat(
-		auto-fill,
-		minmax(calc(0.4vmax * var(--zoom-factor) * 14), 1fr)
-	);
 	align-items: flex-start;
-	grid-auto-flow: row;
+	grid-auto-flow: dense;
 	grid-gap: calc(0.15vmax * var(--zoom-factor));
 	margin: auto;
 	padding: 0;
 	transition: all 0.1s ease-in;
+	grid-template-columns: repeat(
+		auto-fill,
+		minmax(calc(0.35vw * var(--zoom-factor) * 14), 3fr)
+	);
+	grid-auto-rows: calc(0.52vmax * var(--zoom-factor) * 14);
+
+	justify-content: center;
+	align-content: center;
 
 	.item {
 		display: flex;
 		flex-direction: column;
-		justify-content: space-between;
+		justify-content: center;
 		height: 100%;
 		//position: relative;
 		transition: all 0.1s ease-in;
@@ -122,7 +126,6 @@ h2 {
 
 		.item-img {
 			/*			max-width: calc(29vw * var(--zoom-factor)); */
-			max-height: calc(0.6vmax * var(--zoom-factor) * 14);
 			height: 100%;
 			object-fit: cover;
 			//background-color: grey;
@@ -132,6 +135,16 @@ h2 {
 			display: none;
 		}
 	}
+	/*  display: grid;
+align-items: flex-start;
+grid-auto-flow: dense;
+margin: auto;
+padding: 0;
+transition: all .1s ease-in;
+grid-auto-rows: 100px;
+grid-template-columns: repeat( auto-fill, minmax(200px, 2fr) )
+
+;*/
 
 	.item.landscape .background {
 		display: block;
@@ -147,23 +160,27 @@ h2 {
 		transform: scale(1.2);
 	}
 	.item.landscape .item-img {
-		object-fit: scale-down;
-		transform: scale(1.5);
+		object-fit: contain;
+	}
+	.item.landscape {
+		grid-column-end: span 3;
 	}
 
-	.item.landscape:hover,
+	/*	.item.landscape:hover,
 	.item.landscape:focus {
-		transform: scale(calc((1.5 * 2 / var(--zoom-factor))));
-	}
+		transform: scale(calc((1.2 * 2 / var(--zoom-factor))));
+	}*/
 
 	.item:hover,
 	.item:focus {
 		z-index: 1;
 		overflow: visible;
-		transform: scale(calc((1.7 * 2 / var(--zoom-factor)))) rotate(2deg);
+		/*		transform: scale(calc((1.3 * 2 / var(--zoom-factor)))) rotate(2deg);
+*/
+		transform: scale(1.3);
 		transform-origin: center;
 		//z-index: 9999;
-		transition: all 6s cubic-bezier(0, 0.95, 0.09, 1);
+		transition: transform 0.5s ease-out;
 		justify-content: center;
 		align-items: center;
 		.item-img {
