@@ -100,7 +100,7 @@ export default {
 				this.$store.dispatch("setCategory", this.categories[0]);
 			}
 
-			//on récupère systématiquement des stats, au cas où il y a de nouveaux iteams
+			//on récupère systématiquement des stats, au cas où il y a de nouveaux items
 			const { countsByCat } = await this.$store.dispatch("getCounts");
 
 			if (this.settings.initFront !== "true") {
@@ -108,11 +108,12 @@ export default {
 				await this.$store.dispatch("setPeriod", { start: 0, end: 1 });
 				await this.$store.dispatch("getItems");
 				this.$store.commit("INIT", "true");
-			} else {
-				//Si y a du nouveau par rapport au store
-				if (countsByCat !== this.countsByCat) {
-					await this.$store.dispatch("getItems");
-				}
+			}
+
+			//Si y a du nouveau par rapport au store
+			if (countsByCat !== this.countsByCat) {
+				this.logOfRequests = []
+				await this.$store.dispatch("getItems");
 			}
 		},
 
