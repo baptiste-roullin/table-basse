@@ -108,6 +108,11 @@ export default new Vuex.Store({
 		LOAD_NONEMPTY_YEARS (state, payload) {
 			state.years.yearsWithItems = Object.keys(state.countsByYear).sort().reverse()
 		},
+		SET_ZOOM (state, payload) {
+			console.log(payload, state.settings.zoom)
+
+			state.settings.zoom = payload
+		},
 		INIT (state, payload) {
 			state.settings.initFront = payload
 		},
@@ -138,6 +143,9 @@ export default new Vuex.Store({
 		},
 		setPeriod ({ commit }, val) {
 			commit('SET_PERIOD', val)
+		},
+		setZoom ({ commit }, val) {
+			commit('SET_ZOOM', val)
 		},
 
 		async getItems ({ commit }, yearSelected) {
