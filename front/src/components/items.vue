@@ -184,6 +184,8 @@ h2 {
 			rgba(164, 194, 204),
 			#2395b9 95%
 		);
+		width: 100%;
+		height: 100%;
 		display: flex;
 	}
 	.item.origin-left {
