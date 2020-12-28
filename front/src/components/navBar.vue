@@ -10,7 +10,7 @@
 		>
 			<vue-slider
 				@change="zoomChanged"
-				v-model="settings.zoom"
+				:value="settings.zoom"
 				class="zoom"
 				:min="1"
 				:max="3"
@@ -113,9 +113,11 @@ export default {
 
 	created() { },
 	methods: {
-		zoomChanged() {
+		zoomChanged(val) {
 			//debounce a été pensé pour être utilisé en callback, d'où le () supplémentaire.
 			this.debounce(this.changeTransformOrigin, 500)();
+			this.$store.dispatch("setZoom", val);
+
 		},
 		async selectCategory(val) {
 			this.$router.push({ path: `/items/${val.code}/` });
@@ -180,6 +182,22 @@ export default {
 	max-width: 250px;
 }
 
+@media screen and (max-width: 650px) {
+	.controls > div {
+		min-width: auto;
+		max-width: none;
+		width: 92vw !important;
+	}
+	.controls .vue-slider {
+		padding: 0 !important;
+		height: 10px !important;
+	}
+	.controls .vue-slider-dot {
+		width: 16px !important;
+		height: 16px !important;
+	}
+}
+
 $themeColor: $accent-color;
 $dotBgColor: scale-color($accent-color, $lightness: 50%);
 $bgColor: #bbb;
@@ -198,6 +216,9 @@ $bgColor: #bbb;
 	background-color: scale-color($accent-color, $red: 30%);
 	width: 150%;
 	height: 150%;
+}
+
+@media screen and (max-width: 30em) {
 }
 
 @import "~vue-slider-component/lib/theme/material.scss";
@@ -227,7 +248,7 @@ $bgColor: #bbb;
 	flex-basis: 100%;
 	flex-grow: 1;
 	flex-wrap: wrap;
-	padding: 0 4px;
+	padding: 0 8px;
 	position: relative;
 	align-content: center;
 }
