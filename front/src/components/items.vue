@@ -101,13 +101,13 @@ h2 {
 	display: grid;
 	align-items: flex-start;
 	grid-auto-flow: dense;
-	grid-gap: calc(0.15vmax * var(--zoom-factor));
+	grid-gap: calc(0.16vmax * var(--zoom-factor));
 	margin: auto;
 	padding: 0;
 	transition: all 0.1s ease-in;
 	grid-template-columns: repeat(
 		auto-fill,
-		minmax(calc(0.35vw * var(--zoom-factor) * 14), 3fr)
+		minmax(calc(0.35vmax * var(--zoom-factor) * 14), 3fr)
 	);
 	grid-auto-rows: calc(0.52vmax * var(--zoom-factor) * 14);
 
@@ -120,7 +120,7 @@ h2 {
 		justify-content: center;
 		height: 100%;
 		//position: relative;
-		transition: all 0.1s ease-in;
+		transition: all 0.2s ease-out;
 		position: relative;
 		overflow: hidden;
 
@@ -131,20 +131,7 @@ h2 {
 			//background-color: grey;
 			animation: fadein 0.2s;
 		}
-		.background {
-			display: none;
-		}
 	}
-	/*  display: grid;
-align-items: flex-start;
-grid-auto-flow: dense;
-margin: auto;
-padding: 0;
-transition: all .1s ease-in;
-grid-auto-rows: 100px;
-grid-template-columns: repeat( auto-fill, minmax(200px, 2fr) )
-
-;*/
 
 	.item.landscape .background {
 		display: block;
@@ -166,33 +153,25 @@ grid-template-columns: repeat( auto-fill, minmax(200px, 2fr) )
 		grid-column-end: span 3;
 	}
 
-	/*	.item.landscape:hover,
-	.item.landscape:focus {
-		transform: scale(calc((1.2 * 2 / var(--zoom-factor))));
-	}*/
-
 	.item:hover,
 	.item:focus {
 		z-index: 1;
-		overflow: visible;
-		/*		transform: scale(calc((1.3 * 2 / var(--zoom-factor)))) rotate(2deg);
-*/
-		transform: scale(1.3);
+		height: max-content;
+		align-self: center;
+		transform: scale(clamp(1.1, calc(-0.5 * var(--zoom-factor) + 2.5), 2.7));
 		transform-origin: center;
 		//z-index: 9999;
-		transition: transform 0.5s ease-out;
 		justify-content: center;
 		align-items: center;
+		box-shadow: 1px 2.5px 2.2px rgba(0, 0, 0, 0.051),
+			2px 6px 5.3px rgba(0, 0, 0, 0.073), 4px 11.3px 10px rgba(0, 0, 0, 0.09),
+			7px 20.1px 17.9px rgba(0, 0, 0, 0.107),
+			15px 37.6px 33.4px rgba(0, 0, 0, 0.129),
+			40px 90px 80px rgba(0, 0, 0, 0.18);
 		.item-img {
 			object-fit: cover;
-			box-shadow: 1px 2.5px 2.2px rgba(0, 0, 0, 0.051),
-				2px 6px 5.3px rgba(0, 0, 0, 0.073), 4px 11.3px 10px rgba(0, 0, 0, 0.09),
-				7px 20.1px 17.9px rgba(0, 0, 0, 0.107),
-				15px 37.6px 33.4px rgba(0, 0, 0, 0.129),
-				40px 90px 80px rgba(0, 0, 0, 0.18);
-		}
-		.background {
-			display: none;
+			height: 100%;
+			width: 100%;
 		}
 	}
 
@@ -214,16 +193,15 @@ grid-template-columns: repeat( auto-fill, minmax(200px, 2fr) )
 		transform-origin: right center;
 	}
 	.item.origin-left.landscape {
-		transform-origin: calc(-20% * var(--zoom-factor));
+		transform-origin: center;
 	}
 	.item.origin-right.landscape {
-		transform-origin: calc(120% * var(--zoom-factor));
+		transform-origin: center;
 	}
-	.landscape {
-		&:hover img,
-		&:focus img {
-			max-height: calc(0.4vmax * var(--zoom-factor) * 14);
-		}
+	.landscape:hover,
+	.landscape:focus {
+		/*max-height: calc(0.4vmax * var(--zoom-factor) * 14);*/
+		transform: scale(clamp(1.05, calc(-0.4 * var(--zoom-factor) + 2.1), 1.4));
 	}
 }
 </style>
