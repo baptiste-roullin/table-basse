@@ -9,7 +9,7 @@ const ajax = axios.create({
 
 Vue.use(Vuex)
 
-function removeDuplicates (storedItems) {
+function removeDuplicates(storedItems) {
 	// the inner function is the expected callback for the filter method, with current item as a first argumeent.
 	// the outer function, removeDuplicates(), is there to pass storedItems as parameter
 	return newItem => {
@@ -25,14 +25,15 @@ function removeDuplicates (storedItems) {
 export default new Vuex.Store({
 	plugins: [createPersistedState()],
 	state: {
+
 		/* {
 			film:integer,
 			livre:intger,
 			...
 		} */
+
 		countsByCat: {
 		},
-
 		/* {
 			2000: { film:integer, livre:intger, ... },
 			1999:{ film:integer, livre:intger, ... },
@@ -79,7 +80,7 @@ export default new Vuex.Store({
 		/*	PHASE(state, payload) {
 				state.settings.phase = payload
 			},*/
-		UPDATE_LIST_ITEMS (state, { newItems, year, cat }) {
+		UPDATE_LIST_ITEMS(state, { newItems, year, cat }) {
 			const storedItems = state.items
 			state.logOfRequests.push(`${cat}-${year}`)
 			// si store est vide, on ajoute tout
@@ -92,34 +93,34 @@ export default new Vuex.Store({
 			}
 
 		},
-		UPDATE_COUNTS (state, payload) {
+		UPDATE_COUNTS(state, payload) {
 			state.countsByYear = payload.countsByYear
 			state.countsByCat = payload.countsByCat
 		},
-		SET_CATEGORY (state, payload) {
+		SET_CATEGORY(state, payload) {
 			state.settings.currentCategory = payload
 		},
-		SET_PERIOD (state, payload) {
+		SET_PERIOD(state, payload) {
 			const { years } = state
 			//Nullish coalescing operator
 			years.period.start = payload.start ?? years.period.start
 			years.period.end = payload.end ?? years.period.end
 		},
-		LOAD_NONEMPTY_YEARS (state, payload) {
+		LOAD_NONEMPTY_YEARS(state, payload) {
 			state.years.yearsWithItems = Object.keys(state.countsByYear).sort().reverse()
 		},
-		SET_ZOOM (state, payload) {
+		SET_ZOOM(state, payload) {
 			console.log(payload, state.settings.zoom)
 
 			state.settings.zoom = payload
 		},
-		INIT (state, payload) {
+		INIT(state, payload) {
 			state.settings.initFront = payload
 		},
 	},
 
 	actions: {
-		async getCounts ({ commit }) {
+		async getCounts({ commit }) {
 			try {
 				const response = await ajax.get(`/api/counts`)
 				if (response.status === 200) {
@@ -135,20 +136,20 @@ export default new Vuex.Store({
 				console.log('API not responding, you dunce')
 			}
 		},
-		loadNonEmptyYears ({ commit }) {
+		loadNonEmptyYears({ commit }) {
 			commit('LOAD_NONEMPTY_YEARS')
 		},
-		setCategory ({ commit }, val) {
+		setCategory({ commit }, val) {
 			commit('SET_CATEGORY', val)
 		},
-		setPeriod ({ commit }, val) {
+		setPeriod({ commit }, val) {
 			commit('SET_PERIOD', val)
 		},
-		setZoom ({ commit }, val) {
+		setZoom({ commit }, val) {
 			commit('SET_ZOOM', val)
 		},
 
-		async getItems ({ commit }, yearSelected) {
+		async getItems({ commit }, yearSelected) {
 			const { settings, years, logOfRequests } = this.state
 			const cat = settings.currentCategory.code
 

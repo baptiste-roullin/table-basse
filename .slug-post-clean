@@ -7,3 +7,5 @@ node_modules/*babel*/
 node_modules/*hapi*/
 node_modules/@types/*
 node_modules/typescript
+node_modules/sass
+node_modules/webpack
