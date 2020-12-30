@@ -126,7 +126,7 @@ export default new Vuex.Store({
 				if (response.status === 200) {
 					if (response.data) {
 						commit('UPDATE_COUNTS', response.data)
-						return response
+						return response.data
 					} else {
 						console.log('stats : pas de réponse')
 					}
