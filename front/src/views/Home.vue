@@ -110,8 +110,17 @@ export default {
 				this.$store.commit("INIT", "true");
 			}
 
+
+			function isNotEqual(objA, objB) {
+				const arrayA = Object.values(objA)
+				return Object.values(objB).some(
+					(el, index) =>
+						el !== arrayA[index]
+					)
+			}
+
 			//Si y a du nouveau par rapport au store
-			if (countsByCat !== this.countsByCat) {
+			if (isNotEqual(countsByCat, this.countsByCat)) {
 				this.logOfRequests = []
 				await this.$store.dispatch("getItems");
 			}
