@@ -4,7 +4,7 @@
 		<div class="items">
 			<a
 				v-bind:href="`https://www.senscritique.com${item.pageUrl}`"
-				v-for="item in itemsForCurrentYear"
+				v-for="item in itemsForCurrentYear()"
 				:key="item.id"
 				:class="`item ${settings.currentCategory.code} id-${item.id} ${(item.CDNUrl !== 'NULL' ? 'img' : 'no-img')} `"
 				:title="`Fiche de l'oeuvre ${item.frenchTitle}`"
@@ -46,15 +46,7 @@ export default {
 		...mapState(['items', 'categories', 'settings', 'years']),
 		...mapGetters(['itemsForCategory']),
 
-		itemsForCurrentYear: function () {
-			const array = this.itemsForCategory.filter((item) => item.watchedYear == this.year)
-			if (this.settings.currentCategory.code === 'all') {
-				return array.sort((a, b) => Date.parse(b.watchedDate) - Date.parse(a.watchedDate))
-			}
-			else {
-				return array
-			}
-		},
+
 
 	},
 
@@ -65,6 +57,15 @@ export default {
 		}
 	},
 	methods: {
+		itemsForCurrentYear() {
+			const array = this.itemsForCategory.filter((item) => item.watchedYear == this.year)
+			if (this.settings.currentCategory.code === 'all') {
+				return array.sort((a, b) => Date.parse(b.watchedDate) - Date.parse(a.watchedDate))
+			}
+			else {
+				return array
+			}
+		},
 		//on n'affiche l'image que quand elle est chargée.
 		// les éléments de la liste étant chargés dynamiquement, on utilise $set() pour les rendre réactifs.
 		loaded(item, el) {
