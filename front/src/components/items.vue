@@ -45,7 +45,19 @@ export default {
 	computed: {
 		...mapState(['items', 'categories', 'settings', 'years']),
 		...mapGetters(['itemsForCategory']),
+
+		itemsForCurrentYear: function () {
+			const array = this.itemsForCategory.filter((item) => item.watchedYear == this.year)
+			if (this.settings.currentCategory.code === 'all') {
+				return array.sort((a, b) => Date.parse(b.watchedDate) - Date.parse(a.watchedDate))
+			}
+			else {
+				return array
+			}
+		},
+
 	},
+
 	data() {
 		return {
 			publicPath: process.env.BASE_URL,
@@ -63,15 +75,6 @@ export default {
 			if (naturalWidth > naturalHeight * 1.7) {
 				//const imgRatio = (naturalWidth / naturalHeight).toPrecision(2).toString()
 				el.parentElement.classList.add('landscape')
-			}
-		},
-		itemsForCurrentYear () {
-			const array = this.itemsForCategory.filter((item) => item.watchedYear == this.year)
-			if (this.settings.currentCategory.code === 'all') {
-				return array.sort((a, b) => Date.parse(b.watchedDate) - Date.parse(a.watchedDate))
-			}
-			else {
-				return array
 			}
 		},
 	},
