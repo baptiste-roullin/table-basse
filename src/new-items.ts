@@ -21,13 +21,14 @@ export async function getNewItemsFromSC(mode: 'collection' | 'journal', cat: str
 		console.log(`${items.length} nouveaux items ont été importés dans la catégorie ${cat} `)
 		globalCountObject.value = String(newGlobalCount)
 		globalCountObject.save()
-		await createCountsByYear()
 
 		const storage = new Storage()
 		items = await storage.storePictures(items)
 
 		// maintenant qu'on a tout, on stocke en base
 		await Item.bulkCreate(items, { ignoreDuplicates: true })
+		await createCountsByYear()
+
 	}
 	else {
 		console.log('rien de nouveau à importer');
