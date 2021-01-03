@@ -116,7 +116,7 @@ export default {
 				return Object.values(objB).some(
 					(el, index) =>
 						el !== arrayA[index]
-					)
+				)
 			}
 
 			//Si y a du nouveau par rapport au store
@@ -138,8 +138,18 @@ export default {
 <style scoped lang="scss">
 @import "@/variables.scss";
 
+@media screen and (min-width: 601px) {
+	.Home {
+		width: 99%;
+	}
+}
+@media screen and (max-width: 600px) {
+	.Home {
+		width: 95%;
+	}
+}
+
 .Home {
-	width: 99%;
 	margin: auto;
 	position: relative;
 
@@ -155,7 +165,7 @@ export default {
 		background-color: rgba(38, 38, 41, 0.45);
 		color: scale-color($color: $accent-color, $lightness: 25%);
 		cursor: pointer;
-		font-size: 1.2rem;
+		font-size: 1.3rem;
 		margin: 2rem 0 0rem 0;
 		padding: 0;
 		position: absolute;
