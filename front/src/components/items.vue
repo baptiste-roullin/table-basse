@@ -98,23 +98,44 @@ h2 {
 	text-align: center;
 }
 
+@media screen and (max-width: 600px) {
+	.items {
+		display: flex;
+		flex-wrap: wrap;
+		margin: auto;
+		padding: 0;
+		transition: all 0.1s ease-in;
+		.item {
+			max-height: 60vmax;
+			margin-bottom: 2rem;
+			width: 100%;
+			min-height: 40vmax;
+		}
+	}
+}
+
+@media screen and (min-width: 601px) {
+	.items {
+		display: grid;
+		align-items: flex-start;
+		grid-auto-flow: dense;
+		grid-gap: calc(0.16vmax * var(--zoom-factor));
+		margin: auto;
+		padding: 0;
+		transition: all 0.1s ease-in;
+		grid-template-columns: repeat(
+			auto-fill,
+			minmax(calc(0.35vmax * var(--zoom-factor) * 14), 3fr)
+		);
+		grid-auto-rows: calc(0.52vmax * var(--zoom-factor) * 14);
+
+		.item.landscape {
+			grid-column-end: span 3;
+		}
+	}
+}
+
 .items {
-	display: grid;
-	align-items: flex-start;
-	grid-auto-flow: dense;
-	grid-gap: calc(0.16vmax * var(--zoom-factor));
-	margin: auto;
-	padding: 0;
-	transition: all 0.1s ease-in;
-	grid-template-columns: repeat(
-		auto-fill,
-		minmax(calc(0.35vmax * var(--zoom-factor) * 14), 3fr)
-	);
-	grid-auto-rows: calc(0.52vmax * var(--zoom-factor) * 14);
-
-	justify-content: center;
-	align-content: center;
-
 	.item {
 		display: flex;
 		flex-direction: column;
@@ -150,29 +171,28 @@ h2 {
 	.item.landscape .item-img {
 		object-fit: contain;
 	}
-	.item.landscape {
-		grid-column-end: span 3;
-	}
 
-	.item:hover,
-	.item:focus {
-		z-index: 1;
-		height: max-content;
-		align-self: center;
-		transform: scale(clamp(1.1, calc(-0.5 * var(--zoom-factor) + 2.5), 2.7));
-		transform-origin: center;
-		//z-index: 9999;
-		justify-content: center;
-		align-items: center;
-		box-shadow: 1px 2.5px 2.2px rgba(0, 0, 0, 0.051),
-			2px 6px 5.3px rgba(0, 0, 0, 0.073), 4px 11.3px 10px rgba(0, 0, 0, 0.09),
-			7px 20.1px 17.9px rgba(0, 0, 0, 0.107),
-			15px 37.6px 33.4px rgba(0, 0, 0, 0.129),
-			40px 90px 80px rgba(0, 0, 0, 0.18);
-		.item-img {
-			object-fit: cover;
-			height: 100%;
-			width: 100%;
+	@media screen and (hover: hover) and (min-width: 601px) {
+		.item:hover,
+		.item:focus {
+			z-index: 1;
+			height: max-content;
+			align-self: center;
+			transform: scale(clamp(1.1, calc(-0.5 * var(--zoom-factor) + 2.5), 2.7));
+			transform-origin: center;
+			//z-index: 9999;
+			justify-content: center;
+			align-items: center;
+			box-shadow: 1px 2.5px 2.2px rgba(0, 0, 0, 0.051),
+				2px 6px 5.3px rgba(0, 0, 0, 0.073), 4px 11.3px 10px rgba(0, 0, 0, 0.09),
+				7px 20.1px 17.9px rgba(0, 0, 0, 0.107),
+				15px 37.6px 33.4px rgba(0, 0, 0, 0.129),
+				40px 90px 80px rgba(0, 0, 0, 0.18);
+			.item-img {
+				object-fit: cover;
+				height: 100%;
+				width: 100%;
+			}
 		}
 	}
 

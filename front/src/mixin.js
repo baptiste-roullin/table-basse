@@ -6,7 +6,11 @@ export const myMixin = {
 
 		// est appelé au changement de zoom, au chargement de nouveaux items et au redimensionnement de la fenêtre
 		changeTransformOrigin: function () {
+			if (window.outerWidth < 600) {
+				return
+			}
 			document.querySelectorAll('.items a').forEach((el, index) => {
+
 				const pos = el.getBoundingClientRect()
 				const threshold = 200 * 1 / this.settings.zoom
 

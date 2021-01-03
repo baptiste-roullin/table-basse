@@ -166,6 +166,7 @@ export default {
 	height: auto;
 	align-content: center;
 	align-items: center;
+	font-size: 1.2em;
 }
 
 .nav {
@@ -189,8 +190,7 @@ export default {
 		width: 92vw !important;
 	}
 	.controls .vue-slider {
-		padding: 0 !important;
-		height: 10px !important;
+		display: none !important;
 	}
 	.controls .vue-slider-dot {
 		width: 16px !important;
@@ -228,8 +228,15 @@ $bgColor: #bbb;
 	border-bottom: 1px solid $white-3;
 }
 
-.controls .v-select .vs__dropdown-toggle {
-	padding: 0.3em;
+@media screen and (min-width: 601px) {
+	.controls .v-select .vs__dropdown-toggle {
+		padding: 0.3em;
+	}
+}
+@media screen and (max-width: 600px) {
+	.controls .v-select .vs__dropdown-toggle {
+		padding: 0.6em 0.3em;
+	}
 }
 
 .controls .v-select .vs__open-indicator {
@@ -287,11 +294,22 @@ $bgColor: #bbb;
 	color: $white-3;
 }
 
-.controls .v-select .vs__dropdown-option {
-	display: flex;
-	justify-content: space-between;
-	padding: 0.6rem;
+@media screen and (min-width: 601px) {
+	.controls .v-select .vs__dropdown-option {
+		display: flex;
+		justify-content: space-between;
+		padding: 0.6rem;
+	}
 }
+
+@media screen and (max-width: 600px) {
+	.controls .v-select .vs__dropdown-option {
+		display: flex;
+		justify-content: space-between;
+		padding: 1.2rem;
+	}
+}
+
 .controls .v-select .vs__dropdown-menu {
 	max-height: 440px;
 }
@@ -300,7 +318,7 @@ $bgColor: #bbb;
 	position: absolute;
 	width: 100%;
 	height: 100%;
-	z-index: 11111;
+	z-index: 1;
 }
 
 .v-select .vs__actions {
