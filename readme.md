@@ -1,5 +1,5 @@
  ![](https://raw.githubusercontent.com/Saint-loup/table-basse/published/front/src/assets/lol.png)
- 
+
 ## Description
 
 Afficher les livres, films, jeux... que vous avez lu/vu/poncé dans une app dédiée, en utilisant votre compte Sens Critique. Pas les listes, les tops, les scores, les envies… juste les oeuvres déclarées comme ✅.
@@ -34,7 +34,7 @@ A cause d'un cas très précis, le projet requiert Puppeteer (un outil d'automat
 ## Import des données
 Remplacer le fichier .env.sample par un fichier .env similaire donnant les infos de votre compte Sens critique (pseudo, mail et mot de passe). Fichier évidememnt confidentiel à `.gitignore`-iser.
 
-Au premier lancement, l'appli va mettre un certain pour importer les œuvres.
+Au premier lancement, l'appli va mettre un certain temps pour importer les œuvres.
 
 Pour importer régulièrement les nouvelles oeuvres, lancer `new-items-job.js` avec une tâche Cron ou équivalent.
 
