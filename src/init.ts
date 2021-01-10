@@ -4,6 +4,7 @@ import { crawl } from './crawl/crawl'
 
 import { Item, Conf, orm, createCountsByYear } from './storage/orm';
 import { scapeGlobalCount } from './crawl/parse';
+import { Storage } from './storage/images'
 
 
 export async function firstInit(init) {
@@ -16,7 +17,11 @@ export async function firstInit(init) {
 
 		// on extrait et stocke le nombre global d'items pour détemriner le nombre de pages à crawler
 		const collectionCount = await scapeGlobalCount(`${config.TB_HOST}/${config.TB_USERNAME}/journal/${cat}/page-999999999.ajax`)
-		await Conf.create({ name: 'scrappedCount', value: collectionCount });
+		await Conf.findOrCreate(
+			{
+				where: { name: 'scrappedCount' },
+				defaults: { name: 'scrappedCount', value: collectionCount }
+			});
 		const pagesToCrawl = Math.ceil(collectionCount / 20)
 
 		// données textuelles
