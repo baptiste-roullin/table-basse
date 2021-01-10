@@ -4,6 +4,7 @@ import { crawl } from './crawl/crawl'
 
 import { Item, Conf, orm, createCountsByYear } from './storage/orm';
 import { scapeGlobalCount } from './crawl/parse';
+import { Storage } from './storage/images'
 
 
 export async function firstInit(init) {
