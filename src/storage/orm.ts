@@ -4,16 +4,13 @@ dotenv.config()
 import { Sequelize, DataTypes, ModelAttributes, Op, FindOptions } from 'sequelize'
 import { categories } from '../types'
 
-let DBURL = ''
 if (process.env.NODE_ENV === 'production') {
-	DBURL = process.env.DATABASE_URL!
 }
 else {
-	console.log('base de données de test');
-	DBURL = 'postgres:postgres:admin@localhost:5432/postgres'
+	console.log('environnement : dev');
 }
 
-export const orm = new Sequelize(DBURL)
+export const orm = new Sequelize(process.env.DATABASE_URL)
 
 
 export const Item = orm.define('Item', {
