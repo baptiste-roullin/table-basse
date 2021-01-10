@@ -12,7 +12,7 @@ export const myMixin = {
 			document.querySelectorAll('.items a').forEach((el, index) => {
 
 				const pos = el.getBoundingClientRect()
-				const threshold = 200 * 1 / this.settings.zoom
+				const threshold = 100 * 1 / this.settings.zoom
 
 				//console.log(` left : ${pos.left}      threshold : ${threshold}      zoom : ${this.settings.zoom}`)
 				if (pos.left < threshold) {
