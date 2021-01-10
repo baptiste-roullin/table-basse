@@ -4,7 +4,7 @@
 
 Afficher les livres, films, jeux... que vous avez lu/vu/poncé dans une app dédiée, en utilisant votre compte Sens Critique. Pas les listes, les tops, les scores, les envies… juste les oeuvres déclarées comme ✅.
 
-[Démo ici.](http://table-basse.toutcequibouge.net/)
+C'est un projet pour mon usage personnel ([en ligne ici](https://table-basse.toutcequibouge.net/)), pas pensé ni testé pour un quelconque usage sérieux.
 
 Inspiration initiale : [ce projet](https://github.com/mlcdf/shelob).
 
@@ -36,7 +36,7 @@ Remplacer le fichier .env.sample par un fichier .env similaire donnant les infos
 
 Au premier lancement, l'appli va mettre un certain temps pour importer les œuvres.
 
-Pour importer régulièrement les nouvelles oeuvres, lancer `new-items-job.js` avec une tâche Cron ou équivalent.
+Pour importer régulièrement les nouvelles oeuvres, programmer le lancement de `new-items-job.js` avec une tâche Cron ou équivalent.
 
 
 ## Développement
