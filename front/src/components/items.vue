@@ -178,7 +178,7 @@ h2 {
 			z-index: 1;
 			height: max-content;
 			align-self: center;
-			transform: scale(clamp(1.1, calc(-0.5 * var(--zoom-factor) + 2.5), 2.7));
+			transform: scale(clamp(1.07, calc(-0.5 * var(--zoom-factor) + 2.5), 2.5));
 			transform-origin: center;
 			//z-index: 9999;
 			justify-content: center;
@@ -219,7 +219,7 @@ h2 {
 	.landscape:hover,
 	.landscape:focus {
 		/*max-height: calc(0.4vmax * var(--zoom-factor) * 14);*/
-		transform: scale(clamp(1.05, calc(-0.4 * var(--zoom-factor) + 2.1), 1.4));
+		transform: scale(clamp(1.03, calc(-0.4 * var(--zoom-factor) + 2.1), 1.4));
 	}
 }
 </style>
