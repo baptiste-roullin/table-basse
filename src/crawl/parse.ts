@@ -31,67 +31,72 @@ export function extractItems(
 		if (itemContainer.length === 0) throw new Error(`empty selector for container \n ${itemContainer}`)
 
 		itemContainer.each(function (this: void) {
-			const item: ItemT = Object.create({})
 
-			item.category = $(this).find(`${catSelector}`)?.attr('href').match(/^\/(.*?)\//)[1]
+			// vérification pour exclure morceaux d'album et épiosdes de séries.
+			const check = $(this).find(catSelector).attr('href')
+			if (check) {
 
-			item.id = $(this).find(`.${modeSelector}-collection-poster`)?.attr('data-sc-product-id')
+				const item: ItemT = Object.create({})
+				item.category = check.match(/^\/(.*?)\//)[1]
 
-			item.frenchTitle = $(this).find(`.elco-title a`)?.text().trim()
-			if (!['morceaux', 'albums'].includes(category)) {
-				const originalTitle = $(this).find(`.elco-original-title`)?.text().trim()
-				item.originalTitle = originalTitle !== '' ? originalTitle : item.frenchTitle
-			}
+				item.id = $(this).find(`.${modeSelector}-collection-poster`)?.attr('data-sc-product-id')
 
-			item.year = Number(
-				$(this)
-					.find('.elco-date') //'elco' même dans les pages Journal
-					?.text().trim().slice(1, -1)
-			)
-			// en mode collection, chopper la date est fait avec getWatchedDates(), car ça exige d'être connecté (via puppeeter)
-			if (mode === 'journal') {
-				// WARNING mois et jours peuvent être 00
-				//on remonte jusqu'à un parent pour trouver la date.
-				//'eldi-list-item' peut contenir plusieurs oeuvres, si vues à une date sans précision de jour ou de mois
-				item.watchedDate = $(this).parents('.eldi-list-item').attr('data-sc-datedone')
-
-				item.watchedYear = (item.watchedDate ? getYear(item.watchedDate) : '')
-				if (!item.watchedYear) {
-					throw new Error('no watchedYear could be crawled')
+				item.frenchTitle = $(this).find(`.elco-title a`)?.text().trim()
+				if (!['morceaux', 'albums'].includes(category)) {
+					const originalTitle = $(this).find(`.elco-original-title`)?.text().trim()
+					item.originalTitle = originalTitle !== '' ? originalTitle : item.frenchTitle
 				}
+
+				item.year = Number(
+					$(this)
+						.find('.elco-date') //'elco' même dans les pages Journal
+						?.text().trim().slice(1, -1)
+				)
+				// en mode collection, chopper la date est fait avec getWatchedDates(), car ça exige d'être connecté (via puppeeter)
+				if (mode === 'journal') {
+					// WARNING mois et jours peuvent être 00
+					//on remonte jusqu'à un parent pour trouver la date.
+					//'eldi-list-item' peut contenir plusieurs oeuvres, si vues à une date sans précision de jour ou de mois
+					item.watchedDate = $(this).parents('.eldi-list-item').attr('data-sc-datedone')
+
+					item.watchedYear = (item.watchedDate ? getYear(item.watchedDate) : '')
+					if (!item.watchedYear) {
+						throw new Error('no watchedYear could be crawled')
+					}
+				}
+
+				item.pageUrl = $(this).find(`.elco-title a`)?.attr('href')
+
+
+				const creators: Array<string> = []
+				$(this)
+					.find(`a.${modeSelector}-baseline-a`)?.each(function (this: void) {
+						creators.push(
+							$(this).text().trim()
+						)
+					})
+
+				// l'attribut src est rempli en lazy loading. l'url est présente dans l'attribut data-original puis, lorsqu'on scrolle, est transférée à src.
+				// data-original est ensuite effacé. src est toujours présent mais renvoie du charabia en base64 tant qu'il n'a pas l'URL.
+				//Solution : si l'attribut data-original n'est pas trouvé, on essaye avec src
+				const el = $(this).find(`.${modeSelector}-collection-poster img`)
+
+				const thumbPictureUrl = el.attr('data-original') || el.attr('src')
+
+
+				if (thumbPictureUrl.includes('/missing/')) {
+					item.slugTitle = sanitize(item.originalTitle)
+					item.fullPictureUrl = undefined
+
+				} else {
+
+					item.slugTitle = thumbPictureUrl.match(/\/([^\/]*)\.(?:jpg|png|gif)/)[1]
+					const pictureId = thumbPictureUrl.match(/\/media\/(\d*)/)[1]
+					item.fullPictureUrl = `https://media.senscritique.com/media/${pictureId}/source_big/${item.slugTitle}`
+				}
+
+				items.push(item)
 			}
-
-			item.pageUrl = $(this).find(`.elco-title a`)?.attr('href')
-
-
-			const creators: Array<string> = []
-			$(this)
-				.find(`a.${modeSelector}-baseline-a`)?.each(function (this: void) {
-					creators.push(
-						$(this).text().trim()
-					)
-				})
-
-			// l'attribut src est rempli en lazy loading. l'url est présente dans l'attribut data-original puis, lorsqu'on scrolle, est transférée à src.
-			// data-original est ensuite effacé. src est toujours présent mais renvoie du charabia en base64 tant qu'il n'a pas l'URL.
-			//Solution : si l'attribut data-original n'est pas trouvé, on essaye avec src
-			const el = $(this).find(`.${modeSelector}-collection-poster img`)
-
-			const thumbPictureUrl = el.attr('data-original') || el.attr('src')
-
-
-			if (thumbPictureUrl.includes('/missing/')) {
-				item.slugTitle = sanitize(item.originalTitle)
-				item.fullPictureUrl = undefined
-
-			} else {
-
-				item.slugTitle = thumbPictureUrl.match(/\/([^\/]*)\.(?:jpg|png|gif)/)[1]
-				const pictureId = thumbPictureUrl.match(/\/media\/(\d*)/)[1]
-				item.fullPictureUrl = `https://media.senscritique.com/media/${pictureId}/source_big/${item.slugTitle}`
-			}
-
-			items.push(item)
 		})
 
 		return items
