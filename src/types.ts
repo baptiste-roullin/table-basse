@@ -15,7 +15,7 @@ export interface ItemT {
 	creators?: string[]
 }
 
-export const categories = ["film", "livre", "jeuxvideo", "serie", "bd", "album"]
+export const categories = ["film", "livre", "jeuvideo", "serie", "bd", "album"]
 
 
 /*export interface Data {
