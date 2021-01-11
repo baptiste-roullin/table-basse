@@ -20,7 +20,7 @@
 			@click="getNextYear"
 			aria-controls="items-lists-container"
 		>
-			Année suivante
+			Année précédente
 		</button>
 	</main>
 </template>
@@ -95,7 +95,7 @@ export default {
 			if (this.settings.initFront !== "true") {
 				await this.$store.dispatch("loadNonEmptyYears");
 				await this.$store.dispatch("setPeriod", { start: 0, end: 1 });
-				this.$store.dispatch("setCategory", this.categories[0]);
+				this.$store.dispatch("setCategory", this.categories[6]);
 				await this.$store.dispatch("getItems");
 				this.$store.commit("INIT", "true");
 

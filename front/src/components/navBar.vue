@@ -179,7 +179,7 @@ export default {
 .controls > div {
 	width: 18vw !important;
 	min-width: 220px;
-	margin: 1em;
+	margin: 1em auto;
 	max-width: 250px;
 }
 
@@ -188,6 +188,7 @@ export default {
 		min-width: auto;
 		max-width: none;
 		width: 92vw !important;
+		margin: 1em auto;
 	}
 	.controls .vue-slider {
 		display: none !important;

@@ -54,7 +54,7 @@ export default new Vuex.Store({
 			{ code: 'bd', label: 'Bande dessinées' },
 			{ code: 'livre', label: 'Livres' },
 			{ code: 'album', label: 'Albums' },
-			{ code: 'jeuxvideo', label: 'Jeux vidéo' },
+			{ code: 'jeuvideo', label: 'Jeux vidéo' },
 			{ code: 'all', label: 'Toutes catégories' },
 		],
 		years: {
