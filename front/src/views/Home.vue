@@ -86,6 +86,20 @@ export default {
 	methods: {
 		async init() {
 			// On fixe la catégorie en la récupérant de l'URL
+
+
+
+			//on récupère systématiquement des stats, au cas où il y a de nouveaux items
+			const { countsByCat } = await this.$store.dispatch("getCounts");
+
+			if (this.settings.initFront !== "true") {
+				await this.$store.dispatch("loadNonEmptyYears");
+				await this.$store.dispatch("setPeriod", { start: 0, end: 1 });
+				this.$store.dispatch("setCategory", this.categories[0]);
+				await this.$store.dispatch("getItems");
+				this.$store.commit("INIT", "true");
+
+			}
 			const routeParams = this.$route.params;
 			if (routeParams.category) {
 				this.$store.dispatch(
@@ -94,21 +108,19 @@ export default {
 						(elem) => elem.code === this.$route.params.category
 					)
 				);
-				//sinon, si elle est déjà enregistrée pas besoin de faire plus
-			} else if (!this.settings.currentCategory) {
-				// Sinon, on la fixe à "films"
-				this.$store.dispatch("setCategory", this.categories[0]);
 			}
 
-			//on récupère systématiquement des stats, au cas où il y a de nouveaux items
-			const { countsByCat } = await this.$store.dispatch("getCounts");
+			if (routeParams.year) {
+				const index = this.years.yearsWithItems.findIndex((el) => el === routeParams.year);
+				console.log(index)
+				await this.$store.dispatch("setPeriod", {
+					start: index,
+					end: index + 1,
+				});
 
-			if (this.settings.initFront !== "true") {
-				await this.$store.dispatch("loadNonEmptyYears");
-				await this.$store.dispatch("setPeriod", { start: 0, end: 1 });
-				await this.$store.dispatch("getItems");
-				this.$store.commit("INIT", "true");
 			}
+			await this.$store.dispatch("getItems");
+
 
 
 			function isNotEqual(objA, objB) {
