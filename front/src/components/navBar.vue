@@ -77,8 +77,8 @@
 					<span
 						class="inline-label"
 						v-else
-					>{{ option.label }}
-
+					>
+						{{ option.label }}
 					</span>
 					<!-- compteur -->
 					<span

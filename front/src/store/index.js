@@ -162,7 +162,6 @@ export default new Vuex.Store({
 						if (response.data.length > 0) {
 							console.log('données reçues')
 							commit('UPDATE_LIST_ITEMS', { newItems: response.data, year, cat })
-							console.table(response.data);
 							return response.data
 
 						} else {
