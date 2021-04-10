@@ -119,12 +119,10 @@ export default {
 				});
 
 			}
-			await this.$store.dispatch("getItems");
 
 
 
 			function isNotEqual(objA, objB) {
-
 
 				const arrayA = Object.values(objA)
 				return Object.values(objB).some(
@@ -132,18 +130,17 @@ export default {
 						el !== arrayA[index]
 				)
 			}
-			console.log(oldCountsByCat, countsByCat)
 			//Si y a du nouveau par rapport au store
 			if (isNotEqual(oldCountsByCat, countsByCat)) {
-
 
 				console.log('il y a du nouveau')
 
 				await this.$store.dispatch("setLog", []);
 				console.log(this.logOfRequests)
-
-				await this.$store.dispatch("getItems");
 			}
+
+			await this.$store.dispatch("getItems");
+
 		},
 
 		async getNextYear() {
