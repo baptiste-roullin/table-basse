@@ -115,10 +115,13 @@ export default new Vuex.Store({
 		INIT (state, payload) {
 			state.settings.initFront = payload
 		},
+		SETLOG (state, payload) {
+			state.logOfRequests = [...payload];
+		},
 	},
 
 	actions: {
-		async getCounts ({ commit }) {
+		async updateCounts ({ commit }) {
 			try {
 				const response = await ajax.get(`/api/counts`)
 				if (response.status === 200) {
@@ -145,6 +148,9 @@ export default new Vuex.Store({
 		},
 		setZoom ({ commit }, val) {
 			commit('SET_ZOOM', val)
+		},
+		setLog ({ commit }, val) {
+			commit('SETLOG', val)
 		},
 
 		async getItems ({ commit }, yearSelected) {
