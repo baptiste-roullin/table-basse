@@ -46,7 +46,7 @@ async function getPages(pagesToCrawl: number, mode: 'journal' | 'collection', ca
 }
 
 async function getPagesWithPup(pagesToCrawl: number, category: string): Promise<ItemT[]> {
-	const browser = await puppeteer.launch({ headless: true, userDataDir: 'pup', args: ['--no-sandbox', '--disable-setuid-sandbox'] })
+	const browser = await puppeteer.launch({ headless: false, userDataDir: 'pup', args: ['--no-sandbox', '--disable-setuid-sandbox'] })
 	//const browser = await puppeteer.launch({ headless: false, })
 
 	// Le cas échéant, on ferme le popin RGPD et on se connecte.
