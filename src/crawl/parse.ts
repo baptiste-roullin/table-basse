@@ -178,5 +178,8 @@ export async function scapeGlobalCount(url) {
 }
 
 function getYear(fullDate: string) {
+	if (!fullDate) {
+		return '0000'
+	}
 	return fullDate.match(/^\d{4}/)![0]
 }

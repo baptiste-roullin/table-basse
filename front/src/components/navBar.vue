@@ -8,6 +8,7 @@
 			class="controls"
 			v-if="$router.currentRoute.name === 'Home'"
 		>
+			<!-- ZOOM -->
 			<vue-slider
 				@change="zoomChanged"
 				:value="settings.zoom"
@@ -19,6 +20,8 @@
 				:contained="'true'"
 				:dot-attrs="{ 'aria-label': 'Varier la taille des images des oeuvres' }"
 			/>
+
+			<!-- CATEGORIE -->
 			<v-select
 				aria-controls="items-lists-container"
 				@input="selectCategory"
@@ -49,11 +52,12 @@
 				</template>
 			</v-select>
 
+			<!-- ANNÉE -->
 			<v-select
 				aria-controls="items-lists-container"
 				@input="selectYear"
 				:options="years.yearsWithItems"
-				:value="years.yearsWithItems[years.period.start || 0]"
+				:value="selectedYear"
 				:searchable="false"
 				:clearable="false"
 				:selectable="
@@ -63,7 +67,20 @@
         "
 			>
 				<template v-slot:option="option">
-					<span class="inline-label">{{ option.label }}</span>
+					<!-- année -->
+					<span
+						class="inline-label"
+						v-if="option.label === '0000'"
+					>Vu un jour
+
+					</span>
+					<span
+						class="inline-label"
+						v-else
+					>{{ option.label }}
+
+					</span>
+					<!-- compteur -->
 					<span
 						class="inline-count"
 						v-if="settings.currentCategory.code === 'all'"
@@ -71,8 +88,7 @@
 					<span
 						class="inline-count"
 						v-else
-					>{{
-            countsByYear[option.label][settings.currentCategory.code]
+					>{{countsByYear[option.label][settings.currentCategory.code]
           }}</span>
 				</template>
 			</v-select>
@@ -104,6 +120,11 @@ export default {
 			"countsByYear",
 			"countsByCat",
 		]),
+		selectedYear() {
+			const year = this.years.yearsWithItems[this.years.period.start || 0]
+
+			return (year === '0000' ? "Vu un jour" : year)
+		},
 		countsByCatTotal() {
 			return Object.values(this.countsByCat).reduce((previous, current) => {
 				return previous + current;
@@ -142,6 +163,7 @@ export default {
 			});
 			await this.$store.dispatch("getItems");
 		},
+
 		//countsByYearTotal: function (option) {
 		//	return Object.values(this.countsByYear[option.label]).reduce((previous, current) => {
 		//		return previous + current
