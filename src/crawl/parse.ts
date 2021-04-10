@@ -111,9 +111,15 @@ export function extractItems(
 
 export async function getFullPictureUrl(items: Array<ItemT>) {
 	async function request(item: ItemT, format: string, index: number) {
-		return await got(`${item.fullPictureUrl}.${format}`, {
+		const res = await got(`${item.fullPictureUrl}.${format}`, {
 			method: 'HEAD',
 		})
+		if (/image/.test(res.headers['content-type'])) {
+			return res
+		}
+		return Promise.reject()
+
+
 	}
 	// pour chaque oeuvre
 	for (const item of items) {
@@ -125,8 +131,8 @@ export async function getFullPictureUrl(items: Array<ItemT>) {
 				//@ts-ignore
 				const headRequest = await Promise.any(
 					formats.map(request.bind(null, item))
-					//on remplace l'url sans l'extension de format par l'url avec extension
 				)
+				//on remplace l'url sans l'extension de format par l'url avec extension
 				item.fullPictureUrl = headRequest.url
 			}
 
