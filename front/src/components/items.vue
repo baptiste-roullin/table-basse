@@ -1,6 +1,5 @@
 <template>
 	<div>
-		<h2>{{ year }}</h2>
 
 		<h2
 			class="inline-label"
