@@ -65,6 +65,7 @@ export default {
 			"years",
 			"countsByYear",
 			"countsByCat",
+			"logOfRequests"
 		]),
 		allCategories: function () {
 			if (this.settings.currentCategory === "all") {
@@ -87,10 +88,9 @@ export default {
 		async init() {
 			// On fixe la catégorie en la récupérant de l'URL
 
-
-
 			//on récupère systématiquement des stats, au cas où il y a de nouveaux items
-			const { countsByCat } = await this.$store.dispatch("getCounts");
+			const oldCountsByCat = this.countsByCat;
+			const { countsByCat } = await this.$store.dispatch("updateCounts");
 
 			if (this.settings.initFront !== "true") {
 				await this.$store.dispatch("loadNonEmptyYears");
@@ -124,16 +124,24 @@ export default {
 
 
 			function isNotEqual(objA, objB) {
+
+
 				const arrayA = Object.values(objA)
 				return Object.values(objB).some(
 					(el, index) =>
 						el !== arrayA[index]
 				)
 			}
-
+			console.log(oldCountsByCat, countsByCat)
 			//Si y a du nouveau par rapport au store
-			if (isNotEqual(countsByCat, this.countsByCat)) {
-				this.logOfRequests = []
+			if (isNotEqual(oldCountsByCat, countsByCat)) {
+
+
+				console.log('il y a du nouveau')
+
+				await this.$store.dispatch("setLog", []);
+				console.log(this.logOfRequests)
+
 				await this.$store.dispatch("getItems");
 			}
 		},
