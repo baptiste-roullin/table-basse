@@ -5,7 +5,6 @@
 	>
 		<h1>Page introuvable</h1>
 	</router-link>
-
 </template>
 
 <script>
@@ -26,6 +25,15 @@ export default {
 	height: 100vh;
 	width: 100vw;
 }
+
+
+
+@media screen and (max-width:800px){
+	.lost {
+
+	background-size: contain;}
+}
+
 .lost h1 {
 	padding-top: 2rem;
 	margin: auto;
