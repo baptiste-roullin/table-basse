@@ -1,6 +1,16 @@
 <template>
 	<div>
 		<h2>{{ year }}</h2>
+
+		<h2
+			class="inline-label"
+			v-if="year === '0000'"
+		>Vu un jour
+
+		</h2>
+		<h2 v-else>
+			{{ year }}
+		</h2>
 		<div class="items">
 			<a
 				v-bind:href="`https://www.senscritique.com${item.pageUrl}`"
