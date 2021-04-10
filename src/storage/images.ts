@@ -25,7 +25,7 @@ export class Storage {
 		const action = async (item: ItemT): Promise<any> => {
 			if (!item.fullPictureUrl) { return item }
 			let result = await this.store(item.fullPictureUrl, 'test', item.id, 'image')
-			//pictureCount()
+
 			item.CDNUrl = result.secure_url
 			return item
 		}
