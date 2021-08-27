@@ -1,5 +1,8 @@
 {
 	"compilerOptions": {
+		"removeComments": true,
+		"importHelpers": true,
+		"forceConsistentCasingInFileNames": true,
 		"target": "es2019",
 		"module": "commonjs",
 		"outDir": "./build",
