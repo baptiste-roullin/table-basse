@@ -79,7 +79,10 @@ export function extractItems(
 				// l'attribut src est rempli en lazy loading. l'url est présente dans l'attribut data-original puis, lorsqu'on scrolle, est transférée à src.
 				// data-original est ensuite effacé. src est toujours présent mais renvoie du charabia en base64 tant qu'il n'a pas l'URL.
 				//Solution : si l'attribut data-original n'est pas trouvé, on essaye avec src
-				const thumbPictureUrl = $(this).find(`.${modeSelector}-collection-poster img`).attr('src')
+				const el = $(this).find(`.${modeSelector}-collection-poster img`)
+
+				const thumbPictureUrl = el.attr('data-original') || el.attr('src')
+
 
 				if (thumbPictureUrl.includes('/missing/')) {
 					item.slugTitle = sanitize(item.originalTitle)
