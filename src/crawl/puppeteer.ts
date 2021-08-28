@@ -6,8 +6,8 @@ export const pup = {
 	async consent(page: Page) {
 		//popin RGPD
 		try {
-			await page.waitForSelector('[aria-label="J\'ACCEPTE"]')
-			await page.click('{').then(() =>
+			await page.waitForSelector("[aria-label$='ACCEPTE']")
+			await page.click("[aria-label$='ACCEPTE']").then(() =>
 				console.log('fermerture du popin rgpd'))
 		}
 		catch (e) {
