@@ -15,7 +15,7 @@
 				v-bind:href="`https://www.senscritique.com${item.pageUrl}`"
 				v-for="item in itemsForCurrentYear()"
 				:key="item.id"
-				:class="`item ${settings.currentCategory.code} id-${item.id} ${(item.CDNUrl !== 'NULL' ? 'img' : 'no-img')} `"
+				:class="`item ${settings.currentCategory.code} id-${item.id} ${(item.CDNUrl ? 'img' : 'no-img')} `"
 				:title="`Fiche de l'oeuvre ${item.frenchTitle}`"
 			>
 				<img
@@ -36,7 +36,6 @@
 </template>
 
 <script>
-import { log } from 'util'
 //:selectable="option => !state.currentCategories.find(el => el === option)"
 
 import { mapState, mapGetters } from 'vuex'

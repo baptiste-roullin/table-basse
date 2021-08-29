@@ -169,7 +169,6 @@ export default new Vuex.Store({
 							console.log('données reçues')
 							commit('UPDATE_LIST_ITEMS', { newItems: response.data, year, cat })
 							return response.data
-
 						} else {
 							console.log(' items : pas  réponse vide')
 						}
