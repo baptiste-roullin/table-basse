@@ -1,12 +1,12 @@
  ![](https://raw.githubusercontent.com/Saint-loup/table-basse/published/front/src/assets/lol.png)
 
+[Démo ici](https://table-basse.toutcequibouge.net/)
+
 ## Description
 
 Afficher les livres, films, jeux... que vous avez lu/vu/poncé dans une app dédiée, en utilisant votre compte Sens Critique. Pas les listes, les tops, les scores, les envies… juste les oeuvres déclarées comme ✅.
 
-C'est un projet pour mon usage personnel ([en ligne ici](https://table-basse.toutcequibouge.net/)), pas pensé ni testé pour un quelconque usage sérieux.
-
-Inspiration initiale : [ce projet](https://github.com/mlcdf/shelob).
+C'est un projet pour mon usage personnel, pas pensé ni testé pour un quelconque usage sérieux. Inspiration initiale : [ce projet](https://github.com/mlcdf/shelob).
 
 Le déploiement est pensé pour Heroku mais avec quelques ajustements devrait fonctionner n'importe où.
 
