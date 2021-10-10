@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-import createPersistedState from "vuex-persistedstate";
+//import createPersistedState from "vuex-persistedstate";
 
 const ajax = axios.create({
 	baseURL: process.env.NODE_ENV === 'production' ? '' : 'http://127.0.0.1:3000',
@@ -23,7 +23,7 @@ function removeDuplicates (storedItems) {
 }
 
 export default new Vuex.Store({
-	plugins: [createPersistedState()],
+	//plugins: [createPersistedState()],
 	state: {
 
 		/* {
