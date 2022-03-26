@@ -5,13 +5,13 @@
 	"scripts": {
 		"dev": "cross-env NODE_ENV=development nodemon --ignore front/ --exec 'npx ts-node' ./src/main.ts",
 		"start": "node ./build/main.js",
-		"heroku-postbuild": "npx tsc && cd front && npm run build"
+		"build": "npm install && npx tsc && cd front && npm run build"
 	},
 	"workspaces": [
 		"*"
 	],
 	"engines": {
-		"node": "^15.5.0"
+		"node": "^16.14.2"
 	},
 	"dependencies": {
 		"cheerio": "^1.0.0-rc.3",
