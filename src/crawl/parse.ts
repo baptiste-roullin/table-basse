@@ -17,14 +17,12 @@ export function extractItems(
 ) {
 	if (mode === 'journal') {
 		var modeSelector = 'eldi'
-		var itemSelector = '.eldi-collection-container'
-		var catSelector = '.eldi-collection-poster'
 	} else {
 		var modeSelector = 'elco'
-		var itemSelector = ".elco-collection-item"
-		var catSelector = '.erra-global'
-
+		var itemSelector = '[class^="ProductListItem__Container-sc"]'
 	}
+	
+	var catSelector = '[class^="Creators__Universe-sc"]'
 
 	try {
 		const itemContainer = $(itemSelector)
@@ -32,7 +30,7 @@ export function extractItems(
 
 		itemContainer.each(function (this: void) {
 
-			// vérification pour exclure morceaux d'album et épiosdes de séries.
+			// vérification pour exclure morceaux d'album et épisodes de séries.
 			const check = $(this).find(catSelector).attr('href')
 			if (check) {
 
