@@ -2,7 +2,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 import { Sequelize, DataTypes, ModelAttributes, Op, FindOptions } from 'sequelize'
-import { categories } from '../types'
+import { categories } from '../types.js'
 
 if (process.env.NODE_ENV === 'production') {
 }

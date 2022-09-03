@@ -3,22 +3,26 @@ import cheerio from 'cheerio'
 import got from 'got'
 import dotenv from 'dotenv'
 dotenv.config()
-import puppeteer from 'puppeteer'
-import { ItemT } from '../types'
+import { ItemT } from '../types.js'
 import pMap from 'p-map'
-import { config } from '../main'
-import { pup } from './puppeteer'
-import { extractItems, getFullPictureUrl, getWatchedDates } from './parse'
+import { config } from '../main.js'
+import { extractItems, getFullPictureUrl, getWatchedDates } from './parse.js'
+import { RequestQueue } from 'crawlee';
+
+
 
 // Fonction principale
 // Mode journal : utilisé lors de l'init pour récupérer toutes les oeuvres classées par date de visionnage, avec mention de cette date.
 // Mode collection : utilisé lors d'un nouvel import, pour récupérer des items fraichement ajoutés, mais potentiellement visionnés y a longtemps. utilise Puppeteer
-export async function crawl(category: string, mode: 'journal' | 'collection', pagesToCrawl: number): Promise<any> {
+export default async function crawl(category: string, mode: 'journal' | 'collection', pagesToCrawl: number): Promise<any> {
 	switch (mode) {
 		case 'journal':
-			return await getPages(pagesToCrawl, mode, category)
+		//return await getPages(pagesToCrawl, mode, category)
+		//return await getPagesCrawlee(pagesToCrawl, mode, category)
+
 		case 'collection':
-			return await getPagesWithPup(pagesToCrawl, category)
+		//return await getPagesWithPup(pagesToCrawl, category)
+
 		default:
 			break;
 	}
@@ -45,7 +49,7 @@ async function getPages(pagesToCrawl: number, mode: 'journal' | 'collection', ca
 	return resultsArray.flat()
 }
 
-async function getPagesWithPup(pagesToCrawl: number, category: string): Promise<ItemT[]> {
+/*async function getPagesWithPup(pagesToCrawl: number, category: string): Promise<ItemT[]> {
 	const browser = await puppeteer.launch({ headless: true, userDataDir: 'pup', args: ['--no-sandbox', '--disable-setuid-sandbox'] })
 	//const browser = await puppeteer.launch({ headless: false, })
 
@@ -82,12 +86,14 @@ async function getItemsWithPup(category: string, url: string, page: puppeteer.Pa
 	items = await getFullPictureUrl(items)
 	items = await getWatchedDates(items, page)
 	return items
-}
+}*/
 async function getPageHTML(url: string) {
 
 	try {
 		const response = await got(url, {
-			timeout: 20000,
+			timeout: {
+				request: 10000
+			},
 			http2: true,
 			headers: {
 				'user-agent':
@@ -108,7 +114,7 @@ async function getPageHTML(url: string) {
 
 	} catch (err) {
 
-		throw new Error(err)
+		throw new Error(String(err))
 	}
 }
 

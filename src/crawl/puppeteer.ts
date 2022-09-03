@@ -1,4 +1,4 @@
-import { config } from '../main'
+/*import { config } from '../main.js'
 import puppeteer, { Page } from 'puppeteer'
 
 export const pup = {
@@ -14,7 +14,8 @@ export const pup = {
 			console.log('déjà fermé popin RGPD OU bug');
 		}
 	},
-	async logInSC(page: Page) {
+
+	async ZlogInSC(page: Page) {
 
 		await page.click('.header-connect').then(() =>
 			console.log('ouverture du popin de connexion'))
@@ -70,3 +71,4 @@ export function isPup(page: any): page is puppeteer.Page {
 
 
 
+*/

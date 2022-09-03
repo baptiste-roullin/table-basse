@@ -1,17 +1,23 @@
-{
+{"ts-node": {
+    // Tell ts-node CLI to install the --loader automatically, explained below
+    "esm": true
+  },
 	"compilerOptions": {
 		"removeComments": true,
 		"importHelpers": true,
 		"forceConsistentCasingInFileNames": true,
 		"target": "es2019",
-		"module": "commonjs",
-		"outDir": "./build",
+		"module": "NodeNext",
+/*		"outDir": "./build",
+*/
+		"noEmit": true /* Do not emit outputs. (BECAUSE WE'RE USING TS-NODE!) */,
 		"noImplicitAny": false,
 		"esModuleInterop": true,
 		"strict": true,
 		"sourceMap": true,
 		"strictNullChecks": false,
-		"noImplicitReturns": true,
+		"allowSyntheticDefaultImports": true,
+		"noImplicitReturns": false,
 		"lib": [
 			"ES2018",
 			"es2019",

@@ -5,7 +5,7 @@ import sanitize from 'sanitize-filename'
 import dotenv from 'dotenv'
 dotenv.config()
 
-import { ItemT } from '../types'
+import { ItemT } from '../types.js'
 
 
 //Parse le HTML, extrait les infos souhaitées et les ajoute dans un objet Item
@@ -138,9 +138,12 @@ export async function getFullPictureUrl(items: Array<ItemT>) {
 
 		}
 		catch (error) {
-			if (error.name === "AggregateError") {
-				item.fullPictureUrl = undefined
+			if (error instanceof Error) {
+				if (error.name === "AggregateError") {
+					item.fullPictureUrl = undefined
+				}
 			}
+
 		}
 
 	}

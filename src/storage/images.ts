@@ -1,19 +1,18 @@
-const { promisify } = require('util')
+import { promisify } from 'node:util'
 import pMap from 'p-map'
 
 import dotenv from 'dotenv'
 dotenv.config()
-import { ItemT } from '../types'
+import { ItemT } from '../types.js'
 
-var cloudinary = require('cloudinary').v2
-
-
+import { v2 as cloudinary } from "cloudinary";
 
 export class Storage {
 	async store(path: string, folder: string, fileName: string, type?: 'image' | 'raw') {
-		const uploadAsync = promisify(cloudinary.uploader.upload.bind(cloudinary.uploader))
+
+		//const uploadAsync = promisify(cloudinary.uploader.upload)
 		try {
-			return await uploadAsync(path,
+			return await cloudinary.uploader.upload(path,
 				{ public_id: fileName, folder, resource_type: type, format: 'webp', width: 1500, height: 1500, crop: "limit" })
 
 		} catch (error) {

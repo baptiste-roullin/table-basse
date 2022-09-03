@@ -1,10 +1,10 @@
 
-import { config } from './main'
-import { crawl } from './crawl/crawl'
+import { config } from './main.js'
+import crawl from './crawl/crawl.js'
 
-import { Item, Conf, orm, createCountsByYear } from './storage/orm';
-import { scapeGlobalCount } from './crawl/parse';
-import { Storage } from './storage/images'
+import { Item, Conf, orm, createCountsByYear } from './storage/orm.js';
+import { scapeGlobalCount } from './crawl/parse.js';
+import { Storage } from './storage/images.js'
 
 
 export async function firstInit(init) {
