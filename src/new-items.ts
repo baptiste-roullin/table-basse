@@ -1,10 +1,10 @@
 
 
-import { Item, Conf, orm, createCountsByYear } from './storage/orm'
-import { config } from './main'
-import { crawl } from './crawl/crawl'
-import { scapeGlobalCount } from './crawl/parse'
-import { Storage } from './storage/images'
+import { Item, Conf, orm, createCountsByYear } from './storage/orm.js'
+import { config } from './main.js'
+import crawl from './crawl/crawl.js'
+import { scapeGlobalCount } from './crawl/parse.js'
+import { Storage } from './storage/images.js'
 
 
 export async function getNewItemsFromSC(mode: 'collection' | 'journal', cat: string) {

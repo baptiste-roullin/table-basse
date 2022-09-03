@@ -1,3 +1,5 @@
+#!/usr/bin/env ts-node
+
 // Variables d'environnement obligatoires
 import Path from 'path'
 
@@ -31,26 +33,27 @@ import express from 'express'
 import cors from 'cors'
 import historyFallback from 'connect-history-api-fallback'
 import serveStatic from 'serve-static'
-import { Item, Conf } from './storage/orm';
-import { router } from './routes/routes'
-import { firstInit } from './init'
+import { Item, Conf } from './storage/orm.js'
+import { router } from './routes/routes.js'
+import { firstInit } from './init.js'
+import getToken from './getToken.js';
 //import longpoll from "express-longpoll"
 
 export const app = express()
-//Au rechargement de page par l'utilisateur, réécrit l'URL pour renvoyer à index.html, afin que le routage soit géré par Vue.
+/*//Au rechargement de page par l'utilisateur, réécrit l'URL pour renvoyer à index.html, afin que le routage soit géré par Vue.
 app.use(historyFallback())
 
 // accès à l'app vue.js buildée dans le dossier dist
 app.use(serveStatic('front/dist'))
 
-app.use(cors())
+app.use(cors())*/
 
 // Routes fournissant les données à l'app front
 app.use('/api', router);
 
 //Un champ dans la table Conf détermine si l'app a été initialisée.
 //On checke si elle existe et si elle est true
-(async function checkIfAppNeedInit() {
+async function checkIfAppNeedInit() {
 	await Conf.sync()
 	let init: any = await Conf.findByPk('init')
 	if (!init) {
@@ -63,8 +66,15 @@ app.use('/api', router);
 			firstInit(init)
 		}
 	}
-})()
+}
 
+//await checkIfAppNeedInit()
+
+try {
+	console.log(await getToken())
+} catch (error) {
+
+}
 
 const port = config.PORT || 3000
 

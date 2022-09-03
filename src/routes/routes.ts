@@ -1,10 +1,10 @@
 import Router from 'express-promise-router'
 import express from 'express'
 
-import * as validator from './validator'
-import { config } from '../main'
-import { requestItems, requestCountsByYear } from '../storage/orm'
-import { getNewItemsFromSC } from '../new-items'
+import * as validator from './validator.js'
+import { config } from '../main.js'
+import { requestItems, requestCountsByYear } from '../storage/orm.js'
+import { getNewItemsFromSC } from '../new-items.js'
 
 // Validation des routes, affreusement compliqué et à
 const validateReq = (req: express.Request) => {

@@ -3,7 +3,7 @@
 // get errorMessage() {}
 // function isValid() {}
 
-import { categories } from "../types"
+import { categories } from "../types.js"
 
 
 class Validator {
