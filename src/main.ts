@@ -2,10 +2,8 @@
 
 // Variables d'environnement obligatoires
 import Path from 'path'
-
 import dotenv from 'dotenv'
 dotenv.config()
-
 export const config = process.env
 config.STATIC_URL = setStaticUrl();
 const checkEnv = ['TB_USERNAME', 'TB_PWD', 'TB_EMAIL', 'CLOUDINARY_URL', 'TB_HOST'].every((el) => {
@@ -37,6 +35,8 @@ import { Item, Conf } from './storage/orm.js'
 import { router } from './routes/routes.js'
 import { firstInit } from './init.js'
 import getToken from './getToken.js';
+import checkConnection from './checkConnection.js';
+import introspection from './introspection.js';
 //import longpoll from "express-longpoll"
 
 export const app = express()
@@ -71,7 +71,10 @@ async function checkIfAppNeedInit() {
 //await checkIfAppNeedInit()
 
 try {
-	console.log(await getToken())
+	//console.log(await getToken())
+	checkConnection()
+	//introspection()
+
 } catch (error) {
 
 }
