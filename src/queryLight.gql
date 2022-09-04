@@ -1,0 +1,212 @@
+query UserDiary($isDiary: Boolean, $limit: Int, $offset: Int, $universe: String, $username: String!, $yearDateDone: Int) {
+	  user(username: $username) {
+	    ...UserMinimal
+    ...ProfileStats
+    collection(
+	      isDiary: $isDiary
+      limit: $limit
+      offset: $offset
+      universe: $universe
+      yearDateDone: $yearDateDone
+    ) {
+	      total
+      filters {
+	        universe {
+	          count
+          label
+          value
+          __typename
+        }
+        yearDateDone {
+	          count
+          label
+          value
+          __typename
+        }
+        __typename
+      }
+      products {
+	        ...ProductMinimal
+        currentUserInfos {
+	          ...ProductUserInfos
+          __typename
+        }
+        otherUserInfos(username: $username) {
+	          ...ProductUserInfos
+          lists {
+	            id
+            label
+            listSubtype
+            url
+            __typename
+          }
+          review {
+	            id
+            title
+            url
+            __typename
+          }
+          __typename
+        }
+        __typename
+      }
+      yearStats {
+	        year
+        stats {
+	          count
+          universe
+          __typename
+        }
+        __typename
+      }
+      __typename
+    }
+    __typename
+  }
+}
+
+fragment UserMinimal on User {
+	  ...UserNano
+  settings {
+	    about
+    displayedName
+    urlWebsite
+    username
+    __typename
+  }
+  __typename
+}
+
+fragment UserNano on User {
+	  following
+  id
+  isBlocked
+  isScout
+  name
+  url
+  username
+  medias {
+	    avatar
+    backdrop
+    __typename
+  }
+  __typename
+}
+
+fragment ProductMinimal on Product {
+	  ...CommonProductMinimalInfos
+  __typename
+}
+
+fragment CommonProductMinimalInfos on Product {
+	  ...ProductNano
+  category
+  channel
+  dateCreation
+  dateLastUpdate
+  dateRelease
+  displayedYear
+  duration
+  episodeNumber
+  synopsis
+  url
+  medias(backdropSize: \"1200\") {
+	    randomBackdrop
+    backdrop
+    picture
+    screenshot
+    videos {
+	      id
+      image
+      provider
+      type
+      __typename
+    }
+    __typename
+  }
+  soundtracks {
+	    id
+    title
+    url
+    __typename
+  }
+  stats {
+	    currentCount
+    ratingCount
+    recommendCount
+    reviewCount
+    wishCount
+    __typename
+  }
+  __typename
+}
+
+fragment ProductNano on Product {
+	  id
+  rating
+  slug
+  title
+  universe
+  url
+  yearOfProduction
+  medias(backdropSize: \"1200\") {
+	    backdrop
+    picture
+    screenshot
+    __typename
+  }
+  __typename
+}
+
+
+
+fragment ProductUserInfos on ProductUserInfos {
+	  dateDone
+  hasStartedReview
+  isCurrent
+  id
+  isDone
+  isListed
+  isRecommended
+  isRejected
+  isReviewed
+  isWished
+  productId
+  rating
+  userId
+  numberEpisodeDone
+
+  gameSystem {
+	    id
+    label
+    __typename
+  }
+  review {
+	    url
+    __typename
+  }
+  __typename
+}
+
+fragment ProfileStats on User {
+	  likePositiveCountStats {
+	    contact
+    feed
+    list
+    paramIndex
+    review
+    total
+    __typename
+  }
+  stats {
+	    collectionCount
+    diaryCount
+    listCount
+    followerCount
+    ratingCount
+    reviewCount
+    scoutCount
+    __typename
+  }
+  __typename
+}

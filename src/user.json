@@ -1,0 +1,10 @@
+[
+	{
+		"operationName": "UserStats",
+		"variables": {
+			"universe": "movie",
+			"username": "Sandrine_Monnomestpe"
+		},
+		"query": "query UserStats($universe: String, $username: String!) {\n  user(username: $username) {\n    ...UserMinimal\n    collection(action: RATING, universe: $universe) {\n      filters {\n        releaseDate {\n          count\n          label\n          value\n          __typename\n        }\n        __typename\n      }\n      __typename\n    }\n    ratingsStats(universe: $universe) {\n      rating1\n      rating2\n      rating3\n      rating4\n      rating5\n      rating6\n      rating7\n      rating8\n      rating9\n      rating10\n      __typename\n    }\n    stats {\n      collectionCount\n      followerCount\n      id\n      listCount\n      ratingCount\n      reviewCount\n      scoutCount\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment UserMinimal on User {\n  ...UserNano\n  settings {\n    about\n    birthDate\n    country\n    dateLastSession\n    displayedName\n    email\n    firstName\n    gender\n    lastName\n    privacyName\n    privacyProfile\n    showAge\n    showProfileType\n    urlWebsite\n    username\n    zipCode\n    __typename\n  }\n  __typename\n}\n\nfragment UserNano on User {\n  following\n  id\n  isBlocked\n  isScout\n  name\n  url\n  username\n  medias {\n    avatar\n    backdrop\n    __typename\n  }\n  __typename\n}\n"
+	}
+]
