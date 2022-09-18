@@ -1,0 +1,128 @@
+query UserDiary(
+  $isDiary: Boolean
+  $limit: Int
+  $offset: Int
+  $universe: String
+  $username: String!
+  $yearDateDone: Int
+) {
+  user(username: $username) {
+    ...ProfileStats
+    collection(
+      isDiary: $isDiary
+      limit: $limit
+      offset: $offset
+      universe: $universe
+      yearDateDone: $yearDateDone
+    ) {
+      total
+      filters {
+        universe {
+          count
+          label
+          value
+          __typename
+        }
+        yearDateDone {
+          count
+          label
+          value
+          __typename
+        }
+        __typename
+      }
+      products {
+        ...ProductMinimal
+        currentUserInfos {
+          ...ProductUserInfos
+          __typename
+        }
+
+        __typename
+      }
+      yearStats {
+        year
+        stats {
+          count
+          universe
+          __typename
+        }
+        __typename
+      }
+      __typename
+    }
+    __typename
+  }
+}
+
+
+fragment ProductMinimal on Product {
+  id
+  rating
+  slug
+  title
+  universe
+  url
+  category
+  dateCreation
+  dateLastUpdate
+  dateRelease
+  dateReleaseEarlyAccess
+  dateReleaseOriginal
+  displayedYear
+  duration
+  frenchReleaseDate
+  originalRun
+  originalTitle
+  parentTvShowId
+  productionStatus
+  retailReleaseDate
+  subtitle
+  url
+  genresInfos {
+  id
+  label
+  slug
+  url
+  __typename
+}
+  medias(backdropSize: "1200") {
+    randomBackdrop
+    backdrop
+    picture
+    screenshot
+    __typename
+  }  __typename
+}
+
+
+fragment ProductUserInfos on ProductUserInfos {
+  dateDone
+  hasStartedReview
+  isCurrent
+  id
+  isDone
+  isListed
+  isRecommended
+  isRejected
+  isReviewed
+  isWished
+  productId
+  rating
+  userId
+  __typename
+}
+
+fragment ProfileStats on User {
+  stats {
+    collectionCount
+    diaryCount
+    listCount
+    followerCount
+    ratingCount
+    reviewCount
+    scoutCount
+    __typename
+  }
+  __typename
+}

@@ -110,7 +110,7 @@ fragment CommonProductMinimalInfos on Product {
   episodeNumber
   synopsis
   url
-  medias(backdropSize: \"1200\") {
+  medias(backdropSize: "1200") {
 	    randomBackdrop
     backdrop
     picture
@@ -149,7 +149,7 @@ fragment ProductNano on Product {
   universe
   url
   yearOfProduction
-  medias(backdropSize: \"1200\") {
+  medias(backdropSize: "1200") {
 	    backdrop
     picture
     screenshot

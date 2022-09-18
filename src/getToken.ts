@@ -34,7 +34,7 @@ export default async function getToken(): Promise<string> {
 		await page.waitForLoadState('load')
 
 		storageState = await browser.contexts()[0].storageState({ path: 'state.json' })
-		//await browser.close()
+		await browser.close()
 		const cookie = storageState.cookies.filter(
 			item => item.name === 'SC_AUTH'
 		)[0]

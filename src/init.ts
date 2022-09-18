@@ -2,41 +2,59 @@
 import { config } from './main.js'
 import crawl from './crawl/crawl.js'
 
-import { Item, Conf, orm, createCountsByYear } from './storage/orm.js';
+import { Item, ConfTable, orm, createCountsByYear } from './storage/orm.js';
 import { scapeGlobalCount } from './crawl/parse.js';
 import { Storage } from './storage/images.js'
+import fetchSC from './fetchSC.js';
+import { ItemT, User } from './types.js';
+import getToken from './getToken.js';
+import formatItems from './queries/formatItems.js';
 
 
-export async function firstInit(init) {
+
+export async function init(init) {
 
 	console.log('initialisation')
 	const storage = new Storage()
 	await orm.sync()
 
-	async function getAndStoreItems(cat) {
+	async function getAndStoreItems() {
 
-		// on extrait et stocke le nombre global d'items pour détemriner le nombre de pages à crawler
-		const collectionCount = await scapeGlobalCount(`${config.TB_HOST}/${config.TB_USERNAME}/journal/${cat}/page-999999999.ajax`)
-		await Conf.findOrCreate(
+
+		const token = getToken()
+
+		await ConfTable.findOrCreate(
 			{
-				where: { name: 'scrappedCount' },
-				defaults: { name: 'scrappedCount', value: collectionCount }
+				where: { name: 'token' },
+				defaults: { name: 'token', value: token }
 			});
-		const pagesToCrawl = Math.ceil(collectionCount / 20)
+
+		const user: User = await fetchSC(token, 'UserStats')
+
+		if (user.settings.privacyProfile === true) {
+			throw new Error('Ce compte est privé')
+		}
+
+		// on  stocke le nombre global d'items pour déterminer à l'avenir le nombre d'items à requeter.
+		const count = user.stats.diaryCount
+		await ConfTable.findOrCreate(
+			{
+				where: { name: 'count' },
+				defaults: { name: 'count', value: count }
+			});
 
 		// données textuelles
-		let items = await crawl(cat, 'journal', pagesToCrawl)
-
+		let items = formatItems(await fetchSC(token, 'UserDiary'))
 		//upload des images. on en tire l'URL de l'image qu'on ajoute à l'objet
 		items = await storage.storePictures(items)
 
 		// maintenant qu'on a tout, on stocke en base
 		await Item.bulkCreate(items, { ignoreDuplicates: true })
 	}
+
 	try {
-		await getAndStoreItems('all')
+		await getAndStoreItems()
 		//On remplit une table avec le nombre d'items par année et par catégorie
-		await createCountsByYear()
 
 		init.value = 'true'
 		await init.save();

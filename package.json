@@ -17,6 +17,7 @@
 	},
 	"dependencies": {
 		"@graphql-tools/load-files": "^6.6.1",
+		"@types/node": "^18.7.16",
 		"cheerio": "^1.0.0-rc.12",
 		"cloudinary": "^1.31.0",
 		"connect-history-api-fallback": "^1.6.0",
@@ -42,7 +43,6 @@
 		"@types/cheerio": "^0.22.31",
 		"@types/cors": "^2.8.9",
 		"@types/express": "^4.17.8",
-		"@types/node": "^17.0.0",
 		"@typescript-eslint/eslint-plugin": "^4.10.0",
 		"@typescript-eslint/parser": "^4.10.0",
 		"cross-env": "^7.0.3",
@@ -67,8 +67,7 @@
 			"no-redeclare": "off",
 			"no-debugger": 1,
 			"no-unexpected-multiline": 1,
-			"semi": 1,
-			"@typescript-eslint/semi": 1
+			"semi": 1
 		}
 	},
 	"gitHooks": {

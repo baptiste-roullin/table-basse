@@ -1,0 +1,27 @@
+query UserStats( $username: String!) {
+	  user(username: $username) {
+	    ...UserMinimal
+    stats {
+	    diaryCount
+      id
+      __typename
+    }
+    __typename
+  }
+}
+
+fragment UserMinimal on User {
+	  ...UserNano
+  settings {
+    privacyProfile
+    __typename
+  }
+  __typename
+}
+
+fragment UserNano on User {
+	  following
+  id
+  isBlocked
+  __typename
+}
