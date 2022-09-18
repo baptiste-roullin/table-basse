@@ -1,6 +1,6 @@
 
 
-import { Item, Conf, orm, createCountsByYear } from './storage/orm.js'
+import { Item, ConfTable, orm, createCountsByYear } from './storage/orm.js'
 import { config } from './main.js'
 import crawl from './crawl/crawl.js'
 import { scapeGlobalCount } from './crawl/parse.js'
@@ -11,7 +11,7 @@ export async function getNewItemsFromSC(mode: 'collection' | 'journal', cat: str
 	orm.sync()
 	const newGlobalCount = await scapeGlobalCount(`${config.TB_HOST}/${config.TB_USERNAME}/journal/${cat}/page-999999999.ajax`)
 
-	let globalCountObject: any = await Conf.findByPk('scrappedCount')
+	let globalCountObject: any = await ConfTable.findByPk('scrappedCount')
 	let oldGlobalCount = Number(globalCountObject.value)
 	console.log(`oldGlobalCount : ${oldGlobalCount} -- newGlobalCount : ${newGlobalCount}`)
 

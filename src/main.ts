@@ -31,12 +31,12 @@ import express from 'express'
 import cors from 'cors'
 import historyFallback from 'connect-history-api-fallback'
 import serveStatic from 'serve-static'
-import { Item, Conf } from './storage/orm.js'
+import { Item, ConfTable } from './storage/orm.js'
 import { router } from './routes/routes.js'
-import { firstInit } from './init.js'
+import { init } from './init.js'
 import getToken from './getToken.js';
-import checkConnection from './checkConnection.js';
-import introspection from './introspection.js';
+import fetchSC from './fetchSC.js';
+import formatItems from './queries/formatItems.js';
 //import longpoll from "express-longpoll"
 
 export const app = express()
@@ -54,27 +54,32 @@ app.use('/api', router);
 //Un champ dans la table Conf détermine si l'app a été initialisée.
 //On checke si elle existe et si elle est true
 async function checkIfAppNeedInit() {
-	await Conf.sync()
-	let init: any = await Conf.findByPk('init')
+	await ConfTable.sync()
+	let init: any = await ConfTable.findByPk('init')
 	if (!init) {
-		init = await Conf.create({ name: 'init' })
-		firstInit(init)
+		init = await ConfTable.create({ name: 'init' })
+		init(init)
 	}
 	else {
 		if (init.value === 'false' || init.value === null) {
-			console.log('initialisation')
-			firstInit(init)
+			init(init)
 		}
 	}
 }
 
-//await checkIfAppNeedInit()
-
 try {
 	//console.log(await getToken())
-	checkConnection()
 	//introspection()
+	//await checkIfAppNeedInit()
+	const { collection: { products } } = await fetchSC(config.token, 'UserDiary')
+	try {
+		console.log(formatItems(products)
+		)
 
+	} catch (error) {
+		console.log(error)
+
+	}
 } catch (error) {
 
 }

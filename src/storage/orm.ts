@@ -31,7 +31,7 @@ export const Item = orm.define('Item', {
 }, {
 	defaultScope: { attributes: { exclude: ['originalTitle', 'year', 'slugTitle', 'fullPictureUrl', 'createdAt'] } }
 })
-export const Conf = orm.define('Conf', {
+export const ConfTable = orm.define('Conf', {
 	name: {
 		type: DataTypes.STRING,
 		primaryKey: true
