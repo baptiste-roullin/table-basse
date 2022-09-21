@@ -3,7 +3,7 @@ import pMap from 'p-map'
 
 import dotenv from 'dotenv'
 dotenv.config()
-import { ItemT } from '../types.js'
+import { Item } from '../types.js'
 
 import { v2 as cloudinary } from "cloudinary";
 

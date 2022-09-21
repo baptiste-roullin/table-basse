@@ -1,6 +1,6 @@
-import { ItemT } from '../types.js';
+import { Item, ItemAttributes } from '../storage/orm.js';
 
-export default function (rawItems: Array<any>): ItemT[] {
+export default function (rawItems: Array<Record<string, any>>): ItemAttributes[] {
 
 	return rawItems.map((item) => {
 		return {

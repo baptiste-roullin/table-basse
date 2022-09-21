@@ -3,7 +3,7 @@ import cheerio from 'cheerio'
 import got from 'got'
 import dotenv from 'dotenv'
 dotenv.config()
-import { ItemT } from '../types.js'
+import { Item } from '../types.js'
 import pMap from 'p-map'
 import { config } from '../main.js'
 import { extractItems, getFullPictureUrl, getWatchedDates } from './parse.js'
