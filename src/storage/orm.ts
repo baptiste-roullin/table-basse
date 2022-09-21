@@ -1,8 +1,48 @@
 import dotenv from 'dotenv'
 dotenv.config()
 
-import { Sequelize, DataTypes, ModelAttributes, Op, FindOptions } from 'sequelize'
+import { Sequelize, DataTypes, Optional, ModelAttributes, Model, Op, FindOptions } from 'sequelize'
 import { categories } from '../types.js'
+
+export interface ItemAttributes {
+	category: string
+	id: number
+	originalTitle: string
+	frenchTitle: string
+	year: Date
+	watchedDate?: string
+	watchedYear?: Date
+	pageUrl: string
+	slugTitle?: string
+	fullPictureUrl?: string
+	CDNUrl?: string
+	directors?: string
+	illustrators?: string
+	creators?: string[]
+}
+
+export interface ItemInput extends Optional<ItemAttributes, 'id'> { }
+export interface ItemOuput extends Required<ItemAttributes> { }
+
+export class Item extends Model<ItemInput, ItemOuput> implements ItemAttributes {
+	public category: string
+	public id: number
+	public originalTitle: string
+	public frenchTitle: string
+	public year: Date
+	public watchedDate?: string
+	public watchedYear?: Date
+	public pageUrl: string
+	public slugTitle?: string
+	public fullPictureUrl?: string
+	public CDNUrl?: string
+	public directors?: string
+	public illustrators?: string
+	public creators?: string[]
+	public readonly createdAt!: Date;
+	public readonly updatedAt!: Date;
+	public readonly deletedAt!: Date;
+}
 
 if (process.env.NODE_ENV === 'production') {
 }
@@ -12,8 +52,7 @@ else {
 
 export const orm = new Sequelize(process.env.DATABASE_URL)
 
-
-export const Item = orm.define('Item', {
+Item.init({
 	id: {
 		type: DataTypes.STRING,
 		primaryKey: true
@@ -29,8 +68,14 @@ export const Item = orm.define('Item', {
 	fullPictureUrl: DataTypes.STRING,
 	CDNUrl: DataTypes.STRING
 }, {
+	sequelize: orm,
+	timestamps: true,
+	paranoid: true,
 	defaultScope: { attributes: { exclude: ['originalTitle', 'year', 'slugTitle', 'fullPictureUrl', 'createdAt'] } }
-})
+}
+)
+
+
 export const ConfTable = orm.define('Conf', {
 	name: {
 		type: DataTypes.STRING,

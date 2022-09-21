@@ -1,8 +1,8 @@
 import { config } from './main.js'
 import fs from 'node:fs/promises'
-import { ItemT, User } from './types.js';
+import { User } from './types.js';
 
-export default async function fetchSC(token, operationName: 'UserDiary' | 'UserStats' | 'Product'): Promise<User | any> {
+export default async function fetchSC(token, operationName: 'UserDiary' | 'UserStats' | 'Product'): Promise<User> {
 
 
 	async function gql(operationName) {

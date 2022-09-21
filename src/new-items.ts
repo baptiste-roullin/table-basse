@@ -11,7 +11,7 @@ export async function getNewItemsFromSC(mode: 'collection' | 'journal', cat: str
 	orm.sync()
 	const newGlobalCount = await scapeGlobalCount(`${config.TB_HOST}/${config.TB_USERNAME}/journal/${cat}/page-999999999.ajax`)
 
-	let globalCountObject: any = await ConfTable.findByPk('scrappedCount')
+	let globalCountObject = await ConfTable.findByPk('scrappedCount')
 	let oldGlobalCount = Number(globalCountObject.value)
 	console.log(`oldGlobalCount : ${oldGlobalCount} -- newGlobalCount : ${newGlobalCount}`)
 

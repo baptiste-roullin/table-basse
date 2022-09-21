@@ -55,7 +55,7 @@ app.use('/api', router);
 //On checke si elle existe et si elle est true
 async function checkIfAppNeedInit() {
 	await ConfTable.sync()
-	let init: any = await ConfTable.findByPk('init')
+	let init = await ConfTable.findByPk('init')
 	if (!init) {
 		init = await ConfTable.create({ name: 'init' })
 		init(init)
@@ -71,10 +71,9 @@ try {
 	//console.log(await getToken())
 	//introspection()
 	//await checkIfAppNeedInit()
-	const { collection: { products } } = await fetchSC(config.token, 'UserDiary')
+	//const { collection: { products } } = await fetchSC(config.token, 'UserDiary')
 	try {
-		console.log(formatItems(products)
-		)
+		//	console.log(formatItems(products))
 
 	} catch (error) {
 		console.log(error)
