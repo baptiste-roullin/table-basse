@@ -54,15 +54,15 @@ export const orm = new Sequelize(process.env.DATABASE_URL)
 
 Item.init({
 	id: {
-		type: DataTypes.STRING,
+		type: DataTypes.INTEGER,
 		primaryKey: true
 	},
 	category: DataTypes.STRING,
 	originalTitle: DataTypes.STRING,
 	frenchTitle: DataTypes.STRING,
 	year: DataTypes.INTEGER,
-	watchedDate: DataTypes.STRING,
-	watchedYear: DataTypes.STRING,
+	watchedDate: DataTypes.DATE,
+	watchedYear: DataTypes.DATE,
 	pageUrl: DataTypes.STRING,
 	slugTitle: DataTypes.STRING,
 	fullPictureUrl: DataTypes.STRING,
