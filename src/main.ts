@@ -18,7 +18,7 @@ function setStaticUrl() {
 		case 'production':
 			console.log('env : ' + config.NODE_ENV)
 			return Path.normalize('front/dist');
-		case 'development':
+		case 'dev':
 			console.log('env : ' + config.NODE_ENV)
 			return Path.normalize('front/public');
 		default:
@@ -33,9 +33,8 @@ import historyFallback from 'connect-history-api-fallback'
 import serveStatic from 'serve-static'
 import { Item, ConfTable } from './storage/orm.js'
 import { router } from './routes/routes.js'
-import { init } from './init.js'
+import initApp from './init.js'
 import getToken from './getToken.js';
-import fetchSC from './fetchSC.js';
 import formatItems from './queries/formatItems.js';
 //import longpoll from "express-longpoll"
 
@@ -55,29 +54,21 @@ app.use('/api', router);
 //On checke si elle existe et si elle est true
 async function checkIfAppNeedInit() {
 	await ConfTable.sync()
-	let init = await ConfTable.findByPk('init')
-	if (!init) {
-		init = await ConfTable.create({ name: 'init' })
-		init(init)
-	}
-	else {
-		if (init.value === 'false' || init.value === null) {
-			init(init)
-		}
+	let init = await ConfTable.findByPk('initStatus')
+	if (!init || init?.value === 'false') {
+		init = await ConfTable.create({ name: 'initStatus' })
+		initApp(init)
 	}
 }
 
 try {
-	//console.log(await getToken())
-	//introspection()
-	//await checkIfAppNeedInit()
+	await checkIfAppNeedInit()
 	//const { collection: { products } } = await fetchSC(config.token, 'UserDiary')
+
 	try {
-		//	console.log(formatItems(products))
 
 	} catch (error) {
 		console.log(error)
-
 	}
 } catch (error) {
 

@@ -1,66 +1,76 @@
+import { request, GraphQLClient, gql } from 'graphql-request'
+
 import { config } from './main.js'
-import fs from 'node:fs/promises'
-import { User } from './types.js';
+import { promises as fs } from 'fs';
+import { Collection, User, UserStats } from './types.d.js';
 
-export default async function fetchSC(token, operationName: 'UserDiary' | 'UserStats' | 'Product'): Promise<User> {
+async function fetchSC(token, operationName: 'UserDiary' | 'User' | 'Product') {
 
 
-	async function gql(operationName) {
-		let variables = {
-			username: config['TB_USERNAME'],
+	const endpoint = 'https://apollo.senscritique.com/';
+
+	let variables = {
+		username: config['TB_USERNAME'],
+	}
+
+	switch (operationName) {
+		case 'UserDiary':
+			Object.assign(variables, {
+				isDiary: true,
+				"limit": 20,
+				"offset": 0,
+				"universe": null,
+				"yearDateDone": null
+			})
+			break;
+		case 'User':
+			Object.assign(variables, {
+				isDiary: true,
+				"limit": 0,
+
+			})
+		default:
+			break;
+	}
+
+	try {
+
+
+		const res = await request({
+			url: endpoint,
+			document: await fs.readFile(`./src/queries/${operationName}.gql`, { encoding: 'utf8' }),
+			variables: variables,
+			requestHeaders: {
+				'authorization': token
+			}
+		})
+
+		if (!res?.user) {
+			throw new Error("réponse vide")
 		}
 
 		switch (operationName) {
 			case 'UserDiary':
-				Object.assign(variables, {
-					isDiary: true,
-					"limit": 20,
-					"offset": 0,
-					"universe": null,
-					"yearDateDone": null
-				})
-				break;
-			case 'UserStats':
+				return res.collection as Collection
+			case 'User':
+				return res.stats as User
 			default:
 				break;
 		}
-		return {
-			"operationName": operationName,
-			"variables": variables,
-			"query": await fs.readFile(`./src/queries/${operationName}.gql`, { encoding: 'utf8' })
-		}
-	}
 
-	try {
-		let url = 'https://apollo.senscritique.com/';
-		let options = {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				'Accept': 'application/json',
-				'authorization': token
-			},
 
-			body: JSON.stringify(
-				[
-					await gql(operationName)
-				])
-		}
-		const res = await fetch(url, options)
-		const data = await res.json()
-		if (!res.ok) {
-			throw Error(res.statusText)
-		}
-		if ('errors' in data[0]) {
-			const err = data[0].errors[0]
-			console.log(err.message, err.locations);
-			throw new Error("erreur GraphqQL")
-		}
-
-		//console.log(data[0].data.user);
-		return data[0].data.user
-		//console.log(await data[0].data.user.collection.products.length, res.status);
 	} catch (error) {
-		console.error('error:' + error)
+		console.log(error);
+
 	}
+
+}
+
+
+export async function fetchCollection(): Promise<Collection> {
+	return await fetchSC(config.token, 'UserDiary') as Collection
+}
+
+export async function fetchUser(): Promise<User> {
+	return await fetchSC(config.token, 'UserDiary') as User
 }
