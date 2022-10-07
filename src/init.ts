@@ -1,36 +1,29 @@
 
 import { config } from './main.js'
-import crawl from './crawl/crawl.js'
 
 import { Item, ConfTable, orm, createCountsByYear } from './storage/orm.js';
-import { scapeGlobalCount } from './crawl/parse.js';
 import { Storage } from './storage/images.js'
-import fetchSC from './fetchSC.js';
-import { User } from './types.js';
+import { fetchUser, fetchCollection } from './fetchSC.js';
+import { User } from './types.d.js';
 import getToken from './getToken.js';
 import formatItems from './queries/formatItems.js';
 
 
 
-export async function init(init) {
+export default async function (init) {
 
 	console.log('initialisation')
 	const storage = new Storage()
 	await orm.sync()
 
 	async function getAndStoreItems() {
-
-
 		const token = getToken()
-
 		await ConfTable.findOrCreate(
 			{
 				where: { name: 'token' },
 				defaults: { name: 'token', value: token }
 			});
-
-		const user: User = await fetchSC(token, 'UserStats')
-
+		const user = await fetchUser()
 		if (user.settings.privacyProfile === true) {
 			throw new Error('Ce compte est privé')
 		}
@@ -44,8 +37,8 @@ export async function init(init) {
 			});
 
 		// données textuelles
-		const data = await fetchSC(token, 'UserDiary')
-		let items = formatItems(data.collection)
+		const { products } = await fetchCollection()
+		let items = formatItems(products)
 		//upload des images. on en tire l'URL de l'image qu'on ajoute à l'objet
 		items = await storage.storePictures(items)
 

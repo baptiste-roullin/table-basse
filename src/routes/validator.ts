@@ -3,7 +3,7 @@
 // get errorMessage() {}
 // function isValid() {}
 
-import { categories } from "../types.js"
+const categories = ["film", "livre", "jeuvideo", "serie", "bd", "album"]
 
 
 class Validator {

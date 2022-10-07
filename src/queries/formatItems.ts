@@ -1,6 +1,8 @@
 import { Item, ItemAttributes } from '../storage/orm.js';
+import { Collection, User } from '../types.d.js';
 
-export default function (rawItems: Array<Record<string, any>>): ItemAttributes[] {
+
+export default function (rawItems: Collection['products']): ItemAttributes[] {
 
 	return rawItems.map((item) => {
 		return {

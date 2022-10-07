@@ -1,8 +1,10 @@
 import dotenv from 'dotenv'
 dotenv.config()
 
+const categories = ["film", "livre", "jeuvideo", "serie", "bd", "album"]
+
+
 import { Sequelize, DataTypes, Optional, ModelAttributes, Model, Op, FindOptions } from 'sequelize'
-import { categories } from '../types.js'
 
 export interface ItemAttributes {
 	category: string
@@ -47,10 +49,10 @@ export class Item extends Model<ItemInput, ItemOuput> implements ItemAttributes 
 if (process.env.NODE_ENV === 'production') {
 }
 else {
-	console.log('environnement : dev');
+	console.log('pas en env de prod');
 }
 
-export const orm = new Sequelize(process.env.DATABASE_URL)
+export const orm = new Sequelize(process.env.DATABASE_URL, { dialect: 'postgres' })
 
 Item.init({
 	id: {
@@ -75,15 +77,26 @@ Item.init({
 }
 )
 
-
-export const ConfTable = orm.define('Conf', {
-	name: {
-		type: DataTypes.STRING,
-		primaryKey: true
-	},
-	value: DataTypes.STRING
+export class ConfTable extends Model {
+	name: string
+	value: string
 }
-)
+
+ConfTable.init(
+	{
+		name: {
+			type: DataTypes.STRING,
+			primaryKey: true
+		},
+		value: DataTypes.STRING
+	},
+	{
+		sequelize: orm,
+		timestamps: true,
+		paranoid: true,
+	})
+
+
 
 function statAttributes(): ModelAttributes {
 	let attrs: any = {}
