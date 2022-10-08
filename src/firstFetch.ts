@@ -1,5 +1,5 @@
 
-import { Item as Items, Setting as Settings, orm, checkDBConnection } from './storage/orm.js';
+import { Item as Items, Setting as Settings, orm, checkDBConnection, createCountsByYear } from './storage/orm.js';
 import { Storage } from './storage/images.js'
 import { fetchUser, fetchCollection } from './fetch/fetchSC.js';
 import getToken from './fetch/getToken.js';
@@ -45,6 +45,7 @@ export default async function (init) {
 	try {
 		//On remplit une table avec le nombre d'items par année et par catégorie
 		await getAndStoreItems()
+		await createCountsByYear()
 
 		init.value = false
 		await init.save();

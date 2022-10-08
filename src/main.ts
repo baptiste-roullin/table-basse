@@ -6,7 +6,7 @@ import express from 'express'
 import cors from 'cors'
 import historyFallback from 'connect-history-api-fallback'
 import serveStatic from 'serve-static'
-import { Item, Setting as Settings } from './storage/orm.js'
+import { createCountsByYear, Item, Setting as Settings } from './storage/orm.js'
 import { router } from './routes/routes.js'
 import initApp from './firstFetch.js'
 import { fetchUser } from './fetch/fetchSC.js'
@@ -51,7 +51,8 @@ async function checkIfAppNeedInit() {
 
 try {
 
-	await checkIfAppNeedInit()
+	//	await checkIfAppNeedInit()
+	await createCountsByYear()
 	//console.log(await fetchUser())
 
 	//const { collection: { products } } = await fetchSC(config.token, 'UserDiary')

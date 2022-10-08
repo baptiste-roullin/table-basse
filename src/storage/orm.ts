@@ -1,9 +1,10 @@
 import dotenv from 'dotenv'
 dotenv.config()
 
-const categories = ["film", "livre", "jeuvideo", "serie", "bd", "album"]
+
 
 import { Sequelize, DataTypes, Optional, ModelAttributes, Model, Op, FindOptions } from 'sequelize'
+import { Universes } from '../../types.d.js';
 
 export const orm = new Sequelize(process.env.DATABASE_URL, { dialect: 'postgres' })
 
@@ -101,7 +102,7 @@ Setting.init(
 function statAttributes(): ModelAttributes {
 	let attrs: any = {}
 
-	categories.forEach(cat => {
+	Object.keys(Universes).forEach(cat => {
 		attrs[cat] = { type: DataTypes.INTEGER, defaultValue: 0 }
 	});
 	return attrs
@@ -110,7 +111,7 @@ function statAttributes(): ModelAttributes {
 
 const attrs = statAttributes()
 attrs.year = {
-	type: DataTypes.STRING,
+	type: DataTypes.NUMBER,
 	primaryKey: true
 }
 
@@ -144,7 +145,9 @@ export async function requestItems(req) {
 }
 
 
-export async function requestCountsByYear() {
+export async function requestCountsByYear(universes) {
+
+	const categories = Object.keys(Universes)
 	const countsByYearQuery = await Count.findAll()
 	const promises = categories.map(async (cat, index, array) => {
 		return { [cat]: await Count.sum(cat) }
@@ -161,6 +164,7 @@ export async function requestCountsByYear() {
 }
 
 export async function createCountsByYear() {
+	const categories = Object.keys(Universes)
 
 	async function getCount(cat) {
 		return {
@@ -171,7 +175,7 @@ export async function createCountsByYear() {
 			})
 		}
 	}
-	const promises = categories.map(cat => getCount(cat))
+	const promises = Object.values(Universes).map(universe => getCount(universe))
 	const counts: Array<Object> = await Promise.all(promises)
 	const countsByCat = Object.assign({}, ...counts)
 
@@ -187,6 +191,7 @@ export async function createCountsByYear() {
 			});
 		}
 	}
+	console.log(counts, countsByCat);
 
 	const toDB = Object.entries(countsByYear).map(
 		([key, values]: [...any]) => {
