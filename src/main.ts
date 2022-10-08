@@ -1,82 +1,70 @@
 #!/usr/bin/env ts-node
-
-// Variables d'environnement obligatoires
-import Path from 'path'
-import dotenv from 'dotenv'
-dotenv.config()
-export const config = process.env
-config.STATIC_URL = setStaticUrl();
-const checkEnv = ['TB_USERNAME', 'TB_PWD', 'TB_EMAIL', 'CLOUDINARY_URL', 'TB_HOST'].every((el) => {
-	return Object.keys(config).includes(el)
-})
-if (!checkEnv) {
-	console.log('il manque une clé dans .env')
-}
-
-function setStaticUrl() {
-	switch (config.NODE_ENV) {
-		case 'production':
-			console.log('env : ' + config.NODE_ENV)
-			return Path.normalize('front/dist');
-		case 'dev':
-			console.log('env : ' + config.NODE_ENV)
-			return Path.normalize('front/public');
-		default:
-			throw new Error("please set NODE_ENV");
-	}
-}
+import { config } from './setEnv.js'
 
 // imports placés après pour éviter des refs circulaires
 import express from 'express'
 import cors from 'cors'
 import historyFallback from 'connect-history-api-fallback'
 import serveStatic from 'serve-static'
-import { Item, ConfTable } from './storage/orm.js'
+import { Item, Setting as Settings } from './storage/orm.js'
 import { router } from './routes/routes.js'
-import initApp from './init.js'
-import getToken from './getToken.js';
-import formatItems from './queries/formatItems.js';
-//import longpoll from "express-longpoll"
+import initApp from './firstFetch.js'
+import { fetchUser } from './fetch/fetchSC.js'
+
+
+
+/* FRONT */
 
 export const app = express()
-/*//Au rechargement de page par l'utilisateur, réécrit l'URL pour renvoyer à index.html, afin que le routage soit géré par Vue.
+//Au rechargement de page par l'utilisateur, réécrit l'URL pour renvoyer à index.html, afin que le routage soit géré par Vue.
 app.use(historyFallback())
 
 // accès à l'app vue.js buildée dans le dossier dist
 app.use(serveStatic('front/dist'))
 
-app.use(cors())*/
-
+app.use(cors())
 // Routes fournissant les données à l'app front
 app.use('/api', router);
+
+
+/* FRONT */
+
 
 //Un champ dans la table Conf détermine si l'app a été initialisée.
 //On checke si elle existe et si elle est true
 async function checkIfAppNeedInit() {
-	await ConfTable.sync()
-	let init = await ConfTable.findByPk('initStatus')
-	if (!init || init?.value === 'false') {
-		init = await ConfTable.create({ name: 'initStatus' })
-		initApp(init)
+	await Settings.sync()
+	let [initValue] = await Settings.findOrCreate({
+		where: { name: 'initStatus' },
+		defaults: { name: 'initStatus', value: false }
+	});
+	console.log(initValue.value);
+
+	if (!initValue.value) {
+		initApp(initValue)
 	}
+	else (
+		console.log("app initialisée")
+
+	)
 }
 
+
 try {
+
 	await checkIfAppNeedInit()
+	//console.log(await fetchUser())
+
 	//const { collection: { products } } = await fetchSC(config.token, 'UserDiary')
 
-	try {
-
-	} catch (error) {
-		console.log(error)
-	}
 } catch (error) {
+	console.log(error)
 
 }
 
 const port = config.PORT || 3000
 
-const server = app.listen(port, () => {
+app.listen(port, () => {
 	console.log(`Listening on port ${port}.`)
 });
 

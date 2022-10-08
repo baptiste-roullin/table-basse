@@ -1,5 +1,5 @@
 import { Item, ItemAttributes } from '../storage/orm.js';
-import { Collection, User } from '../types.d.js';
+import { Collection, User } from '../../types.js';
 
 
 export default function (rawItems: Collection['products']): ItemAttributes[] {
