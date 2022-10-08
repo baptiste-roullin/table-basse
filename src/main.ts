@@ -38,8 +38,7 @@ async function checkIfAppNeedInit() {
 		where: { name: 'initStatus' },
 		defaults: { name: 'initStatus', value: false }
 	});
-	console.log(initValue.value);
-
+	initValue.value = false
 	if (!initValue.value) {
 		initApp(initValue)
 	}

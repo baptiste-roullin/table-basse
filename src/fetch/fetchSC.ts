@@ -27,7 +27,6 @@ async function fetchSC(token, operationName: 'UserDiary' | 'UserStats' | 'Produc
 			Object.assign(variables, {
 				isDiary: true,
 				"limit": 0,
-
 			})
 		default:
 			break;

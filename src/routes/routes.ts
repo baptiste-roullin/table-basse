@@ -55,14 +55,14 @@ router.route('/items/:category/:year').get(async (req, res) => {
 })
 
 
-
+/*
 // Importe de nouvaux items depuis Sens Critique
 // Jamais déclenché actuellement, puisqu'un job heroku lance new-items-job.ts
 router.route('/newItems/:category').get(async (req, res) => {
 	const errors = validateReq(req)
 	const newData = await getNewItemsFromSC('collection', req.params.category)
 	res.status(200).send(newData)
-})
+})*/
 
 /*router.route('/init/:username').post(async (req, res) => {
 	console.log(req.params.username);
