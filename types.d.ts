@@ -30,8 +30,7 @@ export interface Collection {
 export interface UserStats {
 	diaryCount: number
 }
-
-declare enum Universes {
+export enum Universes {
 
 	"Films" = 1,
 	"Livres" = 2,
