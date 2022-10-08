@@ -5,16 +5,18 @@ import { Collection, User } from '../../types.js';
 export default function (rawItems: Collection['products']): ItemAttributes[] {
 
 	return rawItems.map((item) => {
+
 		return {
 			category: item.universe,
 			id: item.id,
 			originalTitle: item.originalTitle,
 			frenchTitle: item.title,
-			year: item.displayedYear,
+			dateRelease: new Date(item.dateRelease),
 			pageUrl: item.url,
 			slugTitle: item.slug,
 			fullPictureUrl: item.medias?.picture,
-			watchedDate: item.currentUserInfos?.dateDone
+			watchedDate: item.currentUserInfos?.dateDone,
+			watchedYear: item.currentUserInfos?.dateDone.slice(0, 4)
 		}
 	})
 }

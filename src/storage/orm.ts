@@ -3,9 +3,7 @@ dotenv.config()
 
 const categories = ["film", "livre", "jeuvideo", "serie", "bd", "album"]
 
-
 import { Sequelize, DataTypes, Optional, ModelAttributes, Model, Op, FindOptions } from 'sequelize'
-
 
 export const orm = new Sequelize(process.env.DATABASE_URL, { dialect: 'postgres' })
 
@@ -18,17 +16,14 @@ export async function checkDBConnection() {
 	}
 }
 
-
-
-
 export interface ItemAttributes {
-	category: string
+	category: number
 	id: number
 	originalTitle: string
 	frenchTitle: string
-	year: Date
-	watchedDate?: string
-	watchedYear?: Date
+	dateRelease: Date
+	watchedDate?: Date
+	watchedYear?: number
 	pageUrl: string
 	slugTitle?: string
 	fullPictureUrl?: string
@@ -42,13 +37,13 @@ export interface ItemInput extends Optional<ItemAttributes, 'id'> { }
 export interface ItemOuput extends Required<ItemAttributes> { }
 
 export class Item extends Model<ItemInput, ItemOuput> implements ItemAttributes {
-	public category: string
+	public category: number
 	public id: number
 	public originalTitle: string
 	public frenchTitle: string
-	public year: Date
-	public watchedDate?: string
-	public watchedYear?: Date
+	public dateRelease: Date
+	public watchedDate?: Date
+	public watchedYear?: number
 	public pageUrl: string
 	public slugTitle?: string
 	public fullPictureUrl?: string
@@ -61,8 +56,6 @@ export class Item extends Model<ItemInput, ItemOuput> implements ItemAttributes 
 	public readonly deletedAt!: Date;
 }
 
-
-
 Item.init({
 	id: {
 		type: DataTypes.INTEGER,
@@ -71,9 +64,9 @@ Item.init({
 	category: DataTypes.STRING,
 	originalTitle: DataTypes.STRING,
 	frenchTitle: DataTypes.STRING,
-	year: DataTypes.INTEGER,
+	dateRelease: DataTypes.DATE,
 	watchedDate: DataTypes.DATE,
-	watchedYear: DataTypes.DATE,
+	watchedYear: DataTypes.INTEGER,
 	pageUrl: DataTypes.STRING,
 	slugTitle: DataTypes.STRING,
 	fullPictureUrl: DataTypes.STRING,
@@ -82,7 +75,7 @@ Item.init({
 	sequelize: orm,
 	timestamps: true,
 	paranoid: true,
-	defaultScope: { attributes: { exclude: ['originalTitle', 'year', 'slugTitle', 'fullPictureUrl', 'createdAt'] } }
+	defaultScope: { attributes: { exclude: ['originalTitle', 'dateRelease', 'slugTitle', 'fullPictureUrl', 'createdAt'] } }
 }
 )
 
@@ -105,8 +98,6 @@ Setting.init(
 		paranoid: true,
 	})
 
-
-
 function statAttributes(): ModelAttributes {
 	let attrs: any = {}
 
@@ -126,8 +117,6 @@ attrs.year = {
 export const Count = orm.define('Count', attrs, {
 	defaultScope: { attributes: { exclude: ['updatedAt', 'createdAt'] } }
 })
-
-
 
 export async function requestItems(req) {
 	const params = (): FindOptions => {

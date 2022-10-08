@@ -22,12 +22,10 @@ export default async function (init) {
 
 		const user = await fetchUser()
 
-
 		if (user?.settings.privacyProfile === true) {
 			throw new Error('Ce compte est privé')
 		}
 
-		// on  stocke le nombre global d'items pour déterminer à l'avenir le nombre d'items à requeter.
 		const count = user.stats.diaryCount
 		await Settings.findOrCreate({
 			where: { name: 'count' },
@@ -35,7 +33,7 @@ export default async function (init) {
 		});
 
 		// données textuelles
-		const { products } = await fetchCollection()
+		const { products, filters } = await fetchCollection()
 		let items = formatItems(products)
 		//upload des images. on en tire l'URL de l'image qu'on ajoute à l'objet
 		//	items = await storage.storePictures(items)
@@ -48,7 +46,7 @@ export default async function (init) {
 		//On remplit une table avec le nombre d'items par année et par catégorie
 		await getAndStoreItems()
 
-		init.value = true
+		init.value = false
 		await init.save();
 		console.log('appli initialisée')
 	} catch (error) {
