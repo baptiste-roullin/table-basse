@@ -6,6 +6,21 @@ const categories = ["film", "livre", "jeuvideo", "serie", "bd", "album"]
 
 import { Sequelize, DataTypes, Optional, ModelAttributes, Model, Op, FindOptions } from 'sequelize'
 
+
+export const orm = new Sequelize(process.env.DATABASE_URL, { dialect: 'postgres' })
+
+export async function checkDBConnection() {
+	try {
+		await orm.authenticate();
+		console.log('Connection has been established successfully.');
+	} catch (error) {
+		console.error('Unable to connect to the database:', error);
+	}
+}
+
+
+
+
 export interface ItemAttributes {
 	category: string
 	id: number
@@ -46,13 +61,7 @@ export class Item extends Model<ItemInput, ItemOuput> implements ItemAttributes 
 	public readonly deletedAt!: Date;
 }
 
-if (process.env.NODE_ENV === 'production') {
-}
-else {
-	console.log('pas en env de prod');
-}
 
-export const orm = new Sequelize(process.env.DATABASE_URL, { dialect: 'postgres' })
 
 Item.init({
 	id: {
@@ -77,12 +86,12 @@ Item.init({
 }
 )
 
-export class ConfTable extends Model {
+export class Setting extends Model {
 	name: string
-	value: string
+	value: any
 }
 
-ConfTable.init(
+Setting.init(
 	{
 		name: {
 			type: DataTypes.STRING,
