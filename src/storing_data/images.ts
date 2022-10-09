@@ -3,7 +3,7 @@ import pMap from 'p-map'
 
 import dotenv from 'dotenv'
 dotenv.config()
-import { Item } from '../storage/orm.js'
+import { Item } from './orm.js'
 
 import { v2 as cloudinary } from "cloudinary";
 

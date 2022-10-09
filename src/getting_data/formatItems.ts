@@ -1,4 +1,4 @@
-import { Item, ItemAttributes } from '../storage/orm.js';
+import { Item, ItemAttributes } from '../storing_data/orm.js';
 import { Collection, User } from '../../types.js';
 
 

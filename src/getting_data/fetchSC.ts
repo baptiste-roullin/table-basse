@@ -35,7 +35,7 @@ async function fetchSC(token, operationName: 'UserDiary' | 'UserStats' | 'Produc
 	try {
 		const res = await request({
 			url: endpoint,
-			document: await fs.readFile(`./src/fetch/${operationName}.gql`, { encoding: 'utf8' }),
+			document: await fs.readFile(`./src/getting_data/${operationName}.gql`, { encoding: 'utf8' }),
 			variables: variables,
 			requestHeaders: {
 				'authorization': token
