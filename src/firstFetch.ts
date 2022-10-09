@@ -1,9 +1,9 @@
 
-import { Item as Items, Setting as Settings, orm, checkDBConnection, createCountsByYear } from './storage/orm.js';
-import { Storage } from './storage/images.js'
-import { fetchUser, fetchCollection } from './fetch/fetchSC.js';
-import getToken from './fetch/getToken.js';
-import formatItems from './fetch/formatItems.js';
+import { Item as Items, Setting as Settings, orm, checkDBConnection, createCountsByYear } from './storing_data/orm.js';
+import { Storage } from './storing_data/images.js'
+import { fetchUser, fetchCollection } from './getting_data/fetchSC.js';
+import getToken from './getting_data/getToken.js';
+import formatItems from './getting_data/formatItems.js';
 
 
 
