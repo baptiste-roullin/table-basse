@@ -1,8 +1,6 @@
 import dotenv from 'dotenv'
 dotenv.config()
 
-
-
 import { Sequelize, DataTypes, Optional, ModelAttributes, Model, Op, FindOptions } from 'sequelize'
 import { Universes } from '../../types.js';
 
@@ -17,27 +15,7 @@ export async function checkDBConnection() {
 	}
 }
 
-export interface ItemAttributes {
-	category: number
-	id: number
-	originalTitle: string
-	frenchTitle: string
-	dateRelease: Date
-	watchedDate?: Date
-	watchedYear?: number
-	pageUrl: string
-	slugTitle?: string
-	fullPictureUrl?: string
-	CDNUrl?: string
-	directors?: string
-	illustrators?: string
-	creators?: string[]
-}
-
-export interface ItemInput extends Optional<ItemAttributes, 'id'> { }
-export interface ItemOuput extends Required<ItemAttributes> { }
-
-export class Item extends Model<ItemInput, ItemOuput> implements ItemAttributes {
+export class Item extends Model {
 	public category: number
 	public id: number
 	public originalTitle: string
@@ -52,9 +30,8 @@ export class Item extends Model<ItemInput, ItemOuput> implements ItemAttributes 
 	public directors?: string
 	public illustrators?: string
 	public creators?: string[]
-	public readonly createdAt!: Date;
-	public readonly updatedAt!: Date;
-	public readonly deletedAt!: Date;
+	public readonly createdAt: Date;
+	public readonly updatedAt: Date;
 }
 
 Item.init({
@@ -114,10 +91,15 @@ attrs.year = {
 	type: DataTypes.NUMBER,
 	primaryKey: true
 }
+console.log(attrs);
 
-export const Count = orm.define('Count', attrs, {
+export class Count extends Model {
+
+}
+
+/*Count.init( attrs, {
 	defaultScope: { attributes: { exclude: ['updatedAt', 'createdAt'] } }
-})
+})*/
 
 export async function requestItems(req) {
 	const params = (): FindOptions => {
