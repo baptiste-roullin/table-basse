@@ -4,7 +4,7 @@ dotenv.config()
 
 
 import { Sequelize, DataTypes, Optional, ModelAttributes, Model, Op, FindOptions } from 'sequelize'
-import { Universes } from '../../types.d.js';
+import { Universes } from '../../types.js';
 
 export const orm = new Sequelize(process.env.DATABASE_URL, { dialect: 'postgres' })
 

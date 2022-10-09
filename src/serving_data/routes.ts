@@ -3,8 +3,8 @@ import express from 'express'
 
 import * as validator from './validator.js'
 import { config } from '../setEnv.js'
-import { requestItems, requestCountsByYear } from '../storage/orm.js'
-import { getNewItemsFromSC } from '../fetch/new-items.js'
+import { requestItems, requestCountsByYear } from '../storing_data/orm.js'
+import { getNewItemsFromSC } from '../getting_data/new-items.js'
 
 // Validation des routes, affreusement compliqué et à
 const validateReq = (req: express.Request) => {
