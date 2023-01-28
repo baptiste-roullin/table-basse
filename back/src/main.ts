@@ -49,10 +49,11 @@ async function checkIfAppNeedInit() {
 }
 
 
+
 try {
 
-	//	await checkIfAppNeedInit()
-	await createCountsByYear()
+	await checkIfAppNeedInit()
+	//await createCountsByYear()
 	//console.log(await fetchUser())
 
 	//const { collection: { products } } = await fetchSC(config.token, 'UserDiary')

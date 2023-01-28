@@ -1,13 +1,13 @@
 import { request, GraphQLClient, gql } from 'graphql-request'
 
 import { config } from '../setEnv.js'
-import { promises as fs } from 'fs';
-import { Collection, User, UserStats } from '../../types.js';
+import { promises as fs } from 'fs'
+import { Collection, User, UserStats } from '../../types.js'
 
 async function fetchSC(token, operationName: 'UserDiary' | 'UserStats' | 'Product') {
 
 
-	const endpoint = 'https://apollo.senscritique.com/';
+	const endpoint = 'https://apollo.senscritique.com/'
 
 	let variables = {
 		username: config['TB_USERNAME'],
@@ -22,20 +22,20 @@ async function fetchSC(token, operationName: 'UserDiary' | 'UserStats' | 'Produc
 				"universe": null,
 				"yearDateDone": null
 			})
-			break;
+			break
 		case 'UserStats':
 			Object.assign(variables, {
 				isDiary: true,
 				"limit": 0,
 			})
 		default:
-			break;
+			break
 	}
 
 	try {
 		const res = await request({
 			url: endpoint,
-			document: await fs.readFile(`./src/getting_data/${operationName}.gql`, { encoding: 'utf8' }),
+			document: await fs.readFile(`./back/getting_data/${operationName}.gql`, { encoding: 'utf8' }),
 			variables: variables,
 			requestHeaders: {
 				'authorization': token
@@ -52,17 +52,13 @@ async function fetchSC(token, operationName: 'UserDiary' | 'UserStats' | 'Produc
 			case 'UserStats':
 				return res.user as User
 			default:
-				break;
+				break
 		}
 
-
 	} catch (error) {
-		console.log(error);
-
+		console.log(error)
 	}
-
 }
-
 
 export async function fetchCollection(): Promise<Collection> {
 

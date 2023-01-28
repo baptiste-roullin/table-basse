@@ -1,5 +1,5 @@
 
-import { Item as Items, Setting as Settings, orm, checkDBConnection, createCountsByYear } from './storing_data/orm.js';
+import { Item, Setting as Settings, orm, checkDBConnection, createCountsByYear } from './storing_data/orm.js';
 import { Storage } from './storing_data/images.js'
 import { fetchUser, fetchCollection } from './getting_data/fetchSC.js';
 import getToken from './getting_data/getToken.js';
@@ -39,7 +39,7 @@ export default async function (init) {
 		//	items = await storage.storePictures(items)
 
 		// maintenant qu'on a tout, on stocke en base
-		await Items.bulkCreate(items, { ignoreDuplicates: true })
+		await Item.bulkCreate(items, { ignoreDuplicates: true })
 	}
 
 	try {

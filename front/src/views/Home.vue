@@ -27,7 +27,6 @@
 
 <script>
 import Vue from "vue";
-import { mapState } from "vuex";
 import items from "../components/items.vue";
 import { myMixin } from "../mixin.js";
 

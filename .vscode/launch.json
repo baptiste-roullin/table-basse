@@ -1,0 +1,65 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"type": "firefox",
+			"request": "launch",
+			"name": "vuejs: firefox",
+			"url": "http://localhost:8080",
+			"webRoot": "${workspaceFolder}/src",
+			"internalConsoleOptions": "openOnSessionStart",
+			"pathMappings": [
+				{
+					"url": "webpack:///src/",
+					"path": "${webRoot}/"
+				}
+			]
+		},
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "debug back",
+			"envFile": "${workspaceFolder}/.env",
+			"internalConsoleOptions": "openOnSessionStart",
+			"console": "internalConsole",
+			"skipFiles": [
+				"<node_internals>/**",
+				"${workspaceFolder}/node_modules/**/*.js",
+				"${workspaceFolder}/lib/**/*.js"
+			],
+			"program": "${workspaceFolder}\\src\\main.ts",
+			"preLaunchTask": "tsc: build - tsconfig.json",
+			"outFiles": [
+				"${workspaceFolder}/build/**/*.js"
+			]
+		},
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "debug new-items-job",
+			"envFile": "${workspaceFolder}/.env",
+			"internalConsoleOptions": "openOnSessionStart",
+			"console": "internalConsole",
+			"skipFiles": [
+				"<node_internals>/**",
+				"${workspaceFolder}/node_modules/**/*.js",
+				"${workspaceFolder}/lib/**/*.js"
+			],
+			"program": "${workspaceFolder}\\build\\new-items-job.js",
+			"preLaunchTask": "tsc: build - tsconfig.json",
+			"outFiles": [
+				"${workspaceFolder}/build/**/*.js"
+			]
+		},
+		{
+			"type": "node",
+			"request": "attach",
+			"name": "Heroku",
+			"address": "localhost",
+			"port": 9229,
+			"protocol": "inspector",
+			"localRoot": "${workspaceFolder}",
+			"remoteRoot": "/app"
+		},
+	]
+}

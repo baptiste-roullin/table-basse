@@ -1,0 +1,12 @@
+mettre en place heroku-scheduler
+
+année suivante si vide
+
+coté client contrôle des params valides pour /:category/:year
+
+
+réessayer une requete pg combinée années - catégories
+
+
+readme
+icone Info

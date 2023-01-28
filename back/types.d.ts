@@ -1,5 +1,5 @@
 
-declare enum categories { "film", "livre", "jeuvideo", "serie", "bd", "album" }
+//declare enum categories { "film", "livre", "jeuvideo", "serie",  "musique", "bd" }
 
 
 /*export interface Data {
@@ -32,10 +32,10 @@ export interface UserStats {
 }
 export enum Universes {
 
-	"Films" = 1,
-	"Livres" = 2,
-	"Jeux vidéo" = 3,
-	"Séries" = 4,
-	"Musique" = 5,
-	"BDs" = 6
+	"Films",
+	"Livres",
+	"Jeux vidéo",
+	"Séries",
+	"Musique",
+	"BDs",
 }
