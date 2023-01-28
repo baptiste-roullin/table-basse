@@ -1,4 +1,4 @@
-import { Item, ItemAttributes } from '../storing_data/orm.js';
+import { ItemAttributes } from '../storing_data/orm.js';
 import { Collection, User } from '../../types.js';
 
 
@@ -7,7 +7,7 @@ export default function (rawItems: Collection['products']): ItemAttributes[] {
 	return rawItems.map((item) => {
 
 		return {
-			category: item.universe,
+			universe: item.universe,
 			id: item.id,
 			originalTitle: item.originalTitle,
 			frenchTitle: item.title,

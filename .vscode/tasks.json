@@ -1,0 +1,38 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "dev",
+			"problemMatcher": [],
+			"label": "npm: dev",
+			"detail": "cross-env NODE_ENV=development nodemon --ignore front/ --exec 'npx ts-node'  ./src/index.ts",
+			"presentation": {
+				"group": "groupA"
+			}
+		},
+		{
+			"type": "npm",
+			"script": "dev",
+			"path": "front/",
+			"problemMatcher": [],
+			"label": "npm: dev - front",
+			"detail": "vue-cli-service serve",
+			"presentation": {
+				"group": "groupA"
+			}
+		},
+		{
+			"label": "dev back & front",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"dependsOn": [
+				"npm: dev",
+				"npm: dev - front"
+			],
+			"problemMatcher": []
+		}
+	]
+}
