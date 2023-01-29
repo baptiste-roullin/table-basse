@@ -18,6 +18,8 @@ function removeDuplicates(storedItems: any[]) {
 	}
 }
 
+
+
 interface State {
 	countsByCat: {
 		string?: number
@@ -31,7 +33,7 @@ interface State {
 		initFront: boolean,
 		zoom: number
 	},
-	logOfRequests: { number: string }[],
+	logOfRequests: string[],
 	categories: Category[],
 	years: {
 		yearsWithItems: number[],
@@ -126,24 +128,32 @@ export const store = defineStore('tb', {
 
 		},
 
-		async getItems({ commit }: any, yearSelected: any) {
+		async getItems(yearSelected: string) {
 			const { settings, years, logOfRequests } = this
 			const cat = settings.currentCategory.code
 
 			// year selected si une année a été choisie dans le <select<
 			// yearsWithItems si click sur Année suivante
-			const year = yearSelected || years.yearsWithItems[years.period.end - 1]
+			const year = yearSelected || String(years.yearsWithItems[years.period.end - 1])
 
 			if (!logOfRequests.includes(`${cat}-${year}`)) {
 				try {
 					const response = await fetch(`${baseURL}/api/items/${cat}/${year}`)
 					if (response.status === 200) {
-						const data = await response.json()
+						const data = await response.json() as []
 
 						if (data.length > 0) {
 							console.log('données reçues')
-							commit('UPDATE_LIST_ITEMS', { newItems: data, year, cat })
-							return data
+							const storedItems = this.items
+							this.logOfRequests.push(`${cat}-${year}`)
+							// si store est vide, on ajoute tout
+							if (storedItems.length === 0) {
+								storedItems.push(...data)
+							} else {
+								//sinon, on enlève les doublons et on ajoute au store le reste
+								const newItemsToPush = data.filter(removeDuplicates(storedItems))
+								storedItems.push(...newItemsToPush)
+							} return data
 						} else {
 							console.log(' items : pas  réponse vide')
 						}
@@ -154,15 +164,7 @@ export const store = defineStore('tb', {
 				}
 			} else { console.log('requête déjà faite') }
 		},
-		//async launchInit ({ commit }) {
-		//	const res = await ajax.post(`${baseURL}/init/${this.state.settings.username}`,)
-		//	if (res.status === 200) {
-		//		if (res.body !== '204') {
-		//			console.log('init')
-		//			commit('PHASE', 2)
-		//		}
-		//	}
-		//},
+
 	},
 })
 

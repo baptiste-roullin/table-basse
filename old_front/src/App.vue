@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import { mapState } from 'vuex'
+import { mapStores } from 'pinia'
+
 import router from './router'
 export default {
 	name: 'App',
