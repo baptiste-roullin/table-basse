@@ -1,46 +1,33 @@
 <template>
 	<main class="Home">
-		<div
-			id="items-lists-container"
-			aria-live="polite"
-			aria-atomic="false"
-		>
-			<items
-				class="items-container"
-				:style="zoomFactor"
-				v-for="year in displayedYears"
-				:year="year"
-				:key="year"
-				:class="{ allCategories: allCategories }"
-			/>
+		<div id="items-lists-container" aria-live="polite" aria-atomic="false">
+			<items class="items-container" :style="zoomFactor" v-for="year in displayedYears" :year="year"
+				:key="year" :class="{ allCategories: allCategories }" />
 		</div>
-		<button
-			class="load-more"
-			type="button"
-			@click="getNextYear"
-			aria-controls="items-lists-container"
-		>
+		<button class="load-more" type="button" @click="getNextYear" aria-controls="items-lists-container">
 			Année précédente
 		</button>
 	</main>
 </template>
 
-<script>
-import Vue from "vue";
-import items from "../components/items.vue";
-import { myMixin } from "../mixin.js";
+<script setup lang="ts">
+import { Vue, created } from "vue"
+import items from "@/components/items.vue"
+import { myMixin } from "../utils.js"
+
+onCreated =>
+
 
 export default {
 	components: { items },
-	mixins: [myMixin],
 
 	created() {
-		this.init();
+		this.init()
 
 		window.addEventListener(
 			"resize",
 			this.debounce(this.changeTransformOrigin, 500)
-		);
+		)
 
 		//switch (this.settings.phase) {
 		//	case 0: //init
@@ -68,19 +55,19 @@ export default {
 		]),
 		allCategories: function () {
 			if (this.settings.currentCategory === "all") {
-				return true;
+				return true
 			} else {
-				return false;
+				return false
 			}
 		},
 		displayedYears() {
-			const { start, end } = this.years.period;
-			return this.years.yearsWithItems.slice(start, end);
+			const { start, end } = this.years.period
+			return this.years.yearsWithItems.slice(start, end)
 		},
 		zoomFactor: function () {
 			return {
 				"--zoom-factor": this.settings.zoom,
-			};
+			}
 		},
 	},
 	methods: {
@@ -88,34 +75,34 @@ export default {
 			// On fixe la catégorie en la récupérant de l'URL
 
 			//on récupère systématiquement des stats, au cas où il y a de nouveaux items
-			const oldCountsByCat = this.countsByCat;
-			const { countsByCat } = await this.$store.dispatch("updateCounts");
+			const oldCountsByCat = this.countsByCat
+			const { countsByCat } = await this.$store.dispatch("updateCounts")
 
 			if (this.settings.initFront !== "true") {
-				await this.$store.dispatch("loadNonEmptyYears");
-				await this.$store.dispatch("setPeriod", { start: 0, end: 1 });
-				this.$store.dispatch("setCategory", this.categories[6]);
-				await this.$store.dispatch("getItems");
-				this.$store.commit("INIT", "true");
+				await this.$store.dispatch("loadNonEmptyYears")
+				await this.$store.dispatch("setPeriod", { start: 0, end: 1 })
+				this.$store.dispatch("setCategory", this.categories[6])
+				await this.$store.dispatch("getItems")
+				this.$store.commit("INIT", "true")
 
 			}
-			const routeParams = this.$route.params;
+			const routeParams = this.$route.params
 			if (routeParams.category) {
 				this.$store.dispatch(
 					"setCategory",
 					this.categories.find(
 						(elem) => elem.code === this.$route.params.category
 					)
-				);
+				)
 			}
 
 			if (routeParams.year) {
-				const index = this.years.yearsWithItems.findIndex((el) => el === routeParams.year);
+				const index = this.years.yearsWithItems.findIndex((el) => el === routeParams.year)
 				console.log(index)
 				await this.$store.dispatch("setPeriod", {
 					start: index,
 					end: index + 1,
-				});
+				})
 
 			}
 
@@ -134,21 +121,21 @@ export default {
 
 				console.log('il y a du nouveau')
 
-				await this.$store.dispatch("setLog", []);
+				await this.$store.dispatch("setLog", [])
 				console.log(this.logOfRequests)
 			}
 
-			await this.$store.dispatch("getItems");
+			await this.$store.dispatch("getItems")
 
 		},
 
 		async getNextYear() {
-			const end = this.years.period.end + 1;
-			await this.$store.dispatch("setPeriod", { end: end });
-			await this.$store.dispatch("getItems");
+			const end = this.years.period.end + 1
+			await this.$store.dispatch("setPeriod", { end: end })
+			await this.$store.dispatch("getItems")
 		},
 	},
-};
+}
 </script>
 
 <style scoped lang="scss">

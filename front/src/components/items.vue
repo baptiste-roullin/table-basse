@@ -1,93 +1,65 @@
 <template>
 	<div>
 
-		<h2
-			class="inline-label"
-			v-if="year === '0000'"
-		>Vu un jour
+		<h2 class="inline-label" v-if="props.year === '0000'">Vu un jour
 
 		</h2>
 		<h2 v-else>
-			{{ year }}
+			{{ props.year }}
 		</h2>
 		<div class="items">
-			<a
-				v-bind:href="`https://www.senscritique.com${item.pageUrl}`"
-				v-for="item in itemsForCurrentYear()"
-				:key="item.id"
-				:class="`item ${settings.currentCategory.code} id-${item.id} ${(item.CDNUrl ? 'img' : 'no-img')} `"
-				:title="`Fiche de l'oeuvre ${item.frenchTitle}`"
-			>
-				<img
-					class="item-img"
-					v-show="isLoaded[item.id]"
-					:src="item.CDNUrl"
-					@load="loaded(item, $event.target)"
-					alt=""
-				/>
+			<a v-bind:href="`https://www.senscritique.com${item.pageUrl}`"
+				v-for="item in itemsForCurrentYear()" :key="item.id"
+				:class="`item ${store.settings.currentCategory.code} id-${item.id} ${(item.CDNUrl ? 'img' : 'no-img')} `"
+				:title="`Fiche de l'oeuvre ${item.frenchTitle}`">
+				<img class="item-img" v-show="isLoaded[item.id]" :src="item.CDNUrl"
+					@load="loaded(item, $event.target)" alt="" />
 
-				<div
-					class="background"
-					:style="`background-image: url(${item.CDNUrl});`"
-				></div>
+				<div class="background" :style="`background-image: url(${item.CDNUrl});`"></div>
 			</a>
 		</div>
 	</div>
 </template>
 
-<script>
+<script setup lang="ts">
 //:selectable="option => !state.currentCategories.find(el => el === option)"
 
-import { mapState, mapGetters } from 'vuex'
-import { myMixin } from '../mixin.js'
+import { reactive, computed, toRefs, onUpdated } from 'vue'
+import VueSlider from 'vue-slider-component'
+import 'vue-slider-component/theme/antd.css'
+import { store as useStore } from '@/stores/index'
+import { useRouter, useRoute } from 'vue-router'
+import { changeTransformOrigin, debounce } from '@/utils'
 
+const store = useStore()
 
-export default {
-	name: 'items',
-	props: ['year', 'ratio'],
-	mixins: [myMixin],
-
-	updated() {
-		this.changeTransformOrigin()
-	},
-	computed: {
-		...mapState(['items', 'categories', 'settings', 'years']),
-		...mapGetters(['itemsForCategory']),
-
-
-
-	},
-
-	data() {
-		return {
-			publicPath: process.env.BASE_URL,
-			isLoaded: {},
-		}
-	},
-	methods: {
-		itemsForCurrentYear() {
-			const array = this.itemsForCategory.filter((item) => item.watchedYear == this.year)
-			if (this.settings.currentCategory.code === 'all') {
-				return array.sort((a, b) => Date.parse(b.watchedDate) - Date.parse(a.watchedDate))
-			}
-			else {
-				return array
-			}
-		},
-		//on n'affiche l'image que quand elle est chargée.
-		// les éléments de la liste étant chargés dynamiquement, on utilise $set() pour les rendre réactifs.
-		loaded(item, el) {
-			this.$set(this.isLoaded, item.id, true)
-
-			//this.$set($attrs.ratio, )
-			const { naturalWidth, naturalHeight } = el
-			if (naturalWidth > naturalHeight * 1.7) {
-				//const imgRatio = (naturalWidth / naturalHeight).toPrecision(2).toString()
-				el.parentElement.classList.add('landscape')
-			}
-		},
-	},
+function itemsForCurrentYear() {
+	const array = store.itemsForCategory.filter((item) => item.watchedYear == store.year)
+	if (store.settings.currentCategory.code === 'all') {
+		return array.sort((a, b) => Date.parse(b.watchedDate) - Date.parse(a.watchedDate))
+	}
+	else {
+		return array
+	}
 }
+
+//on n'affiche l'image que quand elle est chargée.
+// les éléments de la liste étant chargés dynamiquement, on utilise $set() pour les rendre réactifs.
+function loaded(item, el) {
+	isLoaded[item.id] = true
+
+	const { naturalWidth, naturalHeight } = el
+	if (naturalWidth > naturalHeight * 1.7) {
+		//const imgRatio = (naturalWidth / naturalHeight).toPrecision(2).toString()
+		el.parentElement.classList.add('landscape')
+	}
+}
+const props = defineProps(['year'])
+const isLoaded = reactive({})
+onUpdated(() => {
+	changeTransformOrigin()
+})
+
 </script>
 
 <style scoped lang="scss">
