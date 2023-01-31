@@ -4,6 +4,22 @@ const baseURL = process.env.NODE_ENV === 'production' ? '' : 'http://127.0.0.1:3
 
 
 import { defineStore } from 'pinia'
+export interface Item {
+	universe: number
+	id: number
+	originalTitle: string
+	frenchTitle: string
+	dateRelease: Date
+	watchedDate?: Date
+	watchedYear?: number
+	pageUrl: string
+	slugTitle?: string
+	fullPictureUrl?: string
+	CDNUrl?: string
+	directors?: string
+	illustrators?: string
+	creators?: string[]
+}
 
 function removeDuplicates(storedItems: any[]) {
 	// the inner function is the expected callback for the filter method, with current item as a first argumeent.
@@ -21,13 +37,10 @@ function removeDuplicates(storedItems: any[]) {
 
 
 interface State {
-	countsByCat: {
-		string?: number
-	},
-	countsByYear: {
-		number?: Record<number, number>
-	},
-	items: [],
+	countsByCat: Record<string, number>,
+
+	countsByYear: Record<string, Record<number, number>>,
+	items: Item[],
 	settings: {
 		currentCategory: Category,
 		initFront: boolean,
@@ -43,7 +56,7 @@ interface State {
 		}
 	}
 }
-interface Category {
+export interface Category {
 	code: string,
 	label: string
 }
@@ -81,7 +94,7 @@ export const store = defineStore('tb', {
 	getters: {
 		itemsForCategory: state => {
 			const currentCat = state.settings.currentCategory.code
-			const toDisplay = (item: { category: any }) => {
+			const toDisplay = (item: Item) => {
 				return currentCat === item.category || currentCat === 'all'
 			}
 			return state.items.filter(toDisplay)
@@ -128,7 +141,7 @@ export const store = defineStore('tb', {
 
 		},
 
-		async getItems(yearSelected: string) {
+		async getItems(yearSelected: number) {
 			const { settings, years, logOfRequests } = this
 			const cat = settings.currentCategory.code
 

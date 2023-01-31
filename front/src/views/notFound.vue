@@ -1,21 +1,12 @@
 <template>
-	<router-link
-		to="/"
-		class="lost"
-	>
+	<router-link to="/" class="lost">
 		<h1>Page introuvable</h1>
 	</router-link>
 </template>
 
-<script>
-// @ is an alias to /src
-import navBar from '../components/navBar.vue'
+<script setup lang="ts">
 
-export default {
-	name: 'notFound',
-	created() {
-	}
-}
+
 </script>
 
 <style scoped>
@@ -28,10 +19,11 @@ export default {
 
 
 
-@media screen and (max-width:800px){
+@media screen and (max-width:800px) {
 	.lost {
 
-	background-size: contain;}
+		background-size: contain;
+	}
 }
 
 .lost h1 {

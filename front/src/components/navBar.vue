@@ -7,18 +7,18 @@
 		<nav class="controls" v-if="router.currentRoute.name === 'Home'">
 			<!-- ZOOM -->
 			<vue-slider @change="zoomChanged" :value="store.settings.zoom" class="zoom" :min="0.5" :max="4"
-				:interval="0.1" :tooltip="'none'" :contained="'true'"
+				:interval="0.1" :tooltip="'none'" :contained="true"
 				:dot-attrs="{ 'aria-label': 'Varier la taille des images des oeuvres' }" />
 
 			<!-- CATEGORIE -->
 			<v-select aria-controls="items-lists-container" @input="selectCategory"
 				:options="store.categories" :value="store.settings.currentCategory" :searchable="false"
 				:clearable="false" :selectable="
-					(option) => {
-						return countsByCat[option.code] > 0 || option.code === 'all'
+					(option: Category) => {
+						return store.countsByCat[option.code] > 0 || option.code === 'all'
 					}
 				">
-				<template v-slot:option="option">
+				<template v-slot:option="option: Category">
 					<span class="inline-label">{{ option.label }}</span>
 					<span
 						class="inline-count"
@@ -30,16 +30,16 @@
 						class="inline-count"
 						v-else
 					>{{
-	countsByCat[option.code]
+						store.countsByCat[option.code]
 					}}</span>
 				</template>
 			</v-select>
 
 			<!-- ANNÉE -->
 			<v-select aria-controls="items-lists-container" @input="selectYear"
-				:options="years.yearsWithItems" :value="selectedYear" :searchable="false" :clearable="false"
-				:selectable="
-					(option) =>
+				:options="store.years.yearsWithItems" :value="selectedYear" :searchable="false"
+				:clearable="false" :selectable="
+					(option: number) =>
 						store.countsByYear[option][store.settings.currentCategory.code] > 0 ||
 						store.settings.currentCategory.code === 'all'
 				">
@@ -60,13 +60,13 @@
 					<!-- compteur -->
 					<span
 						class="inline-count"
-						v-if="settings.currentCategory.code === 'all'"
+						v-if="store.settings.currentCategory.code === 'all'"
 					></span>
 					<span
 						class="inline-count"
 						v-else
 					>{{
-	countsByYear[option.label][settings.currentCategory.code]
+	store.countsByYear[option.label][store.settings.currentCategory.code]
 					}}</span>
 				</template>
 			</v-select>
@@ -75,19 +75,19 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, computed, toRefs } from 'vue'
+import { computed } from 'vue'
 import VueSlider from 'vue-slider-component'
 import 'vue-slider-component/theme/antd.css'
+import type { Category } from '@/stores/index'
+import { useRouter } from 'vue-router'
+import { changeTransformOrigin, debounce } from '@/utils'
 import { store as useStore } from '@/stores/index'
-import { useRouter, useRoute } from 'vue-router'
-import { debounce } from '@/utils'
 const router = useRouter()
 const store = useStore()
-import { changeTransformOrigin, debounce } from '@/utils'
+store.countsByCat["2022"]
 
 const selectedYear = computed(() => {
 	const year = store.years.yearsWithItems[store.years.period.start || 0]
-
 	return (year === 0 ? "Vu un jour" : year)
 })
 
@@ -98,23 +98,22 @@ const countsByCatTotal = computed(() => {
 })
 
 
-function zoomChanged(val) {
+function zoomChanged(val: number) {
 	//debounce a été pensé pour être utilisé en callback, d'où le () supplémentaire.
 	debounce(changeTransformOrigin, 500)()
-	store.$store.dispatch("setZoom", val)
-
+	store.settings.zoom = val
 }
 
-async function selectCategory(val) {
+async function selectCategory(val: Category) {
 	router.push({ path: `/items/${val.code}/` })
-	store.$store.dispatch("setCategory", val)
+	store.setCategory(val)
 
 	const { start, end } = store.years.period
 	store.years.yearsWithItems.slice(start, end).forEach((year) => {
-		store.$store.dispatch("getItems", year)
+		store.getItems(year)
 	})
 }
-async function selectYear(year, event) {
+async function selectYear(year: number) {
 	router.push({
 		path: `/items/${store.settings.currentCategory.code}/${year}`,
 	})
@@ -122,19 +121,12 @@ async function selectYear(year, event) {
 	// alors qu'on voudrait l'index de cette valeur dans le tableau des années chargées dans le select
 	const index = store.years.yearsWithItems.findIndex((el) => el === year)
 
-	await store.$store.dispatch("setPeriod", {
+	await store.setPeriod({
 		start: index,
-		end: index + 1,
+		end: index + 1
 	})
-	await store.$store.dispatch("getItems")
+	await store.getItems(year)
 }
-
-		//countsByYearTotal: function (option) {
-		//	return Object.values(store.countsByYear[option.label]).reduce((previous, current) => {
-		//		return previous + current
-		//	})
-		//},
-
 
 </script>
 
