@@ -7,7 +7,7 @@ export function changeTransformOrigin() {
 	if (window.outerWidth < 600) {
 		return
 	}
-	document.querySelectorAll('.items a').forEach((el, index) => {
+	document.querySelectorAll('.items a').forEach((el) => {
 
 		const pos = el.getBoundingClientRect()
 		const threshold = 100 * 1 / store.settings.zoom
@@ -43,3 +43,12 @@ export const debounce = <F extends (...args: Parameters<F>) => ReturnType<F>>(
 		}, delay)
 	}
 }
+
+export 	function isNotEqual(objA: { [s: string]: unknown } | ArrayLike<unknown>, objB: { [s: string]: unknown } | ArrayLike<unknown>) {
+
+		const arrayA = Object.values(objA)
+		return Object.values(objB).some(
+			(el, index) =>
+				el !== arrayA[index]
+		)
+	}

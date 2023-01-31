@@ -1,24 +1,19 @@
 
 <template>
-	<div
-		id="app "
-		:class="`${String(activeView)}`"
-	>
+	<div id="app " :class="`${String(activeView)}`">
 		<navBar />
 		<router-view />
 	</div>
 </template>
 <script setup lang="ts">
 import { computed } from 'vue'
-import {  useRoute } from 'vue-router'
+import { useRoute } from 'vue-router'
 const route = useRoute()
 
 const activeView = computed(() => {
 	return route.name
-	})
-
+})
 </script>
-
 <style lang="scss">
 @import "@/variables.scss";
 

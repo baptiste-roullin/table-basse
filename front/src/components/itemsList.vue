@@ -1,6 +1,5 @@
 <template>
 	<div>
-
 		<h2 class="inline-label" v-if="props.year === '0000'">Vu un jour
 
 		</h2>
@@ -9,7 +8,7 @@
 		</h2>
 		<div class="items">
 			<a v-bind:href="`https://www.senscritique.com${item.pageUrl}`"
-				v-for="item in itemsForCurrentYear()" :key="item.id"
+				v-for="(item) in itemsForCurrentYear()" :key="item.id"
 				:class="`item ${store.settings.currentCategory.code} id-${item.id} ${(item.CDNUrl ? 'img' : 'no-img')} `"
 				:title="`Fiche de l'oeuvre ${item.frenchTitle}`">
 				<img class="item-img" v-show="isLoaded[item.id]" :src="item.CDNUrl"
@@ -24,11 +23,10 @@
 <script setup lang="ts">
 //:selectable="option => !state.currentCategories.find(el => el === option)"
 
-import { reactive, computed, toRefs, onUpdated } from 'vue'
+import { reactive, onUpdated } from 'vue'
 import VueSlider from 'vue-slider-component'
 import 'vue-slider-component/theme/antd.css'
 import { store as useStore } from '@/stores/index'
-import { useRouter, useRoute } from 'vue-router'
 import { changeTransformOrigin, debounce } from '@/utils'
 
 const store = useStore()
@@ -45,7 +43,7 @@ function itemsForCurrentYear() {
 
 //on n'affiche l'image que quand elle est chargée.
 // les éléments de la liste étant chargés dynamiquement, on utilise $set() pour les rendre réactifs.
-function loaded(item, el) {
+function loaded(item: { id: string | number }, el: { parentElement?: any; naturalWidth?: any; naturalHeight?: any }) {
 	isLoaded[item.id] = true
 
 	const { naturalWidth, naturalHeight } = el
@@ -54,8 +52,9 @@ function loaded(item, el) {
 		el.parentElement.classList.add('landscape')
 	}
 }
+
 const props = defineProps(['year'])
-const isLoaded = reactive({})
+const isLoaded = reactive({} as Record<string, boolean>)
 onUpdated(() => {
 	changeTransformOrigin()
 })
