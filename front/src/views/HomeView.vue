@@ -11,15 +11,12 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from "vue"
+import { onMounted, reactive } from "vue"
 import items from "@/components/itemsList.vue"
-import { useRouter, useRoute } from 'vue-router'
-import { isNotEqual, debounce, changeTransformOrigin } from '@/utils'
+import { debounce, changeTransformOrigin } from '@/utils'
 import { store as useStore } from '@/stores/index'
+import { init } from '@/init'
 const store = useStore()
-const route = useRoute()
-
-
 
 const allCategories = reactive(() => {
 	if (store.settings.currentCategory.code === 0) {
@@ -33,76 +30,31 @@ const displayedYears = reactive(() => {
 	return store.years.yearsWithItems.slice(start, end)
 })
 
-
-async function init() {
-	// On fixe la catégorie en la récupérant de l'URL
-
-	//on récupère systématiquement des stats, au cas où il y a de nouveaux items
-	const oldCountsByCat = store.countsByCat
-	const { countsByCat } = await store.updateCounts()
-
-	if (store.settings.initFront !== true) {
-		await store.loadNonEmptyYears()
-		await store.setPeriod({ start: 0, end: 1 })
-		store.setCategory(store.categories[6])
-		await store.getItems(2023)
-		store.settings.initFront = true
-
-	}
-	const routeParams = route.params
-	if (routeParams.category) {
-		store.setCategory(
-			store.categories.find(
-				(elem: { code: any }) => elem.code === route.params.category
-			)
-		)
-	}
-	if (routeParams.year) {
-		const index = store.years.yearsWithItems.findIndex((el: any) => el === routeParams.year)
-		console.log(index)
-		await store.setPeriod({
-			start: index,
-			end: index + 1,
-		})
-
-	}
-
-
-	//Si y a du nouveau par rapport au store
-	if (isNotEqual(oldCountsByCat, countsByCat)) {
-
-		console.log('il y a du nouveau')
-
-		await store.setLog([])
-		console.log(store.logOfRequests)
-	}
-
-	await store.getItems(2023)
-
-}
-
 async function getNextYear() {
 	const end = store.years.period.end + 1
 	await store.setPeriod({ end: end })
 	await store.getItems(end)
 }
 
-init()
+//init()
+/*onMounted(() => {
+	window.addEventListener(
+		"resize",
+		debounce(changeTransformOrigin, 500)
+	)
+})*/
 
-window.addEventListener(
-	"resize",
-	debounce(changeTransformOrigin, 500)
-)
 </script>
 
-<style scoped lang="scss">
-@import "@/variables.scss";
+<style >
+@import "@/variables.css";
 
 @media screen and (min-width: 601px) {
 	.Home {
 		width: 99%;
 	}
 }
+
 @media screen and (max-width: 600px) {
 	.Home {
 		width: 95%;
@@ -133,6 +85,4 @@ window.addEventListener(
 		left: 0;
 	}
 }
-
-//@import 'vue-accessible-modal/src/styles/core.scss';
 </style>

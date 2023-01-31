@@ -1,54 +1,23 @@
 
 
 const baseURL = process.env.NODE_ENV === 'production' ? '' : 'http://127.0.0.1:3000'
+import type { Item, State } from '../types.js'
 
-
-import { removeDuplicates } from '@/utils'
 import { defineStore } from 'pinia'
-export interface Item {
-	universe: number
-	id: number
-	originalTitle: string
-	frenchTitle: string
-	dateRelease: string // type Date en back
-	watchedDate: string
-	watchedYear: number
-	pageUrl: string
-	slugTitle?: string
-	fullPictureUrl?: string
-	CDNUrl?: string
-	directors?: string
-	illustrators?: string
-	creators?: string[]
-}
-
-
-interface State {
-	countsByCat: Record<string, number>,
-
-	countsByYear: Record<string, Record<number, number>>,
-	items: Item[],
-	settings: {
-		currentCategory: Category,
-		initFront: boolean,
-		zoom: number
-	},
-	logOfRequests: string[],
-	categories: Category[],
-	years: {
-		yearsWithItems: number[],
-		period: {
-			start: number,
-			end: number
-		}
+export function removeDuplicates(storedItems: any[]) {
+	// the inner function is the expected callback for the filter method, with current item as a first argumeent.
+	// the outer function, removeDuplicates(), is there to pass storedItems as parameter
+	return (newItem: { id: any }) => {
+		// on ne retourne pas ce newItem si le 'some' en dessous renvoie vrai.
+		return !storedItems.some((oldItem: { id: any }) => {
+			//au moins un ancienn ID est identique aux nouveaux ID.
+			//pas besoin de continuer à scanner le tableau : on retourne vrai.
+			return oldItem.id === newItem.id
+		})
 	}
 }
-export interface Category {
-	code: number,
-	label: string
-}
 
-const categories = [
+export const categories = [
 	{ code: 1, label: 'Films' },
 	{ code: 2, label: 'Livres' },
 	{ code: 3, label: 'Jeux vidéo' },
@@ -57,7 +26,6 @@ const categories = [
 	{ code: 5, label: 'Bande dessinées' },
 	{ code: 0, label: 'Toutes catégories' },
 ]
-
 export const store = defineStore('tb', {
 	state: (): State => ({
 		countsByCat: {},
