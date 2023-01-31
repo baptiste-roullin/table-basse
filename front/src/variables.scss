@@ -4,9 +4,6 @@ $black-3:scale-color($black-1, $lightness: 25%);
 $black-3:scale-color($black-1, $lightness: 25%);
 $black-4:rgba(0, 0, 0, 0.5);
 
-
-
-
 $white-1:scale-color($black-1, $lightness: 95%);
-$white-3:hsl(234.3,33%,75);
+$white-3:hsl(234.3,33%,75%);
 $accent-color:#7f1b94;

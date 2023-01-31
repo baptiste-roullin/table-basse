@@ -46,8 +46,8 @@ async function getNextYear() {
 
 </script>
 
-<style >
-@import "@/variables.css";
+<style lang="scss" >
+@import "@/variables.scss";
 
 @media screen and (min-width: 601px) {
 	.Home {
