@@ -78,9 +78,9 @@
 import { computed } from 'vue'
 import VueSlider from 'vue-slider-component'
 import 'vue-slider-component/theme/antd.css'
-import type { Category } from '@/stores/index'
+import type { Category } from '@/types.js'
 import { useRouter, useRoute } from 'vue-router'
-import { changeTransformOrigin, debounce } from '@/utils'
+import { changeTransformOrigin } from '@/utils'
 import { store as useStore } from '@/stores/index'
 const router = useRouter()
 const route = useRoute()
