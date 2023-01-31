@@ -1,0 +1,22 @@
+/*var(--black-1):#06081d;
+$black-2:scale-color(var(--black-1), $lightness: 10%);
+var(--black-3):scale-color(var(--black-1), $lightness: 25%);
+var(--black-3):scale-color(var(--black-1), $lightness: 25%);
+var(--black-4):rgba(0, 0, 0, 0.5);
+
+var(--white-1):scale-color(var(--black-1), $lightness: 95%);
+var(--white-1):hsl(234.3,33%,75%);
+$accent-color:#7f1b94;
+*/
+
+--root {
+--black-1:#06081d;
+--black-2:#0e1344;
+--black-3:#1a237f;
+
+--black-4:rgba(0, 0, 0, 0.5);
+
+--white-1:#ebedfb;
+--white-3:hsl(234.3,33%,75%);
+--accent-color:#7f1b94;
+}
