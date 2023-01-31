@@ -26,8 +26,8 @@ export interface ItemAttributes {
 	originalTitle: string
 	frenchTitle: string
 	dateRelease: Date
-	watchedDate?: Date
-	watchedYear?: number
+	watchedDate: Date | number
+	watchedYear: number
 	pageUrl: string
 	slugTitle?: string
 	fullPictureUrl?: string
@@ -46,8 +46,8 @@ export class Item extends Model<ItemInput, ItemOuput> implements ItemAttributes 
 	public originalTitle: string
 	public frenchTitle: string
 	public dateRelease: Date
-	public watchedDate?: Date
-	public watchedYear?: number
+	public watchedDate: Date | number
+	public watchedYear: number
 	public pageUrl: string
 	public slugTitle?: string
 	public fullPictureUrl?: string
@@ -123,10 +123,6 @@ export class Count extends Model<CountInput, CountOuput> implements CountAttribu
 	"6": number
 	"watchedYear": number
 }
-
-
-
-
 
 Count.init(
 	{
@@ -223,10 +219,8 @@ export async function createCountsByYear() {
 		{ '1': 6, '2': 1, '3': 5, '4': 8, watchedYear: '2021' }
 	]
 
-
-
 	const countsByCat = Object.assign({}, ...counts) as Record<string, Array<Record<('watchedYear' | "count"), number>>>
-	warningcountsByCat)
+console.log(countsByCat)
 
 
 	const countsByYear: CountAttributes[] = []
@@ -249,7 +243,7 @@ export async function createCountsByYear() {
 		}
 	) as CountAttributes[]
 
-	warningtoDB)
+console.log(toDB)
 
 	Count.bulkCreate(toDB, { updateOnDuplicate: catNames, validate: true })
 }

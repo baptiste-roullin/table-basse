@@ -4,7 +4,7 @@
 			<router-link to="/"> Table basse </router-link>
 		</h1>
 
-		<nav class="controls" v-if="router.currentRoute.name === 'Home'">
+		<nav class="controls" v-if="route.name === 'Home'">
 			<!-- ZOOM -->
 			<vue-slider @change="zoomChanged" :value="store.settings.zoom" class="zoom" :min="0.5" :max="4"
 				:interval="0.1" :tooltip="'none'" :contained="true"
@@ -15,14 +15,14 @@
 				:options="store.categories" :value="store.settings.currentCategory" :searchable="false"
 				:clearable="false" :selectable="
 					(option: Category) => {
-						return store.countsByCat[option.code] > 0 || option.code === 'all'
+						return store.countsByCat[option.code] > 0 || option.code === 0
 					}
 				">
 				<template v-slot:option="option: Category">
 					<span class="inline-label">{{ option.label }}</span>
 					<span
 						class="inline-count"
-						v-if="option.code === 'all'"
+						v-if="option.code === 0"
 					>{{
 						countsByCatTotal
 					}}</span>
@@ -41,7 +41,7 @@
 				:clearable="false" :selectable="
 					(option: number) =>
 						store.countsByYear[option][store.settings.currentCategory.code] > 0 ||
-						store.settings.currentCategory.code === 'all'
+						store.settings.currentCategory.code === 0
 				">
 				<template v-slot:option="option">
 					<!-- année -->
@@ -60,7 +60,7 @@
 					<!-- compteur -->
 					<span
 						class="inline-count"
-						v-if="store.settings.currentCategory.code === 'all'"
+						v-if="store.settings.currentCategory.code === 0"
 					></span>
 					<span
 						class="inline-count"
@@ -79,10 +79,12 @@ import { computed } from 'vue'
 import VueSlider from 'vue-slider-component'
 import 'vue-slider-component/theme/antd.css'
 import type { Category } from '@/stores/index'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { changeTransformOrigin, debounce } from '@/utils'
 import { store as useStore } from '@/stores/index'
 const router = useRouter()
+const route = useRoute()
+
 const store = useStore()
 store.countsByCat["2022"]
 

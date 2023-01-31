@@ -24,32 +24,33 @@
 //:selectable="option => !state.currentCategories.find(el => el === option)"
 
 import { reactive, onUpdated } from 'vue'
-import VueSlider from 'vue-slider-component'
-import 'vue-slider-component/theme/antd.css'
+
 import { store as useStore } from '@/stores/index'
-import { changeTransformOrigin, debounce } from '@/utils'
+import { changeTransformOrigin } from '@/utils'
 
 const store = useStore()
 
 function itemsForCurrentYear() {
-	const array = store.itemsForCategory.filter((item) => item.watchedYear == store.year)
-	if (store.settings.currentCategory.code === 'all') {
-		return array.sort((a, b) => Date.parse(b.watchedDate) - Date.parse(a.watchedDate))
+	const items = store.itemsForCategory.filter((item) => item.watchedYear == props.year)
+	if (store.settings.currentCategory.code === 0) {
+		return items.sort((a, b) => Date.parse(b.watchedDate) - Date.parse(a.watchedDate))
 	}
 	else {
-		return array
+		return items
 	}
 }
 
 //on n'affiche l'image que quand elle est chargée.
 // les éléments de la liste étant chargés dynamiquement, on utilise $set() pour les rendre réactifs.
-function loaded(item: { id: string | number }, el: { parentElement?: any; naturalWidth?: any; naturalHeight?: any }) {
+function loaded(item: { id: string | number }, el: HTMLImageElement | EventTarget | null) {
+	if (!(el instanceof HTMLImageElement)) { return }
+
 	isLoaded[item.id] = true
 
 	const { naturalWidth, naturalHeight } = el
 	if (naturalWidth > naturalHeight * 1.7) {
 		//const imgRatio = (naturalWidth / naturalHeight).toPrecision(2).toString()
-		el.parentElement.classList.add('landscape')
+		el.parentElement!.classList.add('landscape')
 	}
 }
 

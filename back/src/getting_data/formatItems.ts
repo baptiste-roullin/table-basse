@@ -5,6 +5,7 @@ import { Collection, User } from '../../types.js';
 export default function (rawItems: Collection['products']): ItemAttributes[] {
 
 	return rawItems.map((item) => {
+const watchedDate =  item.currentUserInfos?.dateDone || 0
 
 		return {
 			universe: item.universe,
@@ -15,7 +16,7 @@ export default function (rawItems: Collection['products']): ItemAttributes[] {
 			pageUrl: item.url,
 			slugTitle: item.slug,
 			fullPictureUrl: item.medias?.picture,
-			watchedDate: item.currentUserInfos?.dateDone,
+			watchedDate:watchedDate,
 			watchedYear: item.currentUserInfos?.dateDone.slice(0, 4)
 		}
 	})
