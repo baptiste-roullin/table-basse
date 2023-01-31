@@ -36,19 +36,33 @@ export const debounce = <F extends (...args: Parameters<F>) => ReturnType<F>>(
 	delay: number,
 ) => {
 	let timeout: ReturnType<typeof setTimeout>
+	const that = this as any
 	return function (...args: Parameters<F>) {
 		clearTimeout(timeout)
 		timeout = setTimeout(() => {
-			fn.apply(this, args)
+			fn.apply(that, args)
 		}, delay)
 	}
 }
 
-export 	function isNotEqual(objA: { [s: string]: unknown } | ArrayLike<unknown>, objB: { [s: string]: unknown } | ArrayLike<unknown>) {
+export function isNotEqual(objA: { [s: string]: unknown } | ArrayLike<unknown>, objB: { [s: string]: unknown } | ArrayLike<unknown>) {
 
-		const arrayA = Object.values(objA)
-		return Object.values(objB).some(
-			(el, index) =>
-				el !== arrayA[index]
-		)
+	const arrayA = Object.values(objA)
+	return Object.values(objB).some(
+		(el, index) =>
+			el !== arrayA[index]
+	)
+}
+
+export function removeDuplicates(storedItems: any[]) {
+	// the inner function is the expected callback for the filter method, with current item as a first argumeent.
+	// the outer function, removeDuplicates(), is there to pass storedItems as parameter
+	return (newItem: { id: any }) => {
+		// on ne retourne pas ce newItem si le 'some' en dessous renvoie vrai.
+		return !storedItems.some((oldItem: { id: any }) => {
+			//au moins un ancienn ID est identique aux nouveaux ID.
+			//pas besoin de continuer à scanner le tableau : on retourne vrai.
+			return oldItem.id === newItem.id
+		})
 	}
+}

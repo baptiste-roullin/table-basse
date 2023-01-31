@@ -14,7 +14,7 @@
 import { reactive } from "vue"
 import items from "@/components/itemsList.vue"
 import { useRouter, useRoute } from 'vue-router'
-import { changeTransformOrigin, debounce, isNotEqual } from '@/utils'
+import { isNotEqual, debounce, changeTransformOrigin } from '@/utils'
 import { store as useStore } from '@/stores/index'
 const store = useStore()
 const route = useRoute()
@@ -22,7 +22,7 @@ const route = useRoute()
 
 
 const allCategories = reactive(() => {
-	if (store.settings.currentCategory.code === "all") {
+	if (store.settings.currentCategory.code === 0) {
 		return true
 	} else {
 		return false
@@ -91,7 +91,7 @@ init()
 
 window.addEventListener(
 	"resize",
-	this.debounce(this.changeTransformOrigin, 500)
+	debounce(changeTransformOrigin, 500)
 )
 </script>
 

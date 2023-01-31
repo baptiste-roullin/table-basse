@@ -3,15 +3,16 @@
 const baseURL = process.env.NODE_ENV === 'production' ? '' : 'http://127.0.0.1:3000'
 
 
+import { removeDuplicates } from '@/utils'
 import { defineStore } from 'pinia'
 export interface Item {
 	universe: number
 	id: number
 	originalTitle: string
 	frenchTitle: string
-	dateRelease: Date
-	watchedDate?: Date
-	watchedYear?: number
+	dateRelease: string // type Date en back
+	watchedDate: string
+	watchedYear: number
 	pageUrl: string
 	slugTitle?: string
 	fullPictureUrl?: string
@@ -20,20 +21,6 @@ export interface Item {
 	illustrators?: string
 	creators?: string[]
 }
-
-function removeDuplicates(storedItems: any[]) {
-	// the inner function is the expected callback for the filter method, with current item as a first argumeent.
-	// the outer function, removeDuplicates(), is there to pass storedItems as parameter
-	return (newItem: { id: any }) => {
-		// on ne retourne pas ce newItem si le 'some' en dessous renvoie vrai.
-		return !storedItems.some((oldItem: { id: any }) => {
-			//au moins un ancienn ID est identique aux nouveaux ID.
-			//pas besoin de continuer à scanner le tableau : on retourne vrai.
-			return oldItem.id === newItem.id
-		})
-	}
-}
-
 
 
 interface State {
@@ -57,9 +44,19 @@ interface State {
 	}
 }
 export interface Category {
-	code: string,
+	code: number,
 	label: string
 }
+
+const categories = [
+	{ code: 1, label: 'Films' },
+	{ code: 2, label: 'Livres' },
+	{ code: 3, label: 'Jeux vidéo' },
+	{ code: 4, label: 'Séries' },
+	{ code: 5, label: 'Musique' },
+	{ code: 5, label: 'Bande dessinées' },
+	{ code: 0, label: 'Toutes catégories' },
+]
 
 export const store = defineStore('tb', {
 	state: (): State => ({
@@ -67,21 +64,13 @@ export const store = defineStore('tb', {
 		countsByYear: {},
 		items: [],
 		settings: {
-			currentCategory: { code: 'film', label: 'Films' },
+			currentCategory: categories[0],
 			initFront: false,
 			zoom: 2,
 		},
 		// enregistrer des couples année-catégorie pour éviter des requêtes inutiles
 		logOfRequests: [],
-		categories: [
-			{ code: 'film', label: 'Films' },
-			{ code: 'serie', label: 'Séries' },
-			{ code: 'bd', label: 'Bande dessinées' },
-			{ code: 'livre', label: 'Livres' },
-			{ code: 'album', label: 'Albums' },
-			{ code: 'jeuvideo', label: 'Jeux vidéo' },
-			{ code: 'all', label: 'Toutes catégories' },
-		],
+		categories: categories,
 		years: {
 			//Liste des années non-vides, pour charger le <select>
 			yearsWithItems: [],
@@ -95,7 +84,7 @@ export const store = defineStore('tb', {
 		itemsForCategory: state => {
 			const currentCat = state.settings.currentCategory.code
 			const toDisplay = (item: Item) => {
-				return currentCat === item.category || currentCat === 'all'
+				return currentCat === item.universe || currentCat === 0
 			}
 			return state.items.filter(toDisplay)
 		}
