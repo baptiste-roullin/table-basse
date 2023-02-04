@@ -1,6 +1,6 @@
 import dotenv from 'dotenv'
 dotenv.config()
-const debug = require('debug')
+import debug from'debug'
 const error = debug('TB:error')
 const warning = debug('TB:warning')
 

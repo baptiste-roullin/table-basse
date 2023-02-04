@@ -25,22 +25,35 @@ const validateReq = (req: express.Request) => {
 	return errors
 }
 
-export const router = Router()
 
+export async function router (fastify, options) {
 
-router.route('/counts/').get(async (req, res) => {
-	try {
+const opts = {
+  schema: {
+    response: {
+      200: {
+        type: 'object',
+        properties: {
+          hello: { type: 'string' }
+        }
+      }
+    }
+  }
+}
+
+  fastify.get('/counts/',opts, (request, reply) => {
+  reply.send({ hello: 'world' })/*	try {
 		const response = await requestCountsByYear()
 		return res.status(200).json(response)
 	} catch (e) {
 		console.log(e)
 		return e
-	}
+	}*/
 })
 
 
 // Requête des items en base, les renvoie au front
-router.route('/items/:category/:year').get(async (req, res) => {
+fastify.get('/items/:category/:year', async (req, res) => {
 	const errors = validateReq(req)
 
 	if (errors.length > 0) {
@@ -53,37 +66,4 @@ router.route('/items/:category/:year').get(async (req, res) => {
 	}
 	catch (e) { throw e }
 })
-
-
-/*
-// Importe de nouvaux items depuis Sens Critique
-// Jamais déclenché actuellement, puisqu'un job heroku lance new-items-job.ts
-router.route('/newItems/:category').get(async (req, res) => {
-	const errors = validateReq(req)
-	const newData = await getNewItemsFromSC('collection', req.params.category)
-	res.status(200).send(newData)
-})*/
-
-/*router.route('/init/:username').post(async (req, res) => {
-	console.log(req.params.username);
-
-	const username = req.params.username
-	//	firstInit(req.params.username)
-	res.status(200).end()
-
-	if (config.TB_USERNAME) {
-		res.status(204)
-	}
-});*/
-
-
-/*
-longpoll.create("/routerpoll");
-
-router.route('/').get(async (req, res) => {
-	longpoll.publish("/routerpoll", {
-		text: "app initialisée"
-	});
-	res.send("Sent data!");
-})
-*/
+}
