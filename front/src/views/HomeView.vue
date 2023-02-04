@@ -1,5 +1,5 @@
 <template>
-	<main class="Home">
+	<main id="home" class="home">
 		<div id="items-lists-container" aria-live="polite" aria-atomic="false">
 			<items class="items-container" :style="store.settings.zoom" v-for="year in displayedYears"
 				:year="year" :key="year" :class="{ allCategories: allCategories }" />
@@ -11,21 +11,21 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive } from "vue"
+import { computed, onMounted } from "vue"
 import items from "@/components/itemsList.vue"
 import { debounce, changeTransformOrigin } from '@/utils'
 import { store as useStore } from '@/stores/index'
-import { init } from '@/init'
+//import { init } from '@/init'
 const store = useStore()
 
-const allCategories = reactive(() => {
+const allCategories = computed(() => {
 	if (store.settings.currentCategory.code === 0) {
 		return true
 	} else {
 		return false
 	}
 })
-const displayedYears = reactive(() => {
+const displayedYears = computed(() => {
 	const { start, end } = store.years.period
 	return store.years.yearsWithItems.slice(start, end)
 })
@@ -37,12 +37,12 @@ async function getNextYear() {
 }
 
 //init()
-/*onMounted(() => {
+onMounted(() => {
 	window.addEventListener(
 		"resize",
 		debounce(changeTransformOrigin, 500)
 	)
-})*/
+})
 
 </script>
 
@@ -50,18 +50,18 @@ async function getNextYear() {
 @import "@/variables.scss";
 
 @media screen and (min-width: 601px) {
-	.Home {
+	.home {
 		width: 99%;
 	}
 }
 
 @media screen and (max-width: 600px) {
-	.Home {
+	.home {
 		width: 95%;
 	}
 }
 
-.Home {
+.home {
 	margin: auto;
 	position: relative;
 
@@ -73,7 +73,6 @@ async function getNextYear() {
 		width: 100%;
 		border: none;
 		height: 3em;
-		color: scale-color($accent-color, $lightness: 15%);
 		background-color: rgba(38, 38, 41, 0.45);
 		color: scale-color($color: $accent-color, $lightness: 25%);
 		cursor: pointer;

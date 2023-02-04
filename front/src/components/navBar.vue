@@ -3,15 +3,14 @@
 		<h1>
 			<router-link to="/"> Table basse </router-link>
 		</h1>
-
 		<nav class="controls" v-if="route.name === 'Home'">
 			<!-- ZOOM -->
-			<vue-slider @change="zoomChanged" :value="store.settings.zoom" class="zoom" :min="0.5" :max="4"
-				:interval="0.1" :tooltip="'none'" :contained="true"
+			<vue-slider @change="zoomChanged" :modelValue="store.settings.zoom" class="zoom" :min="0.5"
+				:max="4" :interval="0.1" :tooltip="'none'" :contained="true"
 				:dot-attrs="{ 'aria-label': 'Varier la taille des images des oeuvres' }" />
 
 			<!-- CATEGORIE -->
-			<v-select aria-controls="items-lists-container" @input="selectCategory"
+			<VueSelect aria-controls="items-lists-container" @input="selectCategory"
 				:options="store.categories" :value="store.settings.currentCategory" :searchable="false"
 				:clearable="false" :selectable="
 					(option: Category) => {
@@ -33,10 +32,10 @@
 						store.countsByCat[option.code]
 					}}</span>
 				</template>
-			</v-select>
+			</VueSelect>
 
 			<!-- ANNÉE -->
-			<v-select aria-controls="items-lists-container" @input="selectYear"
+			<VueSelect aria-controls="items-lists-container" @input="selectYear"
 				:options="store.years.yearsWithItems" :value="selectedYear" :searchable="false"
 				:clearable="false" :selectable="
 					(option: number) =>
@@ -69,7 +68,7 @@
 	store.countsByYear[option.label][store.settings.currentCategory.code]
 					}}</span>
 				</template>
-			</v-select>
+			</VueSelect>
 		</nav>
 	</header>
 </template>
@@ -78,15 +77,18 @@
 import { computed } from 'vue'
 import VueSlider from 'vue-slider-component'
 import 'vue-slider-component/theme/antd.css'
-import type { Category } from '@/types.js'
 import { useRouter, useRoute } from 'vue-router'
-import { changeTransformOrigin } from '@/utils'
 import { store as useStore } from '@/stores/index'
+import VueSelect from '@/components/vueSelect.js'
+import type { Category } from '@/types.js'
+import { changeTransformOrigin, debounce } from '@/utils'
 const router = useRouter()
 const route = useRoute()
 
 const store = useStore()
-store.countsByCat["2022"]
+store.countsByCat["2023"]
+
+
 
 const selectedYear = computed(() => {
 	const year = store.years.yearsWithItems[store.years.period.start || 0]
@@ -134,7 +136,7 @@ async function selectYear(year: number) {
 
 <style  lang="scss">
 @import "@/variables.scss";
-
+@import "vue-select/dist/vue-select.css";
 .nav {
 	display: flex;
 	flex-wrap: wrap;
@@ -203,7 +205,7 @@ $bgColor: #bbb;
 @media screen and (max-width: 30em) {
 }
 
-@import "~vue-slider-component/lib/theme/material.scss";
+@import "../../node_modules/vue-slider-component/lib/theme/material.scss";
 
 .controls .v-select {
 	background-color: hsl(234, 50%, 20%);
