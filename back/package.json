@@ -13,7 +13,9 @@
     "node": "^18.8.0"
   },
   "dependencies": {
+    "@fastify/autoload": "^5.7.1",
     "@fastify/cors": "^8.2.0",
+    "@fastify/static": "^6.8.0",
     "@graphql-tools/load-files": "^6.6.1",
     "cheerio": "^1.0.0-rc.12",
     "cloudinary": "^1.31.0",
@@ -34,7 +36,6 @@
     "playwright": "*",
     "sanitize-filename": "^1.6.3",
     "sequelize": "^6.21.4",
-    "serve-static": "^1.14.1",
     "tsx": "^3.9.0"
   },
   "devDependencies": {
@@ -51,25 +52,6 @@
   },
   "optionalDependencies": {
     "fsevents": "^2.x.x"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "eslint:recommended"
-    ],
-    "parserOptions": {
-      "ecmaVersion": 2020
-    },
-    "rules": {
-      "no-unused-vars": "off",
-      "no-redeclare": "off",
-      "no-debugger": 1,
-      "no-unexpected-multiline": 1,
-      "semi": 1
-    }
   },
   "gitHooks": {
     "post-commit": ""

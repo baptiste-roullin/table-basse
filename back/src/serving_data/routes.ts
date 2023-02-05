@@ -26,44 +26,32 @@ const validateReq = (req: express.Request) => {
 }
 
 
-export async function router (fastify, options) {
 
-const opts = {
-  schema: {
-    response: {
-      200: {
-        type: 'object',
-        properties: {
-          hello: { type: 'string' }
-        }
-      }
-    }
-  }
-}
+export async function apiRoutes(fastify, options) {
 
-  fastify.get('/counts/',opts, (request, reply) => {
-  reply.send({ hello: 'world' })/*	try {
-		const response = await requestCountsByYear()
-		return res.status(200).json(response)
-	} catch (e) {
-		console.log(e)
-		return e
-	}*/
-})
+	fastify.get('/counts', options, async function (req, reply) {
+		try {
+			const errors = validateReq(req)
 
+			return await requestCountsByYear()
+		} catch (e) {
+			console.log(e)
+			return e
+		}
+	})
 
-// Requête des items en base, les renvoie au front
-fastify.get('/items/:category/:year', async (req, res) => {
-	const errors = validateReq(req)
+	fastify.get('/items/:category/:year', options, async function (req, res) {
+		const errors = validateReq(req)
 
-	if (errors.length > 0) {
-		return res.status(400).json({ errors: errors })
-	}
-	try {
-		const response = await requestItems(req)
-		return res.status(200).json(response)
+		if (errors.length > 0) {
+			return res.status(400).json({ errors: errors })
+		}
+		try {
+			const response = await requestItems(req)
+			return res.status(200).json(response)
 
-	}
-	catch (e) { throw e }
-})
+		}
+		catch (e) { throw e }
+	})
+
 }

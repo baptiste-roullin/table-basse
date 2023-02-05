@@ -1,79 +1,53 @@
 #!/usr/bin/env ts-node
-import { config } from './setEnv.js'
+import path from 'node:path'
 
-// imports placés après pour éviter des refs circulaires
-import historyFallback from 'connect-history-api-fallback'
-import serveStatic from 'serve-static'
-import { createCountsByYear, Item, Setting as Settings } from './storing_data/orm.js'
-import { router } from './serving_data/routes.js'
-import initApp from './firstFetch.js'
-import { fetchUser } from './getting_data/fetchSC.js'
 import Fastify from 'fastify'
 import cors from '@fastify/cors'
-'use strict'
+import staticServe from '@fastify/static'
 
-const path = require('path')
-const AutoLoad = require('@fastify/autoload')
 
-// Pass --options via CLI arguments in command to enable these options.
-module.exports.options = {}
-
-export async function (fastify, opts) {
-  // Place here your custom code!
-await fastify.register(cors, { })
-
-  // Do not touch the following lines
-
-  // This loads all plugins defined in plugins
-  // those should be support plugins that are reused
-  // through your application
-  fastify.register(AutoLoad, {
-    dir: path.join(__dirname, 'plugins'),
-    options: Object.assign({}, opts)
-  })
-
-  // This loads all plugins defined in routes
-  // define your routes in one of these
-  fastify.register(AutoLoad, {
-    dir: path.join(__dirname, 'routes'),
-    options: Object.assign({}, opts)
-  })
-}
-
+import { config, __dirname } from './setEnv.js'
+// imports placés après pour éviter des refs circulaires
+import historyFallback from 'connect-history-api-fallback'
+import { createCountsByYear, Item, Setting as Settings } from './storing_data/orm.js'
+import { apiRoutes } from './serving_data/routes.js'
+import initApp from './firstFetch.js'
+//import { fetchUser } from './getting_data/fetchSC.js'
 
 /* FRONT */
 
 const fastify = Fastify({
-  logger: true
+	logger: true
 })
 
-fastify.register(router)
 
 /**
  * Run the server!
  */
 const port = Number(config.PORT) || 3000
 
-const start = async () => {
-  try {
-    await fastify.listen({ port: port })
-  } catch (err) {
-    fastify.log.error(err)
-    process.exit(1)
-  }
+
+try {
+	fastify.register(staticServe, {
+		root: path.join(__dirname, 'front/dist'),
+		prefix: '/dist/', // optional: default '/'
+	})
+	await fastify.register(cors, {
+		// put your options here
+	})
+	await fastify.register(apiRoutes, { prefix: 'api' })
+
+	await fastify.listen({ port: port })
+} catch (err) {
+	fastify.log.error(err)
+	process.exit(1)
 }
-start()
+
 
 
 /*//Au rechargement de page par l'utilisateur, réécrit l'URL pour renvoyer à index.html, afin que le routage soit géré par Vue.
 app.use(historyFallback())
 
-// accès à l'app vue.js buildée dans le dossier dist
-app.use(serveStatic('front/dist'))
-
-app.use(cors())
-// Routes fournissant les données à l'app front
-app.use('/api', router);
 */
 
 /* FRONT */
@@ -86,7 +60,7 @@ async function checkIfAppNeedInit() {
 	let [initValue] = await Settings.findOrCreate({
 		where: { name: 'initStatus' },
 		defaults: { name: 'initStatus', value: false }
-	});
+	})
 	initValue.value = false
 	if (!initValue.value) {
 		initApp(initValue)
@@ -100,7 +74,7 @@ async function checkIfAppNeedInit() {
 
 try {
 
-	//await checkIfAppNeedInit()
+	await checkIfAppNeedInit()
 	//await createCountsByYear()
 	//console.log(await fetchUser())
 
@@ -111,11 +85,7 @@ try {
 }
 
 
-/*app.listen(port, () => {
-	console.log(`Listening on port ${port}.`)
-});*/
-
 process.on('unhandledRejection', up => {
-	console.log(up);
+	console.log(up)
 	throw up
 })
