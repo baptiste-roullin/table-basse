@@ -2,7 +2,7 @@ import { request, GraphQLClient, gql } from 'graphql-request'
 
 import { config } from '../setEnv.js'
 import { promises as fs } from 'fs'
-import { Collection, User, UserStats } from '../../types.js'
+import { Collection, User, UserStats } from '../types.js'
 
 async function fetchSC(token, operationName: 'UserDiary' | 'UserStats' | 'Product') {
 

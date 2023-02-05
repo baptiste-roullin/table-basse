@@ -1,9 +1,11 @@
 
-import { Item, Setting as Settings, orm, checkDBConnection, createCountsByYear } from './storing_data/orm.js';
+import { Setting as Settings, orm, checkDBConnection } from './storing_data/orm.js'
 import { Storage } from './storing_data/images.js'
-import { fetchUser, fetchCollection } from './getting_data/fetchSC.js';
-import getToken from './getting_data/getToken.js';
-import formatItems from './getting_data/formatItems.js';
+import { fetchUser, fetchCollection } from './getting_data/fetchSC.js'
+import getToken from './getting_data/getToken.js'
+import formatItems from './getting_data/formatItems.js'
+import { Item } from './storing_data/Items.js'
+import { createCountsByYear } from './storing_data/Counts.js'
 
 
 
@@ -30,7 +32,7 @@ export default async function (init) {
 		await Settings.findOrCreate({
 			where: { name: 'count' },
 			defaults: { name: 'count', value: count }
-		});
+		})
 
 		// données textuelles
 		const { products, filters } = await fetchCollection()
@@ -48,10 +50,10 @@ export default async function (init) {
 		await createCountsByYear()
 
 		init.value = false
-		await init.save();
+		await init.save()
 		console.log('appli initialisée')
 	} catch (error) {
-		console.log(error);
+		console.log(error)
 	}
 }
 

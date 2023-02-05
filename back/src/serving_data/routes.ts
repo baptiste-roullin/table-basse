@@ -1,13 +1,16 @@
-import Router from 'express-promise-router'
-import express from 'express'
 
+/// <reference types="../types.js" />
 import * as validator from './validator.js'
 import { config } from '../setEnv.js'
-import { requestItems, requestCountsByYear } from '../storing_data/orm.js'
+import { Universes } from '../storing_data/orm.js'
 import { getNewItemsFromSC } from '../getting_data/new-items.js'
+import { FastifyRequest } from 'fastify'
+import { requestCountsByYear } from '../storing_data/Counts.js'
+import { requestItems } from '../storing_data/Items.js'
+
 
 // Validation des routes, affreusement compliqué et à
-const validateReq = (req: express.Request) => {
+const validateReq = (req: FastifyRequest) => {
 	const rules = [
 		new validator.NoInvalidCategory(req),
 		new validator.NoInvalidYear(req)
@@ -26,14 +29,13 @@ const validateReq = (req: express.Request) => {
 }
 
 
-
 export async function apiRoutes(fastify, options) {
 
 	fastify.get('/counts', options, async function (req, reply) {
 		try {
 			const errors = validateReq(req)
 
-			return await requestCountsByYear()
+			return await requestCountsByYear(Universes.Films)
 		} catch (e) {
 			console.log(e)
 			return e
