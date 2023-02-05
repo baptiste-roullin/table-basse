@@ -1,4 +1,5 @@
 import { Optional, Model, DataTypes, FindOptions, Op } from 'sequelize'
+import { getEnumKey, getEnumValue } from '../utils.js'
 import { orm } from './orm.js'
 
 export interface ItemAttributes {
@@ -7,7 +8,7 @@ export interface ItemAttributes {
 	originalTitle: string
 	frenchTitle: string
 	dateRelease: Date
-	watchedDate: Date | number
+	watchedDate: Date | undefined
 	watchedYear: number
 	pageUrl: string
 	slugTitle?: string
@@ -22,23 +23,23 @@ export interface ItemOuput extends Required<ItemAttributes> { }
 
 
 export class Item extends Model<ItemInput, ItemOuput> implements ItemAttributes {
-	public universe: number
-	public id: number
-	public originalTitle: string
-	public frenchTitle: string
-	public dateRelease: Date
-	public watchedDate: Date | number
-	public watchedYear: number
-	public pageUrl: string
-	public slugTitle?: string
-	public fullPictureUrl?: string
-	public CDNUrl?: string
-	public directors?: string
-	public illustrators?: string
-	public creators?: string[]
-	public readonly createdAt?: Date
-	public readonly updatedAt?: Date
-	public readonly deletedAt?: Date
+	declare universe: number
+	declare id: number
+	declare originalTitle: string
+	declare frenchTitle: string
+	declare dateRelease: Date
+	declare watchedDate: Date | undefined
+	declare watchedYear: number
+	declare pageUrl: string
+	declare slugTitle?: string
+	declare fullPictureUrl?: string
+	declare CDNUrl?: string
+	declare directors?: string
+	declare illustrators?: string
+	declare creators?: string[]
+	declare readonly createdAt?: Date
+	declare readonly updatedAt?: Date
+	declare readonly deletedAt?: Date
 }
 
 Item.init({
@@ -68,7 +69,7 @@ Item.init({
 
 export async function requestItems(req) {
 	const params = (): FindOptions => {
-		if (req.params.universe === 'all') {
+		if (req.params.universe === '0') {
 			return {
 				where: { watchedYear: req.params.watchedYear },
 				order: [['watchedDate', 'DESC']]

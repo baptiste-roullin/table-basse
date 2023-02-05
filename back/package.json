@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "npx tsx watch ./src/main.ts",
-    "debug": " npx ts-node --esm ./src/serving_data/routes.ts",
+    "debug": " npx ts-node --esm ./src/main.ts",
     "start": "npx tsx ./src/main.ts",
     "heroku-postbuild": "npx tsc && cd front && npm run build"
   },
@@ -15,6 +15,7 @@
   "dependencies": {
     "@fastify/cors": "^8.2.0",
     "@fastify/postgres": "^5.2.0",
+    "@fastify/sensible": "^5.2.0",
     "@fastify/static": "^6.8.0",
     "@graphql-tools/load-files": "^6.6.1",
     "cheerio": "^1.0.0-rc.12",

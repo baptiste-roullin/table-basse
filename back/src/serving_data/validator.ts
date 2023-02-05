@@ -3,7 +3,9 @@
 // get errorMessage() {}
 // function isValid() {}
 
-const categories = ["film", "livre", "jeuvideo", "serie", "bd", "album"]
+import { FastifyRequest, FastifyTypeProvider } from 'fastify'
+import { Universes } from '../storing_data/orm.js'
+import { getEnumValue } from '../utils.js'
 
 
 class Validator {
@@ -20,24 +22,24 @@ class Validator {
 }
 
 
-export class NoInvalidCategory extends Validator {
-	allowedCategories: string[]
+export class NoInvalidUniverse extends Validator {
 	count: number = 0
 	superCount: number = 0
+	allowedCategories: number[]
+	universe: number
 
-	constructor(req: Express.Request) {
+	constructor(req: FastifyRequest) {
 		super(req)
-		this.allowedCategories = [...categories]
-		this.allowedCategories.push('all')
-
+		this.allowedCategories = getEnumValue(Universes) as number[]
+		this.universe = Number(this.req.params.universe)
 	}
 	get errorMessage() {
-		return `Expected ${this.allowedCategories.join('|')}, got ${this.req.params.category
+		return `Expected ${this.allowedCategories.join('|')}, got ${this.universe
 			}`
 	}
 
 	isValid() {
-		if (!this.allowedCategories.includes(this.req.params.category)) {
+		if (!this.allowedCategories.includes(this.universe)) {
 			return false
 		}
 		return true
@@ -45,16 +47,16 @@ export class NoInvalidCategory extends Validator {
 }
 export class NoInvalidYear extends Validator {
 
-	constructor(req: Express.Request) {
+	constructor(req: FastifyRequest) {
 		super(req)
 	}
 
 	get errorMessage() {
-		return `Expected a year between 1900  and the current year. Got ${this.req.params.year}`
+		return `Expected a year between 1900  and the current year. Got ${this.req.params.watchedYear}`
 	}
 
 	isValid() {
-		return /^\d{4}$/.test(this.req.params.year)
+		return /^\d{4}$/.test(this.req.params.watchedYear)
 
 	}
 }

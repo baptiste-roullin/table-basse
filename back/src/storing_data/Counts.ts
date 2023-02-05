@@ -19,13 +19,13 @@ export interface CountOuput extends Required<CountAttributes> { }
 
 
 export class Count extends Model<CountInput, CountOuput> implements CountAttributes {
-	"1": number
-	"2": number
-	"3": number
-	"4": number
-	"5": number
-	"6": number
-	"watchedYear": number
+	declare "1": number
+	declare "2": number
+	declare "3": number
+	declare "4": number
+	declare "5": number
+	declare "6": number
+	declare "watchedYear": number
 }
 
 Count.init(
@@ -47,9 +47,8 @@ Count.init(
 })
 
 
-export async function requestCountsByYear(universes: Universes) {
-
-	const categories = Object.keys(Universes) as Array<keyof CountInput>
+export async function requestCountsByYear() {
+	const categories = getEnumValue(Universes) as Array<keyof CountInput>
 	const countsByYearQuery = await Count.findAll()
 	const promises = categories.map(async (cat) => {
 		return { [cat]: await Count.sum(cat) }
@@ -68,8 +67,6 @@ export async function requestCountsByYear(universes: Universes) {
 export async function createCountsByYear() {
 	const catNames = getEnumKey(Universes) as Array<keyof CountInput>
 	const catID = getEnumValue(Universes)
-
-
 
 	async function getCount(cat) {
 		return {
@@ -99,30 +96,28 @@ export async function createCountsByYear() {
 	]
 
 	const countsByCat = Object.assign({}, ...counts) as Record<string, Array<Record<('watchedYear' | "count"), number>>>
-	console.log(countsByCat)
+	console.log("countsByCat", countsByCat)
 
 
 	const countsByYear: CountAttributes[] = []
 	for (let [cat, records] of Object.entries(countsByCat)) {
 
-		return records.forEach((record, index) => {
+		records.forEach((record, index) => {
+
 			if (countsByYear[record.watchedYear] === undefined) {
-				countsByYear[index][record.watchedYear]
+				countsByYear[record.watchedYear] = {} as CountAttributes
 			}
-			countsByYear[record.watchedYear][cat] = record.count
-			return
+			countsByYear[record.watchedYear][cat] = Number(record.count)
+
 		})
-
 	}
-
-
 	const toDB = Object.entries(countsByYear).map(
 		([key, values]: [...any]) => {
 			return { watchedYear: key, ...values }
 		}
 	) as CountAttributes[]
 
-	console.log(toDB)
+	console.log("to DB :", toDB)
 
-	Count.bulkCreate(toDB, { updateOnDuplicate: catNames, validate: true })
+	Count.bulkCreate(toDB, { ignoreDuplicates: true, validate: true })
 }

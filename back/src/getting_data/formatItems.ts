@@ -5,7 +5,18 @@ import { Collection, User } from '../types.js'
 export default function (rawItems: Collection['products']): ItemAttributes[] {
 
 	return rawItems.map((item) => {
-		const watchedDate = item.currentUserInfos?.dateDone || 0
+		let watchedDate: Date | undefined
+		let watchedYear: number
+
+		if (item.otherUserInfos?.dateDone) {
+			watchedDate = new Date(item.otherUserInfos?.dateDone)
+			watchedYear = watchedDate.getFullYear()
+		}
+		else {
+			watchedDate = undefined
+			watchedYear = 0
+		}
+
 
 		return {
 			universe: item.universe,
@@ -17,7 +28,7 @@ export default function (rawItems: Collection['products']): ItemAttributes[] {
 			slugTitle: item.slug,
 			fullPictureUrl: item.medias?.picture,
 			watchedDate: watchedDate,
-			watchedYear: item.currentUserInfos?.dateDone.slice(0, 4)
+			watchedYear: watchedYear
 		}
 	})
 }
