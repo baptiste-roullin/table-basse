@@ -1,6 +1,6 @@
 import dotenv from 'dotenv'
 dotenv.config()
-import debug from'debug'
+import debug from 'debug'
 const error = debug('TB:error')
 const warning = debug('TB:warning')
 
@@ -8,8 +8,13 @@ const warning = debug('TB:warning')
 import { Sequelize, DataTypes, Optional, ModelAttributes, Model, Op, FindOptions } from 'sequelize'
 import { Universes } from '../../types.d.js'
 import { getEnumKey, getEnumValue } from '../utils.js'
-
-export const orm = new Sequelize(process.env.DATABASE_URL, { dialect: 'postgres' })
+export const orm = new Sequelize(process.env.DATABASE_URL, {
+	dialect: 'postgres', dialectOptions: {
+		ssl: {
+			rejectUnauthorized: false
+		}
+	}
+})
 
 export async function checkDBConnection() {
 	try {
@@ -220,7 +225,7 @@ export async function createCountsByYear() {
 	]
 
 	const countsByCat = Object.assign({}, ...counts) as Record<string, Array<Record<('watchedYear' | "count"), number>>>
-console.log(countsByCat)
+	console.log(countsByCat)
 
 
 	const countsByYear: CountAttributes[] = []
@@ -243,7 +248,7 @@ console.log(countsByCat)
 		}
 	) as CountAttributes[]
 
-console.log(toDB)
+	console.log(toDB)
 
 	Count.bulkCreate(toDB, { updateOnDuplicate: catNames, validate: true })
 }
