@@ -3,16 +3,16 @@
 		<h1>
 			<router-link to="/"> Table basse </router-link>
 		</h1>
-		<nav class="controls" v-if="route.name === 'Home'">
+		<nav class="controls">
 			<!-- ZOOM -->
-			<vue-slider @change="zoomChanged" :modelValue="store.settings.zoom" class="zoom" :min="0.5"
-				:max="4" :interval="0.1" :tooltip="'none'" :contained="true"
+			<vue-slider @change="zoomChanged" :value="store.settings.zoom" class="zoom" :min="0.5" :max="4"
+				:interval="0.1" :tooltip="'none'" :contained="true"
 				:dot-attrs="{ 'aria-label': 'Varier la taille des images des oeuvres' }" />
 
 			<!-- CATEGORIE -->
-			<VueSelect aria-controls="items-lists-container" @input="selectCategory"
-				:options="store.categories" :value="store.settings.currentCategory" :searchable="false"
-				:clearable="false" :selectable="
+			<VueSelect aria-controls="items-lists-container" @update:modelValue="selectCategory"
+				:options="store.categories" :modelValue="store.settings.currentCategory.label"
+				:searchable="false" :clearable="false" :selectable="
 					(option: Category) => {
 						return store.countsByCat[option.code] > 0 || option.code === 0
 					}
@@ -35,8 +35,8 @@
 			</VueSelect>
 
 			<!-- ANNÉE -->
-			<VueSelect aria-controls="items-lists-container" @input="selectYear"
-				:options="store.years.yearsWithItems" :value="selectedYear" :searchable="false"
+			<VueSelect aria-controls="items-lists-container" @update:modelValue="selectYear"
+				:options="store.years.yearsWithItems" :modelValue="selectedYear" :searchable="false"
 				:clearable="false" :selectable="
 					(option: number) =>
 						store.countsByYear[option][store.settings.currentCategory.code] > 0 ||
@@ -77,13 +77,13 @@
 import { computed } from 'vue'
 import VueSlider from 'vue-slider-component'
 import 'vue-slider-component/theme/antd.css'
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { store as useStore } from '@/stores/index'
-import VueSelect from '@/components/vueSelect.js'
+//@ts-ignore
+import VueSelect from '@/components/vueSelect'
 import type { Category } from '@/types.js'
 import { changeTransformOrigin, debounce } from '@/utils'
 const router = useRouter()
-const route = useRoute()
 
 const store = useStore()
 store.countsByCat["2023"]
