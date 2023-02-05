@@ -15,7 +15,7 @@ import { computed, onMounted } from "vue"
 import items from "@/components/itemsList.vue"
 import { debounce, changeTransformOrigin } from '@/utils'
 import { store as useStore } from '@/stores/index'
-//import { init } from '@/init'
+import { init } from '@/init'
 const store = useStore()
 
 const allCategories = computed(() => {
@@ -36,7 +36,7 @@ async function getNextYear() {
 	await store.getItems(end)
 }
 
-//init()
+init()
 onMounted(() => {
 	window.addEventListener(
 		"resize",

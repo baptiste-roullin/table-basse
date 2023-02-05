@@ -18,13 +18,13 @@ export function removeDuplicates(storedItems: any[]) {
 }
 
 export const categories = [
+	{ code: 0, label: 'Toutes catégories' },
 	{ code: 1, label: 'Films' },
 	{ code: 2, label: 'Livres' },
 	{ code: 3, label: 'Jeux vidéo' },
 	{ code: 4, label: 'Séries' },
 	{ code: 5, label: 'Musique' },
-	{ code: 5, label: 'Bande dessinées' },
-	{ code: 0, label: 'Toutes catégories' },
+	{ code: 6, label: 'Bande dessinées' },
 ]
 export const store = defineStore('tb', {
 	state: (): State => ({

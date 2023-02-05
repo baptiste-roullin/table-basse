@@ -42,3 +42,4 @@ export interface Category {
 	label: string
 }
 
+declare module '@/components/vueSelect'
