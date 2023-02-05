@@ -31,6 +31,7 @@ export class NoInvalidUniverse extends Validator {
 	constructor(req: FastifyRequest) {
 		super(req)
 		this.allowedCategories = getEnumValue(Universes) as number[]
+		this.allowedCategories.push(0) // "all"
 		this.universe = Number(this.req.params.universe)
 	}
 	get errorMessage() {

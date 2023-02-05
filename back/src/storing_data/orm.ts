@@ -4,8 +4,7 @@ import debug from 'debug'
 const error = debug('TB:error')
 const warning = debug('TB:warning')
 export enum Universes {
-	"all",
-	"Films",
+	"Films" = 1,
 	"Livres",
 	"Jeux vidéo",
 	"Séries",

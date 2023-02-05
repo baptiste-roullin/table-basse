@@ -5,8 +5,8 @@
 		</h1>
 		<nav class="controls">
 			<!-- ZOOM -->
-			<vue-slider @change="zoomChanged" :value="store.settings.zoom" class="zoom" :min="0.5" :max="4"
-				:interval="0.1" :tooltip="'none'" :contained="true"
+			<vue-slider @change="zoomChanged" ref="slider" v-model="store.settings.zoom" class="zoom"
+				:min="0.5" :max="4" :interval="0.1" :tooltip="'none'" :contained="true"
 				:dot-attrs="{ 'aria-label': 'Varier la taille des images des oeuvres' }" />
 
 			<!-- CATEGORIE -->

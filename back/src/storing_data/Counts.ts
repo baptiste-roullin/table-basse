@@ -48,9 +48,9 @@ Count.init(
 
 
 export async function requestCountsByYear() {
-	const categories = getEnumValue(Universes) as Array<keyof CountInput>
+	const universes = getEnumValue(Universes) as Array<keyof CountInput>
 	const countsByYearQuery = await Count.findAll()
-	const promises = categories.map(async (cat) => {
+	const promises = universes.map(async (cat) => {
 		return { [cat]: await Count.sum(cat) }
 	})
 	const countsByCatQuery = await Promise.all(promises)
@@ -96,7 +96,7 @@ export async function createCountsByYear() {
 	]
 
 	const countsByCat = Object.assign({}, ...counts) as Record<string, Array<Record<('watchedYear' | "count"), number>>>
-	console.log("countsByCat", countsByCat)
+	//console.log("countsByCat", countsByCat)
 
 
 	const countsByYear: CountAttributes[] = []
@@ -117,7 +117,7 @@ export async function createCountsByYear() {
 		}
 	) as CountAttributes[]
 
-	console.log("to DB :", toDB)
+	//console.log("to DB :", toDB)
 
 	Count.bulkCreate(toDB, { ignoreDuplicates: true, validate: true })
 }

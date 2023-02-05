@@ -10,7 +10,7 @@ export async function init() {
 	// On fixe la catégorie en la récupérant de l'URL
 
 	//on récupère systématiquement des stats, au cas où il y a de nouveaux items
-	const oldCountsByCat = store?.countsByCat
+	//const oldCountsByCat = store?.countsByCat
 	const { countsByCat } = await store.updateCounts()
 
 	if (store.settings.initFront !== true) {
@@ -36,10 +36,11 @@ export async function init() {
 			start: index,
 			end: index + 1,
 		})
-
 	}
-
-	if (oldCountsByCat) {
+	console.log('il y a du nouveau')
+	await store.setLog([])
+	console.log(store.logOfRequests)
+/*	if (oldCountsByCat) {
 		//Si y a du nouveau par rapport au store
 		if (isNotEqual(oldCountsByCat, countsByCat)) {
 
@@ -47,7 +48,7 @@ export async function init() {
 			await store.setLog([])
 			console.log(store.logOfRequests)
 		}
-	}
+	}*/
 	try {
 		await store.getItems(2023)
 
