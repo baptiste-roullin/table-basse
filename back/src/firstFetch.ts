@@ -13,21 +13,14 @@ export default async function (init) {
 
 	console.log('initialisation')
 	const storage = new Storage()
-
-
 	await checkDBConnection()
-
 	await orm.sync()
 
 	async function getAndStoreItems() {
-		//const token = getToken()
-
 		const user = await fetchUser()
-
 		if (user?.settings.privacyProfile === true) {
 			throw new Error('Ce compte est privé')
 		}
-
 		const count = user.stats.diaryCount
 		await Settings.findOrCreate({
 			where: { name: 'count' },
@@ -49,9 +42,9 @@ export default async function (init) {
 		await getAndStoreItems()
 		await createCountsByYear()
 
-		init.value = false
+		init.value = true
 		await init.save()
-		console.log('appli initialisée')
+		console.log('app initialisée')
 	} catch (error) {
 		console.log(error)
 	}

@@ -4,7 +4,7 @@ import debug from 'debug'
 const error = debug('TB:error')
 const warning = debug('TB:warning')
 export enum Universes {
-
+	"all",
 	"Films",
 	"Livres",
 	"Jeux vidéo",
@@ -12,6 +12,7 @@ export enum Universes {
 	"Musique",
 	"BDs",
 }
+
 
 import { Sequelize, DataTypes, Model, Op, FindOptions } from 'sequelize'
 
@@ -33,8 +34,8 @@ export async function checkDBConnection() {
 
 
 export class Setting extends Model {
-	name: string
-	value: any
+	declare name: string
+	declare value: any
 }
 
 Setting.init(

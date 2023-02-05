@@ -4,7 +4,7 @@ import path from 'node:path'
 import Fastify from 'fastify'
 import cors from '@fastify/cors'
 import staticServe from '@fastify/static'
-
+import sensible from '@fastify/sensible'
 
 import { config, __dirname } from './setEnv.js'
 // imports placés après pour éviter des refs circulaires
@@ -26,10 +26,10 @@ const port = Number(config.PORT) || 3000
 
 
 try {
-
+  fastify.register(sensible)
   fastify.register(staticServe, {
-    root: path.join(__dirname, 'front/dist'),
-    prefix: '/dist/', // optional: default '/'
+    root: path.join(__dirname, '../../front/dist'),
+    prefix: '/dist/'
   })
   await fastify.register(cors, {
     // put your options here
@@ -52,20 +52,20 @@ app.use(historyFallback())
 /* FRONT */
 
 
-//Un champ dans la table Conf détermine si l'app a été initialisée.
+//Un champ dans la table Settings détermine si l'app a été initialisée.
 //On checke si elle existe et si elle est true
 async function checkIfAppNeedInit() {
   await Settings.sync()
-  let [initValue] = await Settings.findOrCreate({
+  let [initValue, created] = await Settings.findOrCreate({
     where: { name: 'initStatus' },
-    defaults: { name: 'initStatus', value: false }
+    defaults: { value: false }
   })
-  initValue.value = false
+  initValue.value = true
   if (!initValue.value) {
     initApp(initValue)
   }
   else (
-    console.log("app initialisée")
+    console.log("app déjà initialisée")
 
   )
 }

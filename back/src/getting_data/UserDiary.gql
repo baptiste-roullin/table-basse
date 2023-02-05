@@ -33,7 +33,7 @@ query UserDiary(
       }
       products {
         ...ProductMinimal
-        currentUserInfos {
+        otherUserInfos {
           ...ProductUserInfos
           __typename
         }
