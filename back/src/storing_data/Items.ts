@@ -1,13 +1,15 @@
+import { FastifyRequest } from 'fastify'
 import { Optional, Model, DataTypes, FindOptions, Op } from 'sequelize'
+import { MyRequest } from '../types.js'
 import { getEnumKey, getEnumValue } from '../utils.js'
 import { orm } from './orm.js'
 
 export interface ItemAttributes {
 	universe: number
 	id: number
-	originalTitle: string
+	//originalTitle?: string
 	frenchTitle: string
-	dateRelease: Date
+//	dateRelease: Date
 	watchedDate: Date | undefined
 	watchedYear: number
 	pageUrl: string
@@ -48,9 +50,7 @@ Item.init({
 		primaryKey: true
 	},
 	universe: DataTypes.INTEGER,
-	originalTitle: DataTypes.STRING,
 	frenchTitle: DataTypes.STRING,
-	dateRelease: DataTypes.DATE,
 	watchedDate: DataTypes.DATE,
 	watchedYear: DataTypes.INTEGER,
 	pageUrl: DataTypes.STRING,
@@ -67,11 +67,13 @@ Item.init({
 
 
 
-export async function requestItems(req) {
+
+export async function requestItems(req: MyRequest) {
 	const params = (): FindOptions => {
-		if (req.params.universe === '0') {
+		const params = req.params
+		if (params.universe === '0') {
 			return {
-				where: { watchedYear: req.params.watchedYear },
+				where: { watchedYear: params.watchedYear },
 				order: [['watchedDate', 'DESC']]
 			}
 		}
@@ -79,8 +81,8 @@ export async function requestItems(req) {
 			return {
 				where: {
 					[Op.and]: [{
-						universe: req.params.universe,
-						watchedYear: req.params.watchedYear
+						universe: params.universe,
+						watchedYear: params.watchedYear
 					}],
 
 				},

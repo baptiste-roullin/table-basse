@@ -1,6 +1,8 @@
 
 //declare enum categories { "film", "livre", "jeuvideo", "serie",  "musique", "bd" }
 
+import { FastifyRequest } from 'fastify'
+
 
 
 /*export interface Data {
@@ -32,7 +34,12 @@ export interface UserStats {
 	diaryCount: number
 }
 
+type MyRequest = FastifyRequest<{
+	Params: {
+		universe: string
+		watchedYear: string
+		id: string
 
-
-
+	}
+}>
 

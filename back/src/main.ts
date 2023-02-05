@@ -49,8 +49,6 @@ app.use(historyFallback())
 
 */
 
-/* FRONT */
-
 
 //Un champ dans la table Settings détermine si l'app a été initialisée.
 //On checke si elle existe et si elle est true
@@ -60,8 +58,8 @@ async function checkIfAppNeedInit() {
     where: { name: 'initStatus' },
     defaults: { value: false }
   })
-  initValue.value = true
-  if (!initValue.value) {
+  //  initValue.value = true
+  if (initValue.value !== 'true') {
     initApp(initValue)
   }
   else (
@@ -70,12 +68,9 @@ async function checkIfAppNeedInit() {
   )
 }
 
-
 try {
 
   await checkIfAppNeedInit()
-  //await createCountsByYear()
-  //console.log(await fetchUser())
 
   //const { collection: { products } } = await fetchSC(config.token, 'UserDiary')
 
@@ -84,7 +79,8 @@ try {
 }
 
 
-process.on('unhandledRejection', up => {
+/*process.on('unhandledRejection', up => {
   console.log(up)
   throw up
 })
+*/

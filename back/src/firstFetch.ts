@@ -1,6 +1,5 @@
 
 import { Setting as Settings, orm, checkDBConnection } from './storing_data/orm.js'
-import { Storage } from './storing_data/images.js'
 import { fetchUser, fetchCollection } from './getting_data/fetchSC.js'
 import getToken from './getting_data/getToken.js'
 import formatItems from './getting_data/formatItems.js'
@@ -12,7 +11,6 @@ import { createCountsByYear } from './storing_data/Counts.js'
 export default async function (init) {
 
 	console.log('initialisation')
-	const storage = new Storage()
 	await checkDBConnection()
 	await orm.sync()
 
@@ -29,10 +27,9 @@ export default async function (init) {
 
 		// données textuelles
 		const { products, filters } = await fetchCollection()
-		let items = formatItems(products)
+		let items = await formatItems(products)
 		//upload des images. on en tire l'URL de l'image qu'on ajoute à l'objet
 		//	items = await storage.storePictures(items)
-
 		// maintenant qu'on a tout, on stocke en base
 		await Item.bulkCreate(items, { ignoreDuplicates: true })
 	}

@@ -59,7 +59,6 @@ export const store = defineStore('tb', {
 	},
 	actions: {
 		async updateCounts() {
-
 			try {
 				const response = await fetch(`${baseURL}/api/counts`)
 				if (response.status === 200) {

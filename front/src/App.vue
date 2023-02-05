@@ -1,6 +1,6 @@
 
 <template>
-	<div id="app " :class="`${String(activeView)}`">
+	<div id="app-TB" :class="`${String(activeView)}`">
 		<navBar />
 		<router-view />
 	</div>
@@ -20,7 +20,7 @@ const activeView = computed(() => {
 
 @import url("https://fonts.googleapis.com/css2?family=Aleo:wght@400;700&display=swap");
 
-#app {
+#app-TB {
 	font-family: aleo, sans-serif;
 
 	letter-spacing: 0.05em;
