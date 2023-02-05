@@ -2,6 +2,7 @@
 //declare enum categories { "film", "livre", "jeuvideo", "serie",  "musique", "bd" }
 
 
+
 /*export interface Data {
 	//items: {
 	[Categories: string]: { string: Array<ItemT> }
@@ -30,12 +31,8 @@ export interface Collection {
 export interface UserStats {
 	diaryCount: number
 }
-export enum Universes {
 
-	"Films",
-	"Livres",
-	"Jeux vidéo",
-	"Séries",
-	"Musique",
-	"BDs",
-}
+
+
+
+

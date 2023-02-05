@@ -2,15 +2,18 @@
     // Tell ts-node CLI to install the --loader automatically, explained below
     "esm": true
   },
-	"compilerOptions": {
+  "include": ["src/**/*", "tests/**/*"],
+  "compilerOptions": {
+
 		"removeComments": true,
 		"importHelpers": true,
 		"forceConsistentCasingInFileNames": true,
-		"target": "es2019",
-		"module": "NodeNext",
+		"target": "ESNext",
+		"module": "ESNext",
+		"moduleResolution": "nodenext",
 /*		"outDir": "./build",
 */
-		"noEmit": true /* Do not emit outputs. (BECAUSE WE'RE USING TS-NODE!) */,
+		"noEmit": false /* Do not emit outputs. (BECAUSE WE'RE USING TS-NODE!) */,
 		"noImplicitAny": false,
 		"esModuleInterop": true,
 		"strict": true,
@@ -19,6 +22,7 @@
 		"allowSyntheticDefaultImports": true,
 		"noImplicitReturns": false,
 		"lib": [
+			"ESNext",
 			"ES2018",
 			"es2019",
 			"DOM",
@@ -29,6 +33,5 @@
 	},
 	"exclude": [
 		"node_modules",
-		"front"
 	]
 }
