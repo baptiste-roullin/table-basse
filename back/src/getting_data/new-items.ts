@@ -1,5 +1,4 @@
 
-//@ts-nocheck
 
 import { Item, ConfTable, orm, createCountsByYear } from './storage/orm.js.js.js'
 import { config } from './main.js.js.js'
@@ -7,6 +6,7 @@ import { Storage } from './storage/images.js.js.js'
 
 
 export async function getNewItemsFromSC(mode: 'collection' | 'journal', cat: string) {
+	// TODO mettre à jour
 	/*	orm.sync()
 		const newGlobalCount = await scapeGlobalCount(`${config.TB_HOST}/${config.TB_USERNAME}/journal/${cat}/page-999999999.ajax`)
 

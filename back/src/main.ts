@@ -14,8 +14,6 @@ import { apiRoutes } from './serving_data/routes.js'
 import initApp from './firstFetch.js'
 //import { fetchUser } from './getting_data/fetchSC.js'
 
-
-
 import pg from '@fastify/postgres'
 
 const fastify = Fastify({
@@ -42,11 +40,8 @@ try {
   process.exit(1)
 }
 
-
-
 /*//Au rechargement de page par l'utilisateur, réécrit l'URL pour renvoyer à index.html, afin que le routage soit géré par Vue.
 app.use(historyFallback())
-
 */
 
 
@@ -58,7 +53,7 @@ async function checkIfAppNeedInit() {
     where: { name: 'initStatus' },
     defaults: { value: false }
   })
-  initValue.value = false
+  initValue.value = true
   if (initValue.value !== 'true') {
     initApp(initValue)
   }
@@ -69,7 +64,6 @@ async function checkIfAppNeedInit() {
 }
 
 try {
-
   checkIfAppNeedInit()
   //const { collection: { products } } = await fetchSC(config.token, 'UserDiary')
 
