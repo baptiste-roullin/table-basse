@@ -1,8 +1,9 @@
 <template>
 	<main class="home">
 		<div id="items-lists-container" aria-live="polite" aria-atomic="false">
-			<itemsList class="items-container" :style="zoomFactor" v-for="year in displayedYears" :year="year"
-				:key="year" :class="{ allCategories: allCategories }" />
+			<itemsList class="items-container" :style="{ '--zoom-factor': store.settings.zoom }"
+				v-for="year in displayedYears" :year="year" :key="year"
+				:class="{ allCategories: allCategories }" />
 		</div>
 		<button class="load-more" type="button" @click="getNextYear" aria-controls="items-lists-container">
 			Année précédente
@@ -33,13 +34,8 @@ const displayedYears = computed(() => {
 async function getNextYear() {
 	const end = store.years.period.end + 1
 	await store.setPeriod({ end: end })
-	await store.getItems(end)
-}
-
-function zoomFactor() {
-	return {
-		"--zoom-factor": store.settings.zoom,
-	}
+	const year = store.years.yearsWithItems[store.years.yearsWithItems.length - 1]
+	await store.getItems(year)
 }
 
 init()

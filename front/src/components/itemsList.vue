@@ -4,8 +4,8 @@
 		<h2 v-else> {{ props.year }}</h2>
 
 		<div class="items">
-			<a v-bind:href="`https://www.senscritique.com${item.pageUrl}`"
-				v-for="(item) in itemsForCurrentYear()" :key="item.id"
+			<a :href="`https://www.senscritique.com${item.pageUrl}`" v-for="(item) in itemsForCurrentYear()"
+				:key="item.id"
 				:class="`item ${store.settings.currentCategory.code} id-${item.id} ${(item.CDNUrl ? 'img' : 'no-img')} `"
 				:title="`Fiche de l'oeuvre ${item.frenchTitle}`">
 				<img class="item-img" v-show="isLoaded[item.id]" :src="item.CDNUrl"
