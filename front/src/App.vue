@@ -22,7 +22,6 @@ const activeView = computed(() => {
 
 #app-TB {
 	font-family: aleo, sans-serif;
-
 	letter-spacing: 0.05em;
 }
 

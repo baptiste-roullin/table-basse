@@ -119,5 +119,7 @@ export async function createCountsByYear() {
 
 	//console.log("to DB :", toDB)
 
-	Count.bulkCreate(toDB, { ignoreDuplicates: true, validate: true })
+	await Count.bulkCreate(toDB, { ignoreDuplicates: true, validate: true })
+	console.log("count finished")
+
 }
