@@ -17,6 +17,7 @@ async function fetchSC(token, operationName: 'UserDiary' | 'UserStats' | 'Produc
 		case 'UserDiary':
 			Object.assign(variables, {
 				isDiary: true,
+				// TODO : env prod : faire sauter la limite.
 				"limit": 20,
 				"offset": 0,
 				"universe": null,
