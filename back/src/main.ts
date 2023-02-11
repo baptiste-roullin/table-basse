@@ -58,7 +58,7 @@ async function checkIfAppNeedInit() {
     where: { name: 'initStatus' },
     defaults: { value: false }
   })
-  //  initValue.value = true
+  initValue.value = false
   if (initValue.value !== 'true') {
     initApp(initValue)
   }
@@ -70,8 +70,7 @@ async function checkIfAppNeedInit() {
 
 try {
 
-  await checkIfAppNeedInit()
-
+  checkIfAppNeedInit()
   //const { collection: { products } } = await fetchSC(config.token, 'UserDiary')
 
 } catch (error) {

@@ -6,7 +6,7 @@ import { Item } from './Items.js'
 
 import { v2 as cloudinary } from "cloudinary"
 
-async function store(path: string, fileName: string, type?: 'image' | 'raw') {
+export async function store(path: string, fileName: string, type?: 'image' | 'raw') {
 
 	//const uploadAsync = promisify(cloudinary.uploader.upload)
 	try {
@@ -41,7 +41,9 @@ export async function storePictures(items: Array<any>) {
 }
 
 export async function getPictureURL(publicId) {
-	return await cloudinary.api.resource(publicId)
+	const media = await cloudinary.api.resource(publicId)
+	return media.secure_url
+
 }
 
 
