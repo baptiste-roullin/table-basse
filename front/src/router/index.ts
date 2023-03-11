@@ -6,9 +6,11 @@ const router = createRouter({
   ),
   routes: [
     {
-		path: '/items/:category?/:year?',
-    name: 'home',
-    component: HomeView
+      alias: '/',
+      path: '/items/:category?/:year?',
+      //path: '/',
+      name: 'home',
+      component: HomeView
     },
   ]
 })
