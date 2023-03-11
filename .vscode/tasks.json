@@ -4,6 +4,7 @@
 		{
 			"type": "npm",
 			"script": "dev",
+			"path": "back/",
 			"problemMatcher": [],
 			"label": "npm: dev",
 			"detail": "cross-env NODE_ENV=development nodemon --ignore front/ --exec 'npx ts-node'  ./src/index.ts",

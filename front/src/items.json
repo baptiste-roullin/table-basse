@@ -1,0 +1,90 @@
+[
+	{
+		"id": 479601,
+		"universe": 1,
+		"frenchTitle": "Johnny Mnemonic",
+		"watchedDate": "2023-02-08T23:00:00.000Z",
+		"watchedYear": 2023,
+		"pageUrl": "/film/johnny_mnemonic/479601",
+		"CDNUrl": "https://res.cloudinary.com/hvpzbaqi0/image/upload/v1676120618/479601.webp",
+		"updatedAt": "2023-02-11T20:07:29.549Z",
+		"deletedAt": null
+	},
+	{
+		"id": 444032,
+		"universe": 1,
+		"frenchTitle": "Les Grandes Vacances",
+		"watchedDate": "2023-01-28T23:00:00.000Z",
+		"watchedYear": 2023,
+		"pageUrl": "/film/les_grandes_vacances/444032",
+		"CDNUrl": "https://res.cloudinary.com/hvpzbaqi0/image/upload/v1676120618/444032.webp",
+		"updatedAt": "2023-02-11T20:07:29.549Z",
+		"deletedAt": null
+	},
+	{
+		"id": 399271,
+		"universe": 1,
+		"frenchTitle": "La Gloire de mon père",
+		"watchedDate": "2023-01-28T23:00:00.000Z",
+		"watchedYear": 2023,
+		"pageUrl": "/film/la_gloire_de_mon_pere/399271",
+		"CDNUrl": "https://res.cloudinary.com/hvpzbaqi0/image/upload/v1676120618/399271.webp",
+		"updatedAt": "2023-02-11T20:07:29.549Z",
+		"deletedAt": null
+	},
+	{
+		"id": 420988,
+		"universe": 1,
+		"frenchTitle": "La Maison du lac",
+		"watchedDate": "2023-01-10T23:00:00.000Z",
+		"watchedYear": 2023,
+		"pageUrl": "/film/la_maison_du_lac/420988",
+		"CDNUrl": "https://res.cloudinary.com/hvpzbaqi0/image/upload/v1676120618/420988.webp",
+		"updatedAt": "2023-02-11T20:07:29.549Z",
+		"deletedAt": null
+	},
+	{
+		"id": 397459,
+		"universe": 1,
+		"frenchTitle": "Devine qui vient dîner...",
+		"watchedDate": "2023-01-08T23:00:00.000Z",
+		"watchedYear": 2023,
+		"pageUrl": "/film/devine_qui_vient_diner/397459",
+		"CDNUrl": "https://res.cloudinary.com/hvpzbaqi0/image/upload/v1676120618/397459.webp",
+		"updatedAt": "2023-02-11T20:07:29.549Z",
+		"deletedAt": null
+	},
+	{
+		"id": 36462569,
+		"universe": 1,
+		"frenchTitle": "À couteaux tirés",
+		"watchedDate": "2023-01-06T23:00:00.000Z",
+		"watchedYear": 2023,
+		"pageUrl": "/film/a_couteaux_tires/36462569",
+		"CDNUrl": "https://res.cloudinary.com/hvpzbaqi0/image/upload/v1676120618/36462569.webp",
+		"updatedAt": "2023-02-11T20:07:29.549Z",
+		"deletedAt": null
+	},
+	{
+		"id": 45250426,
+		"universe": 1,
+		"frenchTitle": "She Said",
+		"watchedDate": "2023-01-02T23:00:00.000Z",
+		"watchedYear": 2023,
+		"pageUrl": "/film/she_said/45250426",
+		"CDNUrl": "https://res.cloudinary.com/hvpzbaqi0/image/upload/v1676120618/45250426.webp",
+		"updatedAt": "2023-02-11T20:07:29.549Z",
+		"deletedAt": null
+	},
+	{
+		"id": 403512,
+		"universe": 1,
+		"frenchTitle": "Les Valeurs de la Famille Addams",
+		"watchedDate": "2023-01-01T23:00:00.000Z",
+		"watchedYear": 2023,
+		"pageUrl": "/film/les_valeurs_de_la_famille_addams/403512",
+		"CDNUrl": "https://res.cloudinary.com/hvpzbaqi0/image/upload/v1676120618/403512.webp",
+		"updatedAt": "2023-02-11T20:07:29.549Z",
+		"deletedAt": null
+	}
+]

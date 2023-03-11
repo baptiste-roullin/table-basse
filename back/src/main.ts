@@ -5,6 +5,8 @@ import Fastify from 'fastify'
 import cors from '@fastify/cors'
 import staticServe from '@fastify/static'
 import sensible from '@fastify/sensible'
+import dotenv from 'dotenv'
+dotenv.config()
 
 import { config, __dirname } from './setEnv.js'
 // imports placés après pour éviter des refs circulaires
@@ -53,8 +55,7 @@ async function checkIfAppNeedInit() {
     where: { name: 'initStatus' },
     defaults: { value: false }
   })
-  initValue.value = true
-  if (initValue.value !== 'true') {
+  if (initValue.value !== 'true' || process.env.FORCE_INIT === "true") {
     initApp(initValue)
   }
   else (

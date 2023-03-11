@@ -5,14 +5,14 @@
 		</h1>
 		<nav class="controls">
 			<!-- ZOOM -->
-			<vue-slider @change="zoomChanged" ref="slider" v-model="store.settings.zoom" class="zoom"
-				:min="0.5" :max="4" :interval="0.1" :tooltip="'none'" :contained="true"
+			<vue-slider @change="zoomChanged" ref="slider" v-model="store.settings.zoom" class="zoom" :min="0.5"
+				:max="4" :interval="0.1" :tooltip="'none'" :contained="true"
 				:dot-attrs="{ 'aria-label': 'Varier la taille des images des oeuvres' }" />
 
 			<!-- CATEGORIE -->
 			<VueSelect aria-controls="items-lists-container" @update:modelValue="selectCategory"
-				:options="store.categories" :modelValue="store.settings.currentCategory.label"
-				:searchable="false" :clearable="false" :selectable="
+				:options="store.categories" :modelValue="store.settings.currentCategory.label" :searchable="false"
+				:clearable="false" :selectable="
 					(option: Category) => {
 						return store.countsByCat[option.code] > 0 || option.code === 0
 					}
@@ -20,17 +20,17 @@
 				<template v-slot:option="option: Category">
 					<span class="inline-label">{{ option.label }}</span>
 					<span
-						class="inline-count"
-						v-if="option.code === 0"
-					>{{
-						countsByCatTotal
-					}}</span>
+														class="inline-count"
+														v-if="option.code === 0"
+													>{{
+														countsByCatTotal
+													}}</span>
 					<span
-						class="inline-count"
-						v-else
-					>{{
-						store.countsByCat[option.code]
-					}}</span>
+														class="inline-count"
+														v-else
+													>{{
+														store.countsByCat[option.code]
+													}}</span>
 				</template>
 			</VueSelect>
 
@@ -45,28 +45,28 @@
 				<template v-slot:option="option">
 					<!-- année -->
 					<span
-						class="inline-label"
-						v-if="option.label === '0000'"
-					>Vu un jour
+														class="inline-label"
+														v-if="option.label === '0000'"
+													>Vu un jour
 
-					</span>
+													</span>
 					<span
-						class="inline-label"
-						v-else
-					>
-						{{ option.label }}
-					</span>
+														class="inline-label"
+														v-else
+													>
+														{{ option.label }}
+													</span>
 					<!-- compteur -->
 					<span
-						class="inline-count"
-						v-if="store.settings.currentCategory.code === 0"
-					></span>
+														class="inline-count"
+														v-if="store.settings.currentCategory.code === 0"
+													></span>
 					<span
-						class="inline-count"
-						v-else
-					>{{
-	store.countsByYear[option.label][store.settings.currentCategory.code]
-					}}</span>
+														class="inline-count"
+														v-else
+													>{{
+														store.countsByYear[option.label][store.settings.currentCategory.code]
+													}}</span>
 				</template>
 			</VueSelect>
 		</nav>
@@ -90,10 +90,7 @@ store.countsByCat["2023"]
 
 
 
-const selectedYear = computed(() => {
-	const year = store.years.yearsWithItems[store.years.period.start || 0]
-	return (year === 0 ? "Vu un jour" : year)
-})
+
 
 const countsByCatTotal = computed(() => {
 	return Object.values(store.countsByCat).reduce((previous, current) => {
@@ -111,12 +108,18 @@ function zoomChanged(val: number) {
 async function selectCategory(val: Category) {
 	router.push({ path: `/items/${val.code}/` })
 	store.setCategory(val)
-
 	const { start, end } = store.years.period
 	store.years.yearsWithItems.slice(start, end).forEach((year) => {
 		store.getItems(year)
 	})
 }
+
+const selectedYear = computed(() => {
+	return (store.years.yearsWithItems[store.years.period.start] === 0 ?
+		'Vu un jour' :
+		store.years.yearsWithItems[store.years.period.start]
+	)
+})
 async function selectYear(year: number) {
 	router.push({
 		path: `/items/${store.settings.currentCategory.code}/${year}`,
