@@ -21,15 +21,14 @@ export default function (rawItems: Collection['products']): Promise<ItemAttribut
 		try {
 			// TODO : commit url to base. with current request?
 			secure_url = await getPictureURL(item.id)
-			console.log(secure_url)
+			console.log("image existe déjà " + secure_url)
 
 			item.CDNUrl = secure_url
 		} catch (error) {
 			console.log(`no existing picture for ${item.frenchTitle}`)
 			//storage
-			const image = await store(item.fullPictureUrl, String(item.id), 'image')
-			console.log(image.secure_url)
-
+			//TODO transformer et extraire en requête batch https://cloudinary.com/documentation/admin_api#get_details_of_a_single_resource_by_public_id
+			const image = await store(item.medias?.picture, String(item.id))
 			secure_url = image.secure_url
 		}
 
@@ -41,11 +40,9 @@ export default function (rawItems: Collection['products']): Promise<ItemAttribut
 			//	dateRelease: new Date(item.dateRelease),
 			pageUrl: item.url,
 			slugTitle: item.slug,
-			fullPictureUrl: item.medias?.picture,
 			watchedDate: watchedDate,
 			watchedYear: watchedYear,
 			CDNUrl: secure_url
-
 		}
 	}
 

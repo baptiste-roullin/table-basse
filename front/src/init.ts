@@ -19,7 +19,7 @@ export async function init() {
 		await store.setPeriod({ start: 0, end: 1 })
 		store.setCategory(store.categories[1])
 		await store.getItems(2023)
-		//store.settings.initFront = true
+		store.settings.initFront = false
 
 	}
 	const routeParams = route.params

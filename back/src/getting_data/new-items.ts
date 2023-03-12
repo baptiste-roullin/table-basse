@@ -1,10 +1,3 @@
-
-
-import { Item, ConfTable, orm, createCountsByYear } from './storage/orm.js.js.js'
-import { config } from './main.js.js.js'
-import { Storage } from './storage/images.js.js.js'
-
-
 export async function getNewItemsFromSC(mode: 'collection' | 'journal', cat: string) {
 	// TODO mettre à jour
 	/*	orm.sync()

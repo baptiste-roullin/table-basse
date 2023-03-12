@@ -30,9 +30,8 @@ export default async function (init) {
 		let items = await formatItems(products)
 		//upload des images. on en tire l'URL de l'image qu'on ajoute à l'objet
 		//	items = await storage.storePictures(items)
-		// maintenant qu'on a tout, on stocke en base
-		console.log(items[0])
 
+		// maintenant qu'on a tout, on stocke en base
 		await Item.bulkCreate(items, { ignoreDuplicates: true })
 		console.log("items stored")
 	}
