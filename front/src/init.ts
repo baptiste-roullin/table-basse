@@ -1,6 +1,7 @@
 
 import { store as useStore } from '@/stores/index'
 import { useRoute } from 'vue-router'
+import type { Category } from './types'
 import { isNotEqual } from './utils'
 
 export async function init() {
@@ -23,11 +24,9 @@ export async function init() {
 	}
 	const routeParams = route.params
 	if (routeParams.category) {
-		store.setCategory(
-			store.categories.find(
-				(elem: { code: any }) => elem.code === route.params.category
-			)
-		)
+		const catInParam = (cat: Category) => cat.label === route.params.category
+		const cat = store.categories.find(catInParam) || store.categories[0]
+		store.setCategory(cat)
 	}
 	if (routeParams.year) {
 		const index = store.years.yearsWithItems.findIndex((el: any) => el === routeParams.year)
