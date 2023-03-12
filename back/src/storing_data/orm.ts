@@ -17,7 +17,8 @@ import { Sequelize, DataTypes, Model, Op, FindOptions } from 'sequelize'
 
 
 export const orm = new Sequelize(process.env.DATABASE_URL, {
-	dialect: 'postgres'
+	dialect: 'postgres',
+	logging: false,
 }
 )
 

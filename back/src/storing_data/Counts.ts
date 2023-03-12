@@ -80,20 +80,20 @@ export async function createCountsByYear() {
 	const counts: Array<Record<string, Array<Object>>> = await Promise.all(
 		catID.map(universe => getCount(universe))
 	)
-	const input = {
-		'1': [
-			{ watchedYear: 2022, count: 6 },
-			{ watchedYear: 2021, count: 6 }
-		],
-		'2': [
-			{ watchedYear: 2022, count: 6 },
-			{ watchedYear: 2021, count: 6 }
-		]
-	}
-	const output = [
-		{ '1': 6, '2': 1, '3': 5, '4': 8, watchedYear: '2022' },
-		{ '1': 6, '2': 1, '3': 5, '4': 8, watchedYear: '2021' }
-	]
+	/*	const input = {
+			'1': [
+				{ watchedYear: 2022, count: 6 },
+				{ watchedYear: 2021, count: 6 }
+			],
+			'2': [
+				{ watchedYear: 2022, count: 6 },
+				{ watchedYear: 2021, count: 6 }
+			]
+		}
+		const output = [
+			{ '1': 6, '2': 1, '3': 5, '4': 8, watchedYear: '2022' },
+			{ '1': 6, '2': 1, '3': 5, '4': 8, watchedYear: '2021' }
+		]*/
 
 	const countsByCat = Object.assign({}, ...counts) as Record<string, Array<Record<('watchedYear' | "count"), number>>>
 	//console.log("countsByCat", countsByCat)
@@ -119,7 +119,7 @@ export async function createCountsByYear() {
 
 	//console.log("to DB :", toDB)
 
-	await Count.bulkCreate(toDB, { ignoreDuplicates: true, validate: true })
+	await Count.bulkCreate(toDB, { ignoreDuplicates: false, /*validate: true,*/ updateOnDuplicate: ["1", "2", "3", "4", "5", "6", "watchedYear"] })
 	console.log("count finished")
 
 }

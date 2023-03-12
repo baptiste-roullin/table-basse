@@ -5,32 +5,46 @@ import { getPictureURL, store, storePictures } from '../storing_data/images.js'
 
 export default function (rawItems: Collection['products']): Promise<ItemAttributes[]> {
 
-	const cb = async (item) => {
+	const callback = async (item) => {
 		let watchedDate: Date | undefined
+		let rawDate: string
 		let watchedYear: number
 
 		if (item.otherUserInfos?.dateDone) {
-			watchedDate = new Date(item.otherUserInfos?.dateDone)
+			rawDate = item.otherUserInfos?.dateDone
+			if (rawDate.length < 12) {
+				const partialDate = rawDate.replace(/-/g, ',',).split(',')
+				watchedDate = new Date(Number(partialDate[0]), Number(partialDate[1]), Number(partialDate[2]))
+			}
+			else {
+				watchedDate = new Date(rawDate)
+			}
 			watchedYear = watchedDate.getFullYear()
 		}
 		else {
 			watchedDate = undefined
 			watchedYear = 0
 		}
-		let secure_url: string
-		try {
-			// TODO : commit url to base. with current request?
-			secure_url = await getPictureURL(item.id)
-			console.log("image existe déjà " + secure_url)
-
-			item.CDNUrl = secure_url
-		} catch (error) {
-			console.log(`no existing picture for ${item.frenchTitle}`)
-			//storage
-			//TODO transformer et extraire en requête batch https://cloudinary.com/documentation/admin_api#get_details_of_a_single_resource_by_public_id
-			const image = await store(item.medias?.picture, String(item.id))
-			secure_url = image.secure_url
+		if (Number.isNaN(watchedYear)) {
+			debugger
 		}
+		let secure_url: string
+		//TODO : décommenter en prod
+		//TODO transformer et extraire en requête batch https://cloudinary.com/documentation/admin_api#get_details_of_a_single_resource_by_public_id
+		// créer transaction avec une requête pour les infos de base puis une pour l'url cloudinary ?
+
+		/*		try {
+					// TODO : commit url to base. with current request?
+					secure_url = await getPictureURL(item.id)
+					console.log("image existe déjà " + secure_url)
+
+					item.CDNUrl = secure_url
+				} catch (error) {
+					console.log(error)
+					//storage
+					const image = await store(item.medias?.picture, String(item.id))
+					secure_url = image.secure_url
+				}*/
 
 		return {
 			universe: item.universe,
@@ -47,6 +61,6 @@ export default function (rawItems: Collection['products']): Promise<ItemAttribut
 	}
 
 
-	return Promise.all(rawItems.map(cb))
+	return Promise.all(rawItems.map(callback))
 
 }

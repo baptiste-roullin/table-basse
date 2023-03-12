@@ -9,12 +9,11 @@ export interface ItemAttributes {
 	id: number
 	//originalTitle?: string
 	frenchTitle: string
-//	dateRelease: Date
+	//	dateRelease: Date
 	watchedDate: Date | undefined
 	watchedYear: number
 	pageUrl: string
 	slugTitle?: string
-	fullPictureUrl?: string
 	CDNUrl?: string
 	directors?: string
 	illustrators?: string
@@ -55,7 +54,6 @@ Item.init({
 	watchedYear: DataTypes.INTEGER,
 	pageUrl: DataTypes.STRING,
 	slugTitle: DataTypes.STRING,
-	fullPictureUrl: DataTypes.STRING,
 	CDNUrl: DataTypes.STRING
 }, {
 	sequelize: orm,

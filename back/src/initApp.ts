@@ -20,20 +20,17 @@ export default async function (init) {
 			throw new Error('Ce compte est privé')
 		}
 		const count = user.stats.diaryCount
-		await Settings.findOrCreate({
-			where: { name: 'count' },
-			defaults: { name: 'count', value: count }
-		})
+		await Settings.upsert(
+			{ name: 'count', value: count }
+		)
 
-		// données textuelles
 		const { products, filters } = await fetchCollection()
 		let items = await formatItems(products)
-		//upload des images. on en tire l'URL de l'image qu'on ajoute à l'objet
-		//	items = await storage.storePictures(items)
+
 
 		// maintenant qu'on a tout, on stocke en base
 		await Item.bulkCreate(items, { ignoreDuplicates: true })
-		console.log("items stored")
+		console.log((await Item.count()) + " items stored")
 	}
 
 	try {
