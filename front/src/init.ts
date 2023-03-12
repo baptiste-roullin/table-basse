@@ -10,15 +10,15 @@ export async function init() {
 	// On fixe la catégorie en la récupérant de l'URL
 
 	//on récupère systématiquement des stats, au cas où il y a de nouveaux items
-	//const oldCountsByCat = store?.countsByCat
-	//const { countsByCat } = await store.updateCounts()
+	const oldCountsByCat = store.countsByCat
+	const { countsByCat } = await store.updateCounts()
 
 	if (store.settings.initFront !== true) {
-		await store.loadNonEmptyYears()
+		await store.loadYearsWithItems()
 		await store.setPeriod({ start: 0, end: 1 })
 		store.setCategory(store.categories[1])
 		await store.getItems(2023)
-		store.settings.initFront = true
+		//store.settings.initFront = true
 
 	}
 	const routeParams = route.params
@@ -39,11 +39,10 @@ export async function init() {
 	}
 	console.log('il y a du nouveau')
 	await store.setLog([])
-	console.log(store.logOfRequests)
 	/*	if (oldCountsByCat) {
 			//Si y a du nouveau par rapport au store
 			if (isNotEqual(oldCountsByCat, countsByCat)) {
-	
+
 				console.log('il y a du nouveau')
 				await store.setLog([])
 				console.log(store.logOfRequests)

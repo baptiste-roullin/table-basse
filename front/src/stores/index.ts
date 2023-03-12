@@ -76,7 +76,7 @@ export const store = defineStore('tb', {
 				console.log('API not responding, you dunce')
 			}
 		},
-		loadNonEmptyYears() {
+		loadYearsWithItems() {
 			this.years.yearsWithItems = Object.keys(this.countsByYear).sort().reverse().map((key => Number(key)))
 		},
 		setCategory(val: any) {

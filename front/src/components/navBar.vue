@@ -19,18 +19,8 @@
 				">
 				<template v-slot:option="option: Category">
 					<span class="inline-label">{{ option.label }}</span>
-					<span
-														class="inline-count"
-														v-if="option.code === 0"
-													>{{
-														countsByCatTotal
-													}}</span>
-					<span
-														class="inline-count"
-														v-else
-													>{{
-														store.countsByCat[option.code]
-													}}</span>
+					<span class="inline-count" v-if="option.code === 0">{{ countsByCatTotal }}</span>
+					<span class="inline-count" v-else>{{ store.countsByCat[option.code] }}</span>
 				</template>
 			</VueSelect>
 
@@ -43,30 +33,14 @@
 						store.settings.currentCategory.code === 0
 				">
 				<template v-slot:option="option">
-					<!-- année -->
-					<span
-														class="inline-label"
-														v-if="option.label === '0000'"
-													>Vu un jour
 
-													</span>
-					<span
-														class="inline-label"
-														v-else
-													>
-														{{ option.label }}
-													</span>
+					<!-- année -->
+					<span class="inline-label" v-if="option.label === '0000'">Vu un jour </span>
+					<span class="inline-label" v-else>{{ option.label }}</span>
+
 					<!-- compteur -->
-					<span
-														class="inline-count"
-														v-if="store.settings.currentCategory.code === 0"
-													></span>
-					<span
-														class="inline-count"
-														v-else
-													>{{
-														store.countsByYear[option.label][store.settings.currentCategory.code]
-													}}</span>
+					<span class="inline-count" v-if="store.settings.currentCategory.code === 0"></span>
+					<span class="inline-count" v-else>{{ store.countsByYear[option.label][store.settings.currentCategory.code] }}</span>
 				</template>
 			</VueSelect>
 		</nav>
@@ -115,9 +89,10 @@ async function selectCategory(val: Category) {
 }
 
 const selectedYear = computed(() => {
-	return (store.years.yearsWithItems[store.years.period.start] === 0 ?
+	const year = store.years.yearsWithItems[store.years.period.start]
+	return (year === 0 ?
 		'Vu un jour' :
-		store.years.yearsWithItems[store.years.period.start]
+		year
 	)
 })
 async function selectYear(year: number) {
