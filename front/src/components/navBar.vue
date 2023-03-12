@@ -3,20 +3,19 @@
 		<h1>
 			<router-link to="/"> Table basse </router-link>
 		</h1>
+
 		<nav class="controls">
+
 			<!-- ZOOM -->
 			<vue-slider @change="zoomChanged" ref="slider" v-model="store.settings.zoom" class="zoom" :min="0.5"
 				:max="4" :interval="0.1" :tooltip="'none'" :contained="true"
 				:dot-attrs="{ 'aria-label': 'Varier la taille des images des oeuvres' }" />
 
+
 			<!-- CATEGORIE -->
 			<VueSelect aria-controls="items-lists-container" @update:modelValue="selectCategory"
 				:options="store.categories" :modelValue="store.settings.currentCategory.label" :searchable="false"
-				:clearable="false" :selectable="
-					(option: Category) => {
-						return store.countsByCat[option.code] > 0 || option.code === 0
-					}
-				">
+				:clearable="false" :selectable="selectableCategory">
 				<template v-slot:option="option: Category">
 					<span class="inline-label">{{ option.label }}</span>
 					<span class="inline-count" v-if="option.code === 0">{{ countsByCatTotal }}</span>
@@ -24,14 +23,11 @@
 				</template>
 			</VueSelect>
 
+
 			<!-- ANNÉE -->
 			<VueSelect aria-controls="items-lists-container" @update:modelValue="selectYear"
 				:options="store.years.yearsWithItems" :modelValue="selectedYear" :searchable="false"
-				:clearable="false" :selectable="
-					(option: number) =>
-						store.countsByYear[option][store.settings.currentCategory.code] > 0 ||
-						store.settings.currentCategory.code === 0
-				">
+				:clearable="false" :selectable="selectableYear">
 				<template v-slot:option="option">
 
 					<!-- année -->
@@ -62,16 +58,11 @@ const router = useRouter()
 const store = useStore()
 store.countsByCat["2023"]
 
-
-
-
-
 const countsByCatTotal = computed(() => {
 	return Object.values(store.countsByCat).reduce((previous, current) => {
 		return previous + current
 	})
 })
-
 
 function zoomChanged(val: number) {
 	//debounce a été pensé pour être utilisé en callback, d'où le () supplémentaire.
@@ -79,8 +70,12 @@ function zoomChanged(val: number) {
 	store.settings.zoom = val
 }
 
+function selectableCategory(option: Category) {
+	return store.countsByCat[option.code] > 0 || option.code === 0
+}
+
 async function selectCategory(val: Category) {
-	router.push({ path: `/items/${val.code}/` })
+	router.push({ path: `/items/${val.label}/` })
 	store.setCategory(val)
 	const { start, end } = store.years.period
 	store.years.yearsWithItems.slice(start, end).forEach((year) => {
@@ -95,6 +90,11 @@ const selectedYear = computed(() => {
 		year
 	)
 })
+
+function selectableYear(option: number) {
+	return store.countsByYear[option][store.settings.currentCategory.code] > 0 || store.settings.currentCategory.code === 0
+
+}
 async function selectYear(year: number) {
 	router.push({
 		path: `/items/${store.settings.currentCategory.code}/${year}`,

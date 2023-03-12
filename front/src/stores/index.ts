@@ -1,7 +1,7 @@
 
 
 const baseURL = process.env.NODE_ENV === 'production' ? '' : 'http://127.0.0.1:3000'
-import type { Item, State } from '../types.js'
+import type { Category, Item, State } from '../types.js'
 
 import { defineStore } from 'pinia'
 export function removeDuplicates(storedItems: any[]) {
@@ -79,7 +79,7 @@ export const store = defineStore('tb', {
 		loadYearsWithItems() {
 			this.years.yearsWithItems = Object.keys(this.countsByYear).sort().reverse().map((key => Number(key)))
 		},
-		setCategory(val: any) {
+		setCategory(val: Category) {
 			this.settings.currentCategory = val
 		},
 		setPeriod(val: any) {
