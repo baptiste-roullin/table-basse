@@ -39,8 +39,13 @@ export async function storePictures(items: Array<any>) {
 
 export async function getPictureURL(publicId) {
 	const media = await cloudinary.api.resource(publicId)
+	if (media) {
+		return media.secure_url
+	}
+	else {
+		throw new Error(`no existing picture for ${publicId}`)
 
-	return media.secure_url
+	}
 
 }
 

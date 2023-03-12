@@ -45,7 +45,7 @@ export const store = defineStore('tb', {
 			//années affichées
 			// end prend la logique de array.slice(start, end) : Zero-based index BEFORE which to end extraction
 			// du coup, y a un "end - 1" dans getItems() pour retrouver le bon index.
-			period: { start: 0, end: 1 }
+			period: { start: 0, end: 3 }
 		},
 	}),
 	getters: {

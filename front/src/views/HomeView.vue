@@ -12,6 +12,7 @@
 </template>
 
 <script setup lang="ts">
+//TODO : afficher dix années directement
 import { computed, onMounted } from "vue"
 import itemsList from "@/components/itemsList.vue"
 import { debounce, changeTransformOrigin } from '@/utils'

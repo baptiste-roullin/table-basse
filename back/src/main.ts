@@ -13,7 +13,7 @@ import { config, __dirname } from './setEnv.js'
 import historyFallback from 'connect-history-api-fallback'
 import { Setting as Settings } from './storing_data/orm.js'
 import { apiRoutes } from './serving_data/routes.js'
-import initApp from './firstFetch.js'
+import initApp from './initApp.js'
 //import { fetchUser } from './getting_data/fetchSC.js'
 
 import pg from '@fastify/postgres'

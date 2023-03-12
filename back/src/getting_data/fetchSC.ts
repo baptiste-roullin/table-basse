@@ -3,8 +3,10 @@ import { request, GraphQLClient, gql } from 'graphql-request'
 import { config } from '../setEnv.js'
 import { promises as fs } from 'fs'
 import { Collection, User, UserStats } from '../types.js'
+import { Item } from '../storing_data/Items.js'
+import { Setting } from '../storing_data/orm.js'
 
-async function fetchSC(token, operationName: 'UserDiary' | 'UserStats' | 'Product') {
+async function fetchSC(token, operationName: 'UserDiary' | 'UserStats' | 'Product', offset) {
 
 
 	const endpoint = 'https://apollo.senscritique.com/'
@@ -18,8 +20,8 @@ async function fetchSC(token, operationName: 'UserDiary' | 'UserStats' | 'Produc
 			Object.assign(variables, {
 				isDiary: true,
 				// TODO : env prod : faire sauter la limite.
-				"limit": 20,
-				"offset": 0,
+				"limit": 2000,
+				"offset": offset,
 				"universe": null,
 				"yearDateDone": null
 			})
@@ -62,10 +64,14 @@ async function fetchSC(token, operationName: 'UserDiary' | 'UserStats' | 'Produc
 }
 
 export async function fetchCollection(): Promise<Collection> {
+	/*	let index = offset
+		while (Setting.findAll( {where: {name:"count"}}) >index ) {
 
-	return await fetchSC(config.token, 'UserDiary') as Collection
+		}*/
+	return await fetchSC(config.token, 'UserDiary', 0) as Collection
+
 }
 
 export async function fetchUser(): Promise<User> {
-	return await fetchSC(config.token, 'UserStats') as User
+	return await fetchSC(config.token, 'UserStats', 0) as User
 }
