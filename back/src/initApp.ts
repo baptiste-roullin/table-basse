@@ -5,17 +5,15 @@ import getToken from './getting_data/getToken.js'
 import formatItems from './getting_data/formatItems.js'
 import { Item } from './storing_data/Items.js'
 import { createCountsByYear } from './storing_data/Counts.js'
+import { v2 as cloudinary } from "cloudinary"
 
 
 
-export default async function (init) {
+export default async function () {
 
-	async function getAndStoreItems() {
-
-
+	async function getAndStoreItems(needImages) {
 		const { products, filters } = await fetchCollection()
-		let items = await formatItems(products)
-
+		let items = await formatItems(products, needImages)
 
 		// maintenant qu'on a tout, on stocke en base
 		await Item.bulkCreate(items, { ignoreDuplicates: true })
@@ -27,25 +25,41 @@ export default async function (init) {
 		if (user?.settings.privacyProfile === true) {
 			throw new Error('Ce compte est privé')
 		}
+		return user
+	}
+
+	async function setCount(user) {
 		const count = user.stats.diaryCount
 		await Settings.upsert(
 			{ name: 'count', value: count }
 		)
+		return count
 	}
-
-	console.log('initialisation')
-	await checkDBConnection()
-	await orm.sync()
 
 
 	try {
-		//On remplit une table avec le nombre d'items par année et par catégorie
-		await getAndStoreItems()
-		await createCountsByYear()
+		await checkDBConnection()
+		await orm.sync()
 
-		init.value = true
-		await init.save()
-		console.log('app initialisée')
+		const user = await setuser()
+		const remoteCount = await setCount(user)
+
+		const localCount = Item.count()
+
+		const { resources } = await cloudinary.api.usage()
+
+		let needImages: Boolean
+		if (resources < localCount) {
+			needImages = true
+		}
+
+		if (remoteCount > localCount) {
+			//On remplit une table avec le nombre d'items par année et par catégorie
+			await getAndStoreItems(needImages)
+			await createCountsByYear()
+		}
+
+
 	} catch (error) {
 		console.log(error)
 	}

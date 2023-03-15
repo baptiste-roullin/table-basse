@@ -3,7 +3,7 @@ import { Collection, User } from '../types.js'
 import { getPictureURL, store, storePictures } from '../storing_data/images.js'
 
 
-export default function (rawItems: Collection['products']): Promise<ItemAttributes[]> {
+export default function (rawItems: Collection['products'], needImages: Boolean): Promise<ItemAttributes[]> {
 
 	const callback = async (item) => {
 		let watchedDate: Date | undefined
@@ -32,19 +32,20 @@ export default function (rawItems: Collection['products']): Promise<ItemAttribut
 		//TODO : décommenter en prod
 		//TODO transformer et extraire en requête batch https://cloudinary.com/documentation/admin_api#get_details_of_a_single_resource_by_public_id
 		// créer transaction avec une requête pour les infos de base puis une pour l'url cloudinary ?
+		if (needImages) {
+			try {
+				// TODO : commit url to base. with current request? (WHAT)
+				secure_url = await getPictureURL(item.id)
+				console.log("image existe déjà " + secure_url)
 
-		/*		try {
-					// TODO : commit url to base. with current request?
-					secure_url = await getPictureURL(item.id)
-					console.log("image existe déjà " + secure_url)
-
-					item.CDNUrl = secure_url
-				} catch (error) {
-					console.log(error)
-					//storage
-					const image = await store(item.medias?.picture, String(item.id))
-					secure_url = image.secure_url
-				}*/
+				item.CDNUrl = secure_url
+			} catch (error) {
+				console.log(error)
+				//storage
+				const image = await store(item.medias?.picture, String(item.id))
+				secure_url = image.secure_url
+			}
+		}
 
 		return {
 			universe: item.universe,
