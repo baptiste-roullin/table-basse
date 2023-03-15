@@ -47,26 +47,11 @@ app.use(historyFallback())
 */
 
 
-//Un champ dans la table Settings détermine si l'app a été initialisée.
-//On checke si elle existe et si elle est true
-async function checkIfAppNeedInit() {
-  await Settings.sync()
-  let [initValue, created] = await Settings.findOrCreate({
-    where: { name: 'initStatus' },
-    defaults: { value: false }
-  })
-  if (initValue.value !== 'true' || process.env.FORCE_INIT === "true") {
-    initApp(initValue)
-  }
-  else (
-    console.log("app déjà initialisée")
 
-  )
-}
 
 try {
-  checkIfAppNeedInit()
-  //const { collection: { products } } = await fetchSC(config.token, 'UserDiary')
+
+  initApp()
 
 } catch (error) {
   console.log(error)
