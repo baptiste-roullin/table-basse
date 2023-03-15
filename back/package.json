@@ -4,7 +4,6 @@
   "private": true,
   "scripts": {
     "dev": "npx tsx watch ./src/main.ts",
-    "debug": " npx ts-node  --esm ./src/main.ts",
     "start": "npx tsx ./src/main.ts",
     "heroku-postbuild": "npx tsc && cd front && npm run build"
   },

@@ -11,12 +11,8 @@ dotenv.config()
 import { config, __dirname } from './setEnv.js'
 // imports placés après pour éviter des refs circulaires
 import historyFallback from 'connect-history-api-fallback'
-import { Setting as Settings } from './storing_data/orm.js'
 import { apiRoutes } from './serving_data/routes.js'
 import initApp from './initApp.js'
-//import { fetchUser } from './getting_data/fetchSC.js'
-
-import pg from '@fastify/postgres'
 
 const fastify = Fastify({
   logger: true
@@ -46,13 +42,8 @@ try {
 app.use(historyFallback())
 */
 
-
-
-
 try {
-
   initApp()
-
 } catch (error) {
   console.log(error)
 }
