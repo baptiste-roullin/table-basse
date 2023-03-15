@@ -10,19 +10,8 @@ import { createCountsByYear } from './storing_data/Counts.js'
 
 export default async function (init) {
 
-	console.log('initialisation')
-	await checkDBConnection()
-	await orm.sync()
-
 	async function getAndStoreItems() {
-		const user = await fetchUser()
-		if (user?.settings.privacyProfile === true) {
-			throw new Error('Ce compte est privé')
-		}
-		const count = user.stats.diaryCount
-		await Settings.upsert(
-			{ name: 'count', value: count }
-		)
+
 
 		const { products, filters } = await fetchCollection()
 		let items = await formatItems(products)
@@ -32,6 +21,22 @@ export default async function (init) {
 		await Item.bulkCreate(items, { ignoreDuplicates: true })
 		console.log((await Item.count()) + " items stored")
 	}
+
+	async function setuser() {
+		const user = await fetchUser()
+		if (user?.settings.privacyProfile === true) {
+			throw new Error('Ce compte est privé')
+		}
+		const count = user.stats.diaryCount
+		await Settings.upsert(
+			{ name: 'count', value: count }
+		)
+	}
+
+	console.log('initialisation')
+	await checkDBConnection()
+	await orm.sync()
+
 
 	try {
 		//On remplit une table avec le nombre d'items par année et par catégorie
