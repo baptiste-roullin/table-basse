@@ -183,7 +183,7 @@ $bgColor: #bbb;
 @media screen and (max-width: 30em) {
 }
 
-@import "../../node_modules/vue-slider-component/lib/theme/material.scss";
+@import "./vue-slider.scss";
 
 .controls .v-select {
 	background-color: hsl(234, 50%, 20%);
