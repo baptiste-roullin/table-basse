@@ -25,7 +25,6 @@ try {
   fastify.register(sensible)
   fastify.register(staticServe, {
     root: path.join(__dirname, '../../front/dist'),
-    prefix: '/dist/'
   })
   await fastify.register(apiRoutes, { prefix: 'api' })
 
