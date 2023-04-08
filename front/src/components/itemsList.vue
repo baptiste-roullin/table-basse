@@ -1,8 +1,7 @@
 <template>
 	<div>
-		<h2 class="inline-label" v-if="props.year === '0000'">Vu un jour</h2>
-		<h2 v-else> {{ props.year }}</h2>
-
+		<h2 class="inline-label year" v-if="props.year === '0000'">Vu un jour</h2>
+		<h2 class="inline-label year" v-else> {{ props.year }}</h2>
 		<div class="items">
 			<a :href="`https://www.senscritique.com${item.pageUrl}`" v-for="(item) in itemsForCurrentYear()"
 				:key="item.id"
@@ -24,7 +23,6 @@ import { reactive, onUpdated } from 'vue'
 
 import { store as useStore } from '@/stores/index'
 import { changeTransformOrigin } from '@/utils'
-import empty from '@/assets/empty2.svg'
 const store = useStore()
 
 function itemsForCurrentYear() {
@@ -58,8 +56,10 @@ onUpdated(() => {
 })
 
 </script>
-
 <style lang="scss">
+
+@import "@/variables.scss";
+
 :root {
 	--zoom-factor: ;
 }
@@ -69,10 +69,15 @@ h1 {
 	letter-spacing: 0.05em;
 }
 
-h2 {
-	margin: 1.5em auto 0.5em;
+h2.year {
+	margin: 1.5em auto 0;
+	padding: 0.15em 0em;
 	font-size: calc(22px + 2vmin * var(--zoom-factor));
 	text-align: center;
+	position: sticky;
+	top: 0px;
+	background-color: $black-1;
+	z-index: 2;
 }
 
 @media screen and (max-width: 600px) {
@@ -82,11 +87,14 @@ h2 {
 		margin: auto;
 		padding: 0;
 		transition: all 0.1s ease-in;
-		.item {
-			max-height: 60vmax;
-			margin-bottom: 2rem;
+		a.item {
+			height: auto;
+			margin: 1rem auto;
 			width: 100%;
-			min-height: 40vmax;
+			.item-img {
+				height: auto;
+				object-fit: fill;
+			}
 		}
 	}
 }

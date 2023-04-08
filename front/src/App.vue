@@ -9,11 +9,16 @@
 import navBar from './components/navBar.vue'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { init } from './init'
 const route = useRoute()
 
 const activeView = computed(() => {
 	return route.name
 })
+
+
+init(2)
+
 </script>
 <style lang="scss">
 @import "@/variables.scss";

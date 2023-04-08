@@ -2,9 +2,8 @@
 import { store as useStore } from '@/stores/index'
 import { useRoute } from 'vue-router'
 import type { Category } from './types'
-import { isNotEqual } from './utils'
 
-export async function init() {
+export async function init(numberOfyearsToDisplay: number) {
 	const route = useRoute()
 	const store = useStore()
 
@@ -14,11 +13,17 @@ export async function init() {
 	const oldCountsByCat = store.countsByCat
 	const { countsByCat } = await store.updateCounts()
 
+
 	if (store.settings.initFront !== true) {
 		await store.loadYearsWithItems()
-		await store.setPeriod({ start: 0, end: 1 })
+		await store.setPeriod({ start: 0, end: numberOfyearsToDisplay })
 		store.setCategory(store.categories[1])
-		await store.getItems(2023)
+
+		let index = 0
+		while (index < numberOfyearsToDisplay) {
+			await store.getItems(store.years.yearsWithItems[index])
+			index++
+		}
 		store.settings.initFront = false
 
 	}
