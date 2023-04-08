@@ -44,7 +44,7 @@ export default async function () {
 		const user = await setuser()
 		const remoteCount = await setCount(user)
 
-		const localCount = Item.count()
+		const localCount = await Item.count()
 
 		const { resources } = await cloudinary.api.usage()
 
