@@ -32,15 +32,14 @@ export default function (rawItems: Collection['products'], needToDownloadImages:
 		if (needToDownloadImages) {
 			try {
 				const image = await store(item.medias?.picture, String(item.id))
-				secure_url = image.secure_url
-				item.CDNUrl = secure_url
+				item.CDNUrl = image.secure_url
 			} catch (error) {
 				console.log(error)
 			}
 		}
 		else {
-			secure_url = await getPictureURL(item.id)
-			console.log("image existe déjà " + secure_url)
+			item.CDNUrl = await getPictureURL(item.id)
+			//console.log("image existe déjà " + item.CDNUrl)
 		}
 		return {
 			universe: item.universe,
