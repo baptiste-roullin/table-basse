@@ -11,9 +11,9 @@ import { v2 as cloudinary } from "cloudinary"
 
 export default async function () {
 
-	async function getAndStoreItems(needImages) {
+	async function getAndStoreItems(needToDownloadImages) {
 		const { products, filters } = await fetchCollection()
-		let items = await formatItems(products, needImages)
+		let items = await formatItems(products, needToDownloadImages)
 
 		// maintenant qu'on a tout, on stocke en base
 		await Item.bulkCreate(items, { ignoreDuplicates: true })
@@ -48,14 +48,14 @@ export default async function () {
 
 		const { resources } = await cloudinary.api.usage()
 
-		let needImages: Boolean
+		let needToDownloadImages: Boolean
 		if (resources < localCount) {
-			needImages = true
+			needToDownloadImages = true
 		}
 
 		if (remoteCount > localCount) {
 			//On remplit une table avec le nombre d'items par année et par catégorie
-			await getAndStoreItems(needImages)
+			await getAndStoreItems(needToDownloadImages)
 			await createCountsByYear()
 		}
 
