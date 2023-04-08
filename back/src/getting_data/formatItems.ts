@@ -29,7 +29,6 @@ export default function (rawItems: Collection['products'], needImages: Boolean):
 			debugger
 		}
 		let secure_url: string
-		//TODO : décommenter en prod
 		//TODO transformer et extraire en requête batch https://cloudinary.com/documentation/admin_api#get_details_of_a_single_resource_by_public_id
 		// créer transaction avec une requête pour les infos de base puis une pour l'url cloudinary ?
 		if (needImages) {

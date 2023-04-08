@@ -58,7 +58,7 @@ onUpdated(() => {
 </script>
 <style lang="scss">
 
-@import "@/variables.scss";
+@import "../variables.scss";
 
 :root {
 	--zoom-factor: ;
