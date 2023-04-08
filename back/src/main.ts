@@ -27,9 +27,6 @@ try {
     root: path.join(__dirname, '../../front/dist'),
     prefix: '/dist/'
   })
-  await fastify.register(cors, {
-    // put your options here
-  })
   await fastify.register(apiRoutes, { prefix: 'api' })
 
   await fastify.listen({ port: port })
