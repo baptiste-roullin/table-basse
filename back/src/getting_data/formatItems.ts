@@ -1,4 +1,4 @@
-import { ItemAttributes } from '../storing_data/Items.js'
+import { Item, ItemAttributes } from '../storing_data/Items.js'
 import { Collection, User } from '../types.js'
 import { getPictureURL, store, storePictures } from '../storing_data/images.js'
 
@@ -25,26 +25,23 @@ export default function (rawItems: Collection['products'], needToDownloadImages:
 			watchedDate = undefined
 			watchedYear = 0
 		}
-		if (Number.isNaN(watchedYear)) {
-			debugger
-		}
+
 		let secure_url: string
 		//TODO transformer et extraire en requête batch https://cloudinary.com/documentation/admin_api#get_details_of_a_single_resource_by_public_id
 		// créer transaction avec une requête pour les infos de base puis une pour l'url cloudinary ?
 		if (needToDownloadImages) {
 			try {
-				secure_url = await getPictureURL(item.id)
-				console.log("image existe déjà " + secure_url)
-
-				item.CDNUrl = secure_url
-			} catch (error) {
-				//console.log(error)
-				//storage
 				const image = await store(item.medias?.picture, String(item.id))
 				secure_url = image.secure_url
+				item.CDNUrl = secure_url
+			} catch (error) {
+				console.log(error)
 			}
 		}
-
+		else {
+			secure_url = await getPictureURL(item.id)
+			console.log("image existe déjà " + secure_url)
+		}
 		return {
 			universe: item.universe,
 			id: item.id,
@@ -58,8 +55,6 @@ export default function (rawItems: Collection['products'], needToDownloadImages:
 			CDNUrl: secure_url
 		}
 	}
-
-
 	return Promise.all(rawItems.map(callback))
 
 }
