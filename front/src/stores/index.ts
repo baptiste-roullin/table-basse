@@ -124,7 +124,7 @@ export const store = defineStore('tb', {
 								storedItems.push(...newItemsToPush)
 							} return data
 						} else {
-							console.log(' items : pas  réponse vide')
+							console.log(' items : réponse vide')
 						}
 					}
 				}

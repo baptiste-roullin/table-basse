@@ -35,11 +35,10 @@ const displayedYears = computed(() => {
 async function getNextYear() {
 	const end = store.years.period.end + 1
 	await store.setPeriod({ end: end })
-	const year = store.years.yearsWithItems[store.years.yearsWithItems.length - 1]
+	const year = store.years.yearsWithItems[end - 1]
 	await store.getItems(year)
 }
 
-init()
 onMounted(() => {
 	window.addEventListener(
 		"resize",
