@@ -1,4 +1,4 @@
-import { BrowserContext, chromium } from 'playwright'
+import { chromium } from 'playwright'
 
 
 export default async function getToken(): Promise<string> {
@@ -10,7 +10,6 @@ export default async function getToken(): Promise<string> {
 				log: (name, severity, message, args) => console.log(`${name} ${message}`)
 			}
 		})
-
 		const context = await browser.newContext({ storageState: 'state.json' })
 		let storageState = await context.storageState()
 
@@ -41,7 +40,5 @@ export default async function getToken(): Promise<string> {
 
 	} catch (error) {
 		console.log(error)
-
 	}
-
 }

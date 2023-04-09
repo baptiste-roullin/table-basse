@@ -1,8 +1,6 @@
 
 import * as validator from './validator.js'
-import { config } from '../setEnv.js'
-import { Universes } from '../storing_data/orm.js'
-import { getNewItemsFromSC } from '../getting_data/new-items.js'
+
 import { FastifyInstance, FastifyRequest } from 'fastify'
 import { requestCountsByYear } from '../storing_data/Counts.js'
 import { requestItems } from '../storing_data/Items.js'

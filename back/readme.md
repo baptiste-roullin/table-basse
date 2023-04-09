@@ -6,40 +6,39 @@
 
 Afficher les livres, films, jeux... que vous avez lu/vu/poncé dans une app dédiée, en utilisant votre compte Sens Critique. Pas les listes, les tops, les scores, les envies… juste les oeuvres déclarées comme ✅.
 
-C'est un projet pour mon usage personnel, pas pensé ni testé pour un quelconque usage sérieux. Inspiration initiale : [ce projet](https://github.com/mlcdf/shelob).
+C'est un projet pour mon usage personnel, pas pensé ni testé pour un quelconque usage sérieux.
 
-Le déploiement est pensé pour Heroku mais avec quelques ajustements devrait fonctionner n'importe où.
+## Historique
+- V1 : hébergé chez Heroku. Inspiration initiale : [ce projet](https://github.com/mlcdf/shelob).
+- V2 : auto-hébergé. La grosse refonte de Sens Critique de 2202 a pété le scraping mais a fourni une alternative beaucoup plus simple : requêter directement les données de l'API GraphQL/Apollo.
 
 ## Installation
 
 Prérequis :
 
 * une base PostgreSQL
-* un compte chez le CDN Cloudinary (installable facilement par Heroku)
-* NPM 7
-* Node 15
+* un compte chez le CDN Cloudinary
+* NPM 9
+* Node 18
 
 `npm install`
 
-Le dossier front a son propre package.json mais il est déclaré comme workspace dans le package.json racine, donc lié symboliquement.
+Remplacer le fichier .env.sample par un fichier .env similaire donnant les infos de votre compte Sens critique (pseudo et jeton de connexion). Fichier évidememnt confidentiel à `.gitignore`-iser.
 
-## Génération
+### Jeton de connexion
 
-Typescript et Vue sont compilés par le serveur avec l'ancrage `heroku-postbuild`.
+Interagir avec l'API nécessite un jeton unique lié à votre compte. Pour l'obtenir, le plus "simple" est de vous connecter à Sens Critique avec votre compte, d'appuyer sur la touche F12, dans l'onglet console d'entrer "document.cookie" et dans le texte qui apparait chercher la valeur liée à "SC_AUTH".
 
-tsconfig.json n'a pas de `root` déclarée car cela créait un conflit avec Vetur (plugin pour Vue et VS Code).
+De ce que j'ai vu, le jeton est peu ou prou permanent, mais si jamais vous voulez le récupérer programmatiquement, vous pouvez utiliser le module `getToken.ts`. Cela nécessite de spécifier des variables d'environnement pour vos mails et mots de passe : TB_PWD et TB_EMAIL. AVERTISSEMENT : cette partie du code n'a pas été testée récemment, il est possible que le front de SC ait changé et fasse échouer le scraping.
 
-A cause d'un cas très précis, le projet requiert Puppeteer (un outil d'automatisation de Chrome). Pour l'installer sur Heroku, on peut utiliser [ce script](https://elements.heroku.com/buildpacks/jontewks/puppeteer-heroku-buildpack). Ça ajoute un navigateur complet donc les temps de déploiement et la taille  du projet sont sensiblement augmentés.
+## Déploiement
 
-## Import des données
-Remplacer le fichier .env.sample par un fichier .env similaire donnant les infos de votre compte Sens critique (pseudo, mail et mot de passe). Fichier évidememnt confidentiel à `.gitignore`-iser.
-
-Au premier lancement, l'appli va mettre un certain temps pour importer les œuvres.
-
-Pour importer régulièrement les nouvelles oeuvres, programmer le lancement de `new-items-job.js` avec une tâche Cron ou équivalent.
+1. Foutez-moi s'y tout ça sur un serveur Linux
+2. Allez dans le dossier `front` puis lancez `npm run build`
+3. Pour lancer automatiquement l'application, suivez [ces instructions](https://gist.github.com/joepie91/73ce30dd258296bd24af23e9c5f761aa).
+4. La seule différence est que j'ai mis `Restart=always` et `RunTimeMaxSec=1d`, pour mettre à jour les données toutes les 24h.
 
 
 ## Développement
-`npm run dev`, à la racine pour le back et dans le dossier front pour Vue.
+`npm run dev` dans les dossiers back et front.
 
-Pour le back, Nodemon recharge le serveur à chaque changement et Ts-node s'occupe de Typescript.
