@@ -22,7 +22,6 @@
 import { reactive, onUpdated } from 'vue'
 
 import { store as useStore } from '@/stores/index'
-import { changeTransformOrigin } from '@/utils'
 const store = useStore()
 
 function itemsForCurrentYear() {
@@ -52,7 +51,7 @@ function loaded(item: { id: string | number }, el: HTMLImageElement | EventTarge
 const props = defineProps(['year'])
 const isLoaded = reactive({} as Record<string, boolean>)
 onUpdated(() => {
-	changeTransformOrigin()
+	//changeTransformOrigin()
 })
 
 </script>
@@ -108,10 +107,8 @@ h2.year {
 		margin: auto;
 		padding: 0;
 		transition: all 0.1s ease-in;
-		grid-template-columns: repeat(
-			auto-fill,
-			minmax(calc(0.35vmax * var(--zoom-factor) * 14), 3fr)
-		);
+		grid-template-columns: repeat(auto-fill,
+				minmax(calc(0.35vmax * var(--zoom-factor) * 14), 3fr));
 		grid-auto-rows: calc(0.52vmax * var(--zoom-factor) * 14);
 
 		.item.landscape {
@@ -153,11 +150,13 @@ h2.year {
 		filter: blur(13px);
 		transform: scale(1.2);
 	}
+
 	.item.landscape .item-img {
 		object-fit: contain;
 	}
 
 	@media screen and (hover: hover) and (min-width: 601px) {
+
 		.item:hover,
 		.item:focus {
 			z-index: 1;
@@ -173,6 +172,7 @@ h2.year {
 				7px 20.1px 17.9px rgba(0, 0, 0, 0.107),
 				15px 37.6px 33.4px rgba(0, 0, 0, 0.129),
 				40px 90px 80px rgba(0, 0, 0, 0.18);
+
 			.item-img {
 				object-fit: cover;
 				height: 100%;
@@ -185,18 +185,18 @@ h2.year {
 		background: center / 60% no-repeat url('${empty}'),
 			radial-gradient(222.79% 60.27% at 50% 50%, #005e7c 0%, #042c45 100%);
 		border-image-slice: 1;
-		border-image-source: linear-gradient(
-			150deg,
-			rgba(164, 194, 204),
-			#2395b9 95%
-		);
+		border-image-source: linear-gradient(150deg,
+				rgba(164, 194, 204),
+				#2395b9 95%);
 		width: 100%;
 		height: 100%;
 		display: flex;
 	}
+
 	.item.origin-left {
 		transform-origin: left center;
 	}
+
 	.item.origin-right {
 		transform-origin: right center;
 	}

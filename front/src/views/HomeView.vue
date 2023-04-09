@@ -16,7 +16,6 @@ import { computed, onMounted } from "vue"
 import itemsList from "@/components/itemsList.vue"
 import { debounce, changeTransformOrigin } from '@/utils'
 import { store as useStore } from '@/stores/index'
-import { init } from '@/init'
 const store = useStore()
 
 const allCategories = computed(() => {
@@ -48,7 +47,8 @@ onMounted(() => {
 </script>
 
 <style lang="scss" >
-@import "@/variables.scss";
+@import "../variables.scss";
+
 
 @media screen and (min-width: 601px) {
 	.home {
