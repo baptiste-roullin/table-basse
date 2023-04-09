@@ -5,14 +5,18 @@ import Fastify from 'fastify'
 import cors from '@fastify/cors'
 import staticServe from '@fastify/static'
 import sensible from '@fastify/sensible'
-import dotenv from 'dotenv'
-dotenv.config()
+
+import { test } from './storing_data/test.js'
 
 import { config, __dirname } from './setEnv.js'
 // imports placés après pour éviter des refs circulaires
 import historyFallback from 'connect-history-api-fallback'
 import { apiRoutes } from './serving_data/routes.js'
 import initApp from './initApp.js'
+
+
+import { v2 as cloudinary } from "cloudinary"
+
 
 const fastify = Fastify({
   logger: true
@@ -26,10 +30,11 @@ try {
   fastify.register(staticServe, {
     root: path.join(__dirname, '../../front/dist'),
   })
+  await fastify.register(cors)
   await fastify.register(apiRoutes, { prefix: 'api' })
-
   await fastify.listen({ port: port })
-} catch (err) {
+}
+catch (err) {
   fastify.log.error(err)
   process.exit(1)
 }
@@ -37,6 +42,8 @@ try {
 /*//Au rechargement de page par l'utilisateur, réécrit l'URL pour renvoyer à index.html, afin que le routage soit géré par Vue.
 app.use(historyFallback())
 */
+
+
 
 try {
   initApp()

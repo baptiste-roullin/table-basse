@@ -1,7 +1,4 @@
 import pMap from 'p-map'
-
-import dotenv from 'dotenv'
-dotenv.config()
 import { Item } from './Items.js'
 
 import { v2 as cloudinary } from "cloudinary"
