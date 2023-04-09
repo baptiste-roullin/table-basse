@@ -1,7 +1,7 @@
 import { Optional, Model, DataTypes } from 'sequelize'
 import { getEnumKey, getEnumValue } from '../utils.js'
 import { Item } from './Items.js'
-import { orm, Universes } from './orm.js'
+import { Setting as Settings, Universes, orm, checkDBConnection } from './orm.js'
 
 export interface CountAttributes {
 	"1"?: number
@@ -68,6 +68,14 @@ export async function createCountsByYear() {
 	const catNames = getEnumKey(Universes) as Array<keyof CountInput>
 	const catID = getEnumValue(Universes)
 
+	async function setCount(user) {
+		const count = user.stats.diaryCount
+		await Settings.upsert(
+			{ name: 'count', value: count }
+		)
+		return count
+	}
+
 	async function getCount(cat) {
 		return {
 			[cat]: await Item.count({
@@ -122,4 +130,13 @@ export async function createCountsByYear() {
 	await Count.bulkCreate(toDB, { ignoreDuplicates: false, /*validate: true,*/ updateOnDuplicate: ["1", "2", "3", "4", "5", "6", "watchedYear"] })
 	console.log("count finished")
 
+}
+
+
+export async function setRemoteCount(user) {
+	const count = user.stats.diaryCount
+	await Settings.upsert(
+		{ name: 'count', value: count }
+	)
+	return count
 }

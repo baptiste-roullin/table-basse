@@ -2,7 +2,7 @@ import { FastifyRequest } from 'fastify'
 import { Optional, Model, DataTypes, FindOptions, Op } from 'sequelize'
 import { MyRequest } from '../types.js'
 import { getEnumKey, getEnumValue } from '../utils.js'
-import { orm } from './orm.js'
+import { Setting as Settings, orm, checkDBConnection } from './orm.js'
 
 export interface ItemAttributes {
 	universe: number

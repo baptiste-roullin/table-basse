@@ -4,10 +4,8 @@ import { fetchUser, fetchCollection } from './getting_data/fetchSC.js'
 import getToken from './getting_data/getToken.js'
 import formatItems from './getting_data/formatItems.js'
 import { Item } from './storing_data/Items.js'
-import { createCountsByYear } from './storing_data/Counts.js'
+import { createCountsByYear, setRemoteCount } from './storing_data/Counts.js'
 import { v2 as cloudinary } from "cloudinary"
-
-
 
 export default async function () {
 
@@ -26,8 +24,8 @@ export default async function () {
 		}
 		else { return resources }
 	}
-	async function getAndStoreItems() {
-		const { products } = await fetchCollection()
+	async function getAndStoreItems(countToRequest) {
+		const { products } = await fetchCollection(countToRequest)
 
 		const listOfCDNResources = await getListOfCDNResources([], null)
 
@@ -46,25 +44,13 @@ export default async function () {
 		return user
 	}
 
-	async function setCount(user) {
-		const count = user.stats.diaryCount
-		await Settings.upsert(
-			{ name: 'count', value: count }
-		)
-		return count
-	}
-
 
 	try {
 		await checkDBConnection()
 		await orm.sync()
-
 		const user = await setuser()
-		const remoteCount = await setCount(user)
-
+		const remoteCount = await setRemoteCount(user)
 		const localCount = await Item.count()
-
-
 
 		/*
 		const { resources: CDNImagesCount } = await cloudinary.api.usage()
@@ -74,7 +60,7 @@ export default async function () {
 	*/
 		if (remoteCount > localCount) {
 			//On remplit une table avec le nombre d'items par année et par catégorie
-			await getAndStoreItems()
+			await getAndStoreItems(remoteCount - localCount)
 			await createCountsByYear()
 		}
 
