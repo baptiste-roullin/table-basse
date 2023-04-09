@@ -14,7 +14,7 @@ export default async function getToken(): Promise<string> {
 		let storageState = await context.storageState()
 
 		const page = await context.newPage()
-		await page.goto(process.env.TB_HOST)
+		await page.goto(process.env['TB_HOST'])
 		if (storageState.origins.length === 0 || storageState.origins[0].localStorage.length < 3) {
 			//await page.click(".didomi-continue-without-agreeing")
 			await page.click("#didomi-notice-agree-button")
@@ -25,8 +25,8 @@ export default async function getToken(): Promise<string> {
 
 		const loggedinCheck = await page.locator('.avatar-img-wrapper').count()
 		if (loggedinCheck === 0) {
-			await page.type('[data-testid="signin-form"] input#email', process.env.TB_EMAIL)
-			await page.type('[data-testid="signin-form"] input#password', process.env.TB_PWD)
+			await page.type('[data-testid="signin-form"] input#email', process.env['TB_EMAIL'])
+			await page.type('[data-testid="signin-form"] input#password', process.env['TB_PWD'])
 			await page.keyboard.press('Enter')
 		}
 		await page.waitForLoadState('load')

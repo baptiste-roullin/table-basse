@@ -14,7 +14,7 @@ export enum Universes {
 import { Sequelize, DataTypes, Model } from 'sequelize'
 
 
-export const orm = new Sequelize(process.env.DATABASE_URL, {
+export const orm = new Sequelize(process.env['DATABASE_URL'], {
 	dialect: 'postgres',
 	logging: false,
 }
