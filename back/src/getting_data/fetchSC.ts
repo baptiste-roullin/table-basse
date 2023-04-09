@@ -7,10 +7,9 @@ async function fetchSC(token, operationName: 'UserDiary' | 'UserStats' | 'Produc
 
 
 	const endpoint = 'https://apollo.senscritique.com/'
-	console.log(process.env.tb_username)
 
 	let variables = {
-		username: process.env.tb_username,
+		username: process.env['TB_USERNAME'],
 	}
 
 	switch (operationName) {
@@ -65,10 +64,10 @@ export async function fetchCollection(limit): Promise<Collection> {
 		while (Setting.findAll( {where: {name:"count"}}) >index ) {
 
 		}*/
-	return await fetchSC(process.env.tb_token, 'UserDiary', 0, limit) as Collection
+	return await fetchSC(process.env['TB_TOKEN'], 'UserDiary', 0, limit) as Collection
 
 }
 
 export async function fetchUser(): Promise<User> {
-	return await fetchSC(process.env.tb_token, 'UserStats', 0) as User
+	return await fetchSC(process.env['TB_TOKEN'], 'UserStats', 0) as User
 }

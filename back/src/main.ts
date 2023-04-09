@@ -21,7 +21,7 @@ try {
   })
   await fastify.register(cors)
   await fastify.register(apiRoutes, { prefix: 'api' })
-  await fastify.listen({ port: Number(process.env.port) || 3000 })
+  await fastify.listen({ port: Number(process['ENV'].port) || 3000 })
 }
 catch (err) {
   fastify.log.error(err)
