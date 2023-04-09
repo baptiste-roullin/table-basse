@@ -29,8 +29,6 @@ const validateReq = (req: FastifyRequest) => {
 }
 
 
-
-
 export async function apiRoutes(fastify: FastifyInstance, options) {
 
 	fastify.get('/picture/:id', options, async function (req: MyRequest, res) {
@@ -48,7 +46,6 @@ export async function apiRoutes(fastify: FastifyInstance, options) {
 
 		try {
 			validateReq(req)
-
 			return await requestCountsByYear()
 		} catch (e) {
 			console.log(e)
