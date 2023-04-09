@@ -115,6 +115,7 @@ async function selectYear(year: number) {
 <style  lang="scss">
 @import "@/variables.scss";
 @import "vue-select/dist/vue-select.css";
+
 .nav {
 	display: flex;
 	flex-wrap: wrap;
@@ -132,28 +133,31 @@ async function selectYear(year: number) {
 
 .nav {
 	justify-content: space-between;
+
 	h1 {
 		margin-left: 1em;
 	}
 }
 
-.controls > div {
+.controls>div {
 	width: 18vw !important;
 	min-width: 220px;
-	margin: 1em auto;
+	margin: 1em;
 	max-width: 250px;
 }
 
 @media screen and (max-width: 650px) {
-	.controls > div {
+	.controls>div {
 		min-width: auto;
 		max-width: none;
 		width: 92vw !important;
 		margin: 1em auto;
 	}
+
 	.controls .vue-slider {
 		display: none !important;
 	}
+
 	.controls .vue-slider-dot {
 		width: 16px !important;
 		height: 16px !important;
@@ -165,29 +169,30 @@ $dotBgColor: scale-color($accent-color, $lightness: 50%);
 $bgColor: #bbb;
 
 .controls .vue-slider-rail {
-	background-color: $white-3;
+	background-color: $white-1;
 }
 
 .controls .vue-slider-process {
 	background-color: scale-color($themeColor, $blackness: 30%);
 }
+
 .controls .vue-slider-dot-handle-focus {
 	background-color: scale-color($accent-color, $red: 30%);
 }
+
 .controls .vue-slider-dot-handle-focus:after {
 	background-color: scale-color($accent-color, $red: 30%);
 	width: 150%;
 	height: 150%;
 }
 
-@media screen and (max-width: 30em) {
-}
+@media screen and (max-width: 30em) {}
 
 @import "./vue-slider.scss";
 
 .controls .v-select {
 	background-color: hsl(234, 50%, 20%);
-	border-bottom: 1px solid $white-3;
+	border-bottom: 1px solid $white-1;
 }
 
 @media screen and (min-width: 601px) {
@@ -195,6 +200,7 @@ $bgColor: #bbb;
 		padding: 0.3em;
 	}
 }
+
 @media screen and (max-width: 600px) {
 	.controls .v-select .vs__dropdown-toggle {
 		padding: 0.6em 0.3em;
@@ -223,7 +229,7 @@ $bgColor: #bbb;
 }
 
 .controls .v-select .vs__dropdown-menu {
-	background-color: $black-3;
+	background-color: $black-2;
 	box-shadow: 2px 2px 4px $black-4;
 }
 
@@ -234,12 +240,13 @@ $bgColor: #bbb;
 .controls .v-select .vs__dropdown-option:hover {
 	background: $black-1;
 }
+
 .controls .vs__dropdown-option--highlight {
 	background-color: $black-1;
 }
 
 .controls .v-select .vs__dropdown-option--disabled {
-	color: $white-3;
+	color: $white-1;
 }
 
 .controls .v-select .vs__dropdown-option {
@@ -253,7 +260,7 @@ $bgColor: #bbb;
 }
 
 .controls .v-select .inline-count {
-	color: $white-3;
+	color: $white-1;
 }
 
 @media screen and (min-width: 601px) {
