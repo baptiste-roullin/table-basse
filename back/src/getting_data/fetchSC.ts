@@ -7,6 +7,7 @@ async function fetchSC(token, operationName: 'UserDiary' | 'UserStats' | 'Produc
 
 
 	const endpoint = 'https://apollo.senscritique.com/'
+	console.log(process.env.tb_username)
 
 	let variables = {
 		username: process.env.tb_username,
@@ -39,9 +40,9 @@ async function fetchSC(token, operationName: 'UserDiary' | 'UserStats' | 'Produc
 			requestHeaders: {
 				'authorization': token
 			}
-		})
+		}) as any
 
-		if (!res || !res.user) {
+		if (!res || !res?.user) {
 			throw new Error("réponse vide")
 		}
 
