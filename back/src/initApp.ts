@@ -11,11 +11,29 @@ import { v2 as cloudinary } from "cloudinary"
 
 export default async function () {
 
-	async function getAndStoreItems(needToDownloadImages) {
-		const { products, filters } = await fetchCollection()
-		let items = await formatItems(products, needToDownloadImages)
+	async function getListOfCDNResources(resources: Array<Record<string, any>>, next_cursor): Promise<Record<string, any>[]> {
+		var params = {
+			max_results: 500,
+			next_cursor: null || next_cursor
+		}
+		let data = await cloudinary.api.resources(params)
+		resources.push(...data.resources)
+		next_cursor = data?.next_cursor
+		if (next_cursor) {
 
-		// maintenant qu'on a tout, on stocke en base
+			//params.next_cursor = next_cursor
+			return getListOfCDNResources(resources, data.next_cursor)
+		}
+		else { return resources }
+	}
+	async function getAndStoreItems() {
+		const { products } = await fetchCollection()
+
+		const listOfCDNResources = await getListOfCDNResources([], null)
+
+		let items = await formatItems(products, listOfCDNResources)
+
+		//maintenant qu'on a tout, on stocke en base
 		await Item.bulkCreate(items, { ignoreDuplicates: true })
 		console.log((await Item.count()) + " items stored")
 	}
@@ -46,16 +64,17 @@ export default async function () {
 
 		const localCount = await Item.count()
 
-		const { resources } = await cloudinary.api.usage()
 
-		let needToDownloadImages: Boolean
-		if (resources < localCount) {
-			needToDownloadImages = true
-		}
 
+		/*
+		const { resources: CDNImagesCount } = await cloudinary.api.usage()
+		let needToDownloadImages =
+				(CDNImagesCount as number < localCount ? true
+					: false)
+	*/
 		if (remoteCount > localCount) {
 			//On remplit une table avec le nombre d'items par année et par catégorie
-			await getAndStoreItems(needToDownloadImages)
+			await getAndStoreItems()
 			await createCountsByYear()
 		}
 

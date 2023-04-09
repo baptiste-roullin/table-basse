@@ -1,5 +1,3 @@
-import dotenv from 'dotenv'
-dotenv.config()
 import debug from 'debug'
 const error = debug('TB:error')
 const warning = debug('TB:warning')

@@ -1,6 +1,5 @@
 import { BrowserContext, chromium } from 'playwright'
-import dotenv from 'dotenv'
-dotenv.config()
+
 
 export default async function getToken(): Promise<string> {
 	try {
@@ -41,7 +40,7 @@ export default async function getToken(): Promise<string> {
 		return cookie.value
 
 	} catch (error) {
-		console.log(error);
+		console.log(error)
 
 	}
 

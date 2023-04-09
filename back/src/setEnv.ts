@@ -1,7 +1,5 @@
 // Variables d'environnement obligatoires
 import Path from 'path'
-import dotenv from 'dotenv'
-dotenv.config()
 export const config = process.env
 import { fileURLToPath } from 'url'
 import path from 'node:path'

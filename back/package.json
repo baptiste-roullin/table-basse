@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "npx tsx watch ./src/main.ts",
-    "start": "npx tsx ./src/main.ts",
+    "dev": "npx tsx watch --require dotenv/config ./src/main.ts ",
+    "start": "npx tsx --require dotenv/config ./src/main.ts  ",
     "heroku-postbuild": "npx tsc && cd front && npm run build"
   },
   "type": "module",
