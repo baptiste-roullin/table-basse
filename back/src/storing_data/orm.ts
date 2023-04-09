@@ -11,7 +11,7 @@ export enum Universes {
 }
 
 
-import { Sequelize, DataTypes, Model, Op, FindOptions } from 'sequelize'
+import { Sequelize, DataTypes, Model } from 'sequelize'
 
 
 export const orm = new Sequelize(process.env.DATABASE_URL, {
@@ -46,7 +46,6 @@ Setting.init(
 	},
 	{
 		sequelize: orm,
-
 	})
 
 

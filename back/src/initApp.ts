@@ -1,7 +1,6 @@
 
 import { Setting as Settings, orm, checkDBConnection } from './storing_data/orm.js'
 import { fetchUser, fetchCollection } from './getting_data/fetchSC.js'
-import getToken from './getting_data/getToken.js'
 import formatItems from './getting_data/formatItems.js'
 import { Item } from './storing_data/Items.js'
 import { createCountsByYear, setRemoteCount } from './storing_data/Counts.js'
@@ -44,7 +43,6 @@ export default async function () {
 		return user
 	}
 
-
 	try {
 		await checkDBConnection()
 		await orm.sync()
@@ -52,19 +50,11 @@ export default async function () {
 		const remoteCount = await setRemoteCount(user)
 		const localCount = await Item.count()
 
-		/*
-		const { resources: CDNImagesCount } = await cloudinary.api.usage()
-		let needToDownloadImages =
-				(CDNImagesCount as number < localCount ? true
-					: false)
-	*/
 		if (remoteCount > localCount) {
 			//On remplit une table avec le nombre d'items par année et par catégorie
 			await getAndStoreItems(remoteCount - localCount)
 			await createCountsByYear()
 		}
-
-
 	} catch (error) {
 		console.log(error)
 	}
