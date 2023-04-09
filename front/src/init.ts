@@ -9,10 +9,10 @@ export async function init(numberOfyearsToDisplay: number) {
 
 	// On fixe la catégorie en la récupérant de l'URL
 
-	//on récupère systématiquement des stats, au cas où il y a de nouveaux items
-	const oldCountsByCat = store.countsByCat
-	const { countsByCat } = await store.updateCounts()
-
+	/*	//on récupère systématiquement des stats, au cas où il y a de nouveaux items
+		const oldCountsByCat = store.countsByCat
+		const { countsByCat } = await store.updateCounts()
+	*/
 
 	if (store.settings.initFront !== true) {
 		await store.loadYearsWithItems()
