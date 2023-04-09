@@ -75,7 +75,7 @@ function selectableCategory(option: Category) {
 }
 
 async function selectCategory(val: Category) {
-	router.push({ path: `/items/${val.label}/` })
+	router.push({ path: `/items/${val.code}/` })
 	store.setCategory(val)
 	const { start, end } = store.years.period
 	store.years.yearsWithItems.slice(start, end).forEach((year) => {
