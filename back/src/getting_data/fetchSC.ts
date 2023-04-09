@@ -6,7 +6,7 @@ import { Collection, User, UserStats } from '../types.js'
 import { Item } from '../storing_data/Items.js'
 import { Setting } from '../storing_data/orm.js'
 
-async function fetchSC(token, operationName: 'UserDiary' | 'UserStats' | 'Product', offset) {
+async function fetchSC(token, operationName: 'UserDiary' | 'UserStats' | 'Product', offset, limit = 2000) {
 
 
 	const endpoint = 'https://apollo.senscritique.com/'
@@ -19,7 +19,7 @@ async function fetchSC(token, operationName: 'UserDiary' | 'UserStats' | 'Produc
 		case 'UserDiary':
 			Object.assign(variables, {
 				isDiary: true,
-				"limit": 2000,
+				"limit": limit,
 				"offset": offset,
 				"universe": null,
 				"yearDateDone": null
@@ -62,12 +62,12 @@ async function fetchSC(token, operationName: 'UserDiary' | 'UserStats' | 'Produc
 	}
 }
 
-export async function fetchCollection(): Promise<Collection> {
+export async function fetchCollection(limit): Promise<Collection> {
 	/*	let index = offset
 		while (Setting.findAll( {where: {name:"count"}}) >index ) {
 
 		}*/
-	return await fetchSC(config.token, 'UserDiary', 0) as Collection
+	return await fetchSC(config.token, 'UserDiary', 0, limit) as Collection
 
 }
 
