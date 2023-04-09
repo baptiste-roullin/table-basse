@@ -1,4 +1,6 @@
 #!/usr/bin/env ts-node
+
+//TODO : enregistrer errors et warnings dans /var/log
 import path from 'node:path'
 
 import Fastify from 'fastify'
@@ -6,17 +8,12 @@ import cors from '@fastify/cors'
 import staticServe from '@fastify/static'
 import sensible from '@fastify/sensible'
 
-import { test } from './storing_data/test.js'
 
 import { config, __dirname } from './setEnv.js'
 // imports placés après pour éviter des refs circulaires
 import historyFallback from 'connect-history-api-fallback'
 import { apiRoutes } from './serving_data/routes.js'
 import initApp from './initApp.js'
-
-
-import { v2 as cloudinary } from "cloudinary"
-
 
 const fastify = Fastify({
   logger: true
