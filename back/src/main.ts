@@ -1,5 +1,6 @@
 #!/usr/bin/env ts-node
 
+//TODO https://github.com/fastify/help/issues/74
 //TODO : enregistrer errors et warnings dans /var/log
 import { __dirname } from './setEnv.js'
 import path from 'node:path'
