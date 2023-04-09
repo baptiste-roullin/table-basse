@@ -1,6 +1,6 @@
 
 
-const baseURL = process.env['NODE_ENV'] === 'production' ? '' : 'http://127.0.0.1:3000'
+const baseURL = process.env.NODE_ENV === 'production' ? '' : 'http://127.0.0.1:3000'
 import type { Category, Item, State } from '../types.js'
 
 import { defineStore } from 'pinia'
