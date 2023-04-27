@@ -46,8 +46,8 @@ export default async function () {
 	try {
 		await checkDBConnection()
 		await orm.sync()
-		const user = await setuser()
-		const remoteCount = await setRemoteCount(user)
+		await setuser()
+		const remoteCount = await setRemoteCount()
 		const localCount = await Item.count()
 
 		if (remoteCount > localCount) {

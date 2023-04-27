@@ -2,6 +2,7 @@ import { Optional, Model, DataTypes } from 'sequelize'
 import { getEnumKey, getEnumValue } from '../utils.js'
 import { Item } from './Items.js'
 import { Setting as Settings, Universes, orm, checkDBConnection } from './orm.js'
+import { fetchCollection } from '../getting_data/fetchSC.js'
 
 export interface CountAttributes {
 	"1"?: number
@@ -133,10 +134,11 @@ export async function createCountsByYear() {
 }
 
 
-export async function setRemoteCount(user) {
-	const count = user.stats.diaryCount
+export async function setRemoteCount() {
+	const { total } = await fetchCollection(1)
+
 	await Settings.upsert(
-		{ name: 'count', value: count }
+		{ name: 'count', value: Number(total) }
 	)
-	return count
+	return Number(total)
 }
