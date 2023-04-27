@@ -18,7 +18,6 @@ export interface User {
 	settings: {
 		privacyProfile: boolean
 	}
-	stats: UserStats
 	collection: Collection
 	// Array<Record<string, any>>
 }
@@ -34,6 +33,8 @@ export interface UserStats {
 	diaryCount: number
 }
 
+
+
 type MyRequest = FastifyRequest<{
 	Params: {
 		universe: string
@@ -42,4 +43,3 @@ type MyRequest = FastifyRequest<{
 
 	}
 }>
-

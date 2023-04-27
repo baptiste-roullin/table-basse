@@ -9,7 +9,7 @@ import cors from '@fastify/cors'
 import staticServe from '@fastify/static'
 import sensible from '@fastify/sensible'
 import { apiRoutes } from './serving_data/routes.js'
-import initApp from './initApp.js'
+import updatingData from './storing_data/updatingData.js'
 
 const fastify = Fastify({
   logger: true
@@ -30,7 +30,7 @@ catch (err) {
 }
 
 try {
-  initApp()
+  await updatingData()
 } catch (error) {
   console.log(error)
 }
