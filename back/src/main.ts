@@ -21,6 +21,14 @@ try {
     root: path.join(__dirname, '../../front/dist'),
   })
   await fastify.register(cors)
+
+  fastify.setNotFoundHandler({
+
+  }, function (request, res) {
+    res.status(200).sendFile("/")
+  }
+  )
+
   await fastify.register(apiRoutes, { prefix: 'api' })
   await fastify.listen({ port: Number(process.env['PORT']) || 3000 })
 }
@@ -30,7 +38,7 @@ catch (err) {
 }
 
 try {
-  await updatingData()
+  //await updatingData()
 } catch (error) {
   console.log(error)
 }
