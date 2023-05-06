@@ -8,7 +8,7 @@
   },
   "type": "module",
   "engines": {
-    "node": "^18.8.0"
+    "node": "^20.1.0"
   },
   "dependencies": {
     "@fastify/cors": "^8.2.0",

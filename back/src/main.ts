@@ -12,7 +12,7 @@ import { apiRoutes } from './serving_data/routes.js'
 import updatingData from './storing_data/updatingData.js'
 
 const fastify = Fastify({
-  logger: true
+  //logger: true
 })
 
 try {
@@ -38,7 +38,7 @@ catch (err) {
 }
 
 try {
-  //await updatingData()
+  await updatingData()
 } catch (error) {
   console.log(error)
 }
