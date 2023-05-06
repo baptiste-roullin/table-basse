@@ -21,7 +21,7 @@ export async function init(numberOfyearsToDisplay: number) {
 		store.setCategory(cat)
 	}
 	else {
-		store.setCategory(store.categories[1])
+		store.setCategory(store.categories[0])
 	}
 
 	if (routeParams.year) {
