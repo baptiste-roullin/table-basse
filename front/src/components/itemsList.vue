@@ -159,7 +159,7 @@ h2.year {
 
 		.item:hover,
 		.item:focus {
-			z-index: 1;
+			z-index: 9;
 			height: max-content;
 			align-self: center;
 			transform: scale(clamp(1.07, calc(-0.5 * var(--zoom-factor) + 2.5), 2.5));
