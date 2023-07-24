@@ -9,8 +9,8 @@ Afficher les livres, films, jeux... que vous avez lu/vu/poncé dans une app déd
 C'est un projet pour mon usage personnel, pas pensé ni testé pour un quelconque usage sérieux.
 
 ## Historique
-- V1 : hébergé chez Heroku. Inspiration initiale : [ce projet](https://github.com/mlcdf/shelob).
-- V2 : auto-hébergé. La grosse refonte de Sens Critique de 2202 a pété le scraping mais a fourni une alternative beaucoup plus simple : requêter directement les données de l'API GraphQL/Apollo.
+- V1 : hébergé chez Heroku. Scraping manuel. Inspiration initiale : [ce projet](https://github.com/mlcdf/shelob).
+- V2 : auto-hébergé. La grosse refonte de Sens Critique de 2202 a pété le scraping mais fourni une alternative beaucoup plus simple : requêter directement les données de l'API GraphQL/Apollo.
 
 ## Installation
 
