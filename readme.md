@@ -18,8 +18,8 @@ Prérequis :
 
 * une base PostgreSQL
 * un compte chez le CDN Cloudinary
-* NPM 9
-* Node 18
+* NPM (testé avec v9)
+* Node (testé avec v18)
 
 `npm install`
 
