@@ -18,24 +18,24 @@
 				:clearable="false" :selectable="selectableCategory">
 				<template v-slot:option="option: Category">
 					<span class="inline-label">{{ option.label }}</span>
-					<span class="inline-count" v-if="option.code === 0">{{ countsByCatTotal }}</span>
+					<span class="inline-count" v-if=" option.code === 0 ">{{ countsByCatTotal }}</span>
 					<span class="inline-count" v-else>{{ store.countsByCat[option.code] }}</span>
 				</template>
 			</VueSelect>
 
 
 			<!-- ANNÉE -->
-			<VueSelect aria-controls="items-lists-container" @update:modelValue="selectYear"
-				:options="store.years.yearsWithItems" :modelValue="selectedYear" :searchable="false"
-				:clearable="false" :selectable="selectableYear">
-				<template v-slot:option="option">
+			<VueSelect aria-controls="items-lists-container" @update:modelValue=" selectYear "
+				:options=" store.years.yearsWithItems " :modelValue=" selectedYear " :searchable=" false "
+				:clearable=" false " :selectable=" selectableYear ">
+				<template v-slot:option=" option ">
 
 					<!-- année -->
-					<span class="inline-label" v-if="option.label === '0000'">Vu un jour </span>
+					<span class="inline-label" v-if=" option.label === '0000' ">Vu un jour </span>
 					<span class="inline-label" v-else>{{ option.label }}</span>
 
 					<!-- compteur -->
-					<span class="inline-count" v-if="store.settings.currentCategory.code === 0"></span>
+					<span class="inline-count" v-if=" store.settings.currentCategory.code === 0 "></span>
 					<span class="inline-count" v-else>{{ store.countsByYear[option.label][store.settings.currentCategory.code] }}</span>
 				</template>
 			</VueSelect>
@@ -95,6 +95,8 @@ function selectableYear(option: number) {
 	return store.countsByYear[option][store.settings.currentCategory.code] > 0 || store.settings.currentCategory.code === 0
 
 }
+
+//TODO : remettre compteur d'oeuvres.
 async function selectYear(year: number) {
 	router.push({
 		path: `/items/${store.settings.currentCategory.code}/${year}`,
