@@ -23,7 +23,7 @@ Prérequis :
 
 `npm install`
 
-Remplacer le fichier .env.sample par un fichier .env similaire donnant les infos de votre compte Sens critique (pseudo et jeton de connexion). Fichier évidememnt confidentiel à `.gitignore`-iser.
+Remplacer le fichier .env.sample par un fichier .env similaire donnant les infos de votre compte Sens critique (pseudo et jeton de connexion). Fichier évidemment confidentiel et à `.gitignore`-iser.
 
 ### Jeton de connexion
 
