@@ -18,7 +18,7 @@ const fastify = Fastify({
 try {
   fastify.register(sensible)
   fastify.register(staticServe, {
-    root: path.join(__dirname, '../../front/dist'),
+    root: path.join(__dirname, '../../front/www'),
   })
   await fastify.register(cors)
 
